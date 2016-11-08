@@ -12,6 +12,7 @@ import com.mygdx.game.Stage.*;
 import com.mygdx.game.Utility.PlayerData;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameScreen implements Screen {
 
@@ -27,6 +28,9 @@ public class GameScreen implements Screen {
     private TransitionStage transitionStage;
     private ArrayList<PlayerData> alldata;
 
+    static public ArrayList<Integer> userColor;
+    static public final Color[] mainColor = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW};
+
     public GameScreen(Incident g, int c, int cnt, int cl) {
         super();
         game = g;
@@ -35,6 +39,23 @@ public class GameScreen implements Screen {
         ai_level = cl;
         alldata = new ArrayList<PlayerData>();
 
+        /*
+        ## Set color player and random color to bot player
+        */
+        GameScreen gameScreen = this;
+
+        userColor = new ArrayList<Integer>();
+        userColor.add(gameScreen.getPlayer_color() - 1);
+
+        for(int i=0; i<3; i++) {
+            int tempRandom = -1;
+            do{
+                Random rd = new Random();
+                tempRandom = rd.nextInt(4);
+            }while(userColor.contains(tempRandom));
+            userColor.add(tempRandom);
+        }
+
         alldata.add(new PlayerData());
         alldata.add(new PlayerData());
         alldata.add(new PlayerData());
@@ -42,7 +63,7 @@ public class GameScreen implements Screen {
         alldata.add(new PlayerData());
 
         gameStageBG = new GameStageBG(game);
-        gameStageUI = new GameStageUI(game);
+        gameStageUI = new GameStageUI(game, ai_count);
         pelletStage = new Stage();
         nodeStage = new NodeStage(game, alldata, this);
         coverStage = new CoverStage(game, this);
@@ -54,7 +75,6 @@ public class GameScreen implements Screen {
         im.addProcessor(nodeStage);
 
         Gdx.input.setInputProcessor(im);
-
     }
 
     @Override
