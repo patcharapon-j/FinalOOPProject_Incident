@@ -10,6 +10,9 @@ import com.mygdx.game.Actor.MyPauseBtn;
 import com.mygdx.game.Actor.MyTextDisplay;
 import com.mygdx.game.Actor.PrimitiveSqaure;
 import com.mygdx.game.Incident;
+import com.mygdx.game.Utility.PlayerData;
+
+import java.util.ArrayList;
 
 public class GameStageUI extends Stage {
 
@@ -33,18 +36,19 @@ public class GameStageUI extends Stage {
     private PrimitiveSqaure labelColorPy2;
     private PrimitiveSqaure labelColorPy3;
     private PrimitiveSqaure labelColorPy4;
-
+    private ArrayList<PlayerData> allData;
     private Timer timer;
     private boolean isActive;
     private PrimitiveSqaure beginBack;
 
-    public GameStageUI(Incident g) {
+    public GameStageUI(Incident g, ArrayList<PlayerData> d) {
         super();
         game = g;
         isRed = true;
         isPause = false;
         isActive = false;
         timer = new Timer();
+        allData = d;
 
         myPauseBtn = new MyPauseBtn(game.manager){
             @Override
@@ -163,6 +167,12 @@ public class GameStageUI extends Stage {
         digit1.setText(String.format("%02d", time/60000));
         digit2.setText(String.format("%02d", time%60000/1000));
         digit3.setText(String.format("%03d", time%1000));
+
+        playerScore1.setText((int)allData.get(1).getProgess() +" %");
+        playerScore2.setText((int)allData.get(2).getProgess() +" %");
+        playerScore3.setText((int)allData.get(3).getProgess() +" %");
+        playerScore4.setText((int)allData.get(4).getProgess() +" %");
+
 
         if(isActive){
             time -= 1000 * Gdx.graphics.getDeltaTime();

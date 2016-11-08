@@ -42,7 +42,7 @@ public class GameScreen implements Screen {
         alldata.add(new PlayerData());
 
         gameStageBG = new GameStageBG(game);
-        gameStageUI = new GameStageUI(game);
+        gameStageUI = new GameStageUI(game, alldata);
         pelletStage = new Stage();
         nodeStage = new NodeStage(game, alldata, this);
         coverStage = new CoverStage(game, this);

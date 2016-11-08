@@ -21,7 +21,7 @@ public class GameStageBG extends Stage{
         gridBG.setPosition(0,0);
         gridBG.setScale(1.25f);
         addActor(gridBG);
-        gridBG.setalpha(0.20f);
+        gridBG.setalpha(0.15f);
     }
 
     @Override
