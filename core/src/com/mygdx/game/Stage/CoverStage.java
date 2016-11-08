@@ -17,6 +17,7 @@ public class CoverStage extends Stage{
 
     private boolean isResume;
     private PrimitiveSqaure titleBack;
+    private PrimitiveSqaure gameCover;
     private MyButton resumeButton;
     private MyButton backButton;
     private MyButton restartButton;
@@ -25,13 +26,20 @@ public class CoverStage extends Stage{
     public CoverStage(final Incident g, final GameScreen screen) {
         super();
         isResume = true;
+
+        gameCover = new PrimitiveSqaure(0);
+        gameCover.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        gameCover.setPosition(0 , 0);
+        gameCover.setColor(new Color(0.16f, 0.16f, 0.16f, 0));
+        addActor(gameCover);
+
         titleBack = new PrimitiveSqaure(0);
-        titleBack.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        titleBack.setPosition(-2000 , 0);
+        titleBack.setSize(500, Gdx.graphics.getHeight());
+        titleBack.setPosition(-500 , 0);
         titleBack.setColor(Color.BLACK);
         addActor(titleBack);
 
-        title = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Medium.ttf", 60, true);
+        title = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Medium.ttf", 60, 1);
         title.setText("Paused");
         title.setPosition(-500, 650);
         addActor(title);
@@ -59,7 +67,12 @@ public class CoverStage extends Stage{
             public void myClick() {
                 super.myClick();
                 g.setScreen(new GameScreen(g, g.player_color, g.ai_count, g.ai_diff));
-                dispose();
+                try{
+                    screen.dispose();
+                }
+                catch (Exception e){
+
+                }
             }
         };
         restartButton.setSize(500, 50);
@@ -112,13 +125,19 @@ public class CoverStage extends Stage{
             ColorAction col = new ColorAction();
             col.setDuration(1);
             col.setInterpolation(Interpolation.pow3);
-            col.setEndColor(new Color(0, 0, 0, 0.9f));
+            col.setEndColor(new Color(0, 0, 0, 0.7f));
 
             ParallelAction action = new ParallelAction();
             action.addAction(ma);
             action.addAction(col);
 
             titleBack.addAction(action);
+
+            AlphaAction aa = new AlphaAction();
+            aa.setDuration(1f);
+            aa.setInterpolation(Interpolation.pow3);
+            aa.setAlpha(0.8f);
+            gameCover.addAction(aa);
 
             resumeButton.setActive(false);
             backButton.setActive(false);
@@ -136,7 +155,7 @@ public class CoverStage extends Stage{
             MoveToAction ma = new MoveToAction();
             ma.setDuration(2);
             ma.setInterpolation(Interpolation.pow3);
-            ma.setPosition(-2000, 0);
+            ma.setPosition(-500, 0);
 
             ColorAction col = new ColorAction();
             col.setDuration(2);
@@ -148,6 +167,12 @@ public class CoverStage extends Stage{
             action.addAction(col);
 
             titleBack.addAction(action);
+
+            AlphaAction aa = new AlphaAction();
+            aa.setDuration(1f);
+            aa.setInterpolation(Interpolation.pow3);
+            aa.setAlpha(0);
+            gameCover.addAction(aa);
 
             resumeButton.setActive(false);
             backButton.setActive(false);

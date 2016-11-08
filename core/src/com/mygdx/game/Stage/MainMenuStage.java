@@ -14,6 +14,7 @@ import com.badlogic.gdx.video.VideoPlayerCreator;
 import com.mygdx.game.Actor.*;
 import com.mygdx.game.Incident;
 import com.mygdx.game.Screen.GameScreen;
+import com.mygdx.game.Screen.MainMenuScreen;
 
 import java.io.FileNotFoundException;
 
@@ -50,7 +51,7 @@ public class MainMenuStage extends Stage{
     private Music themeSong;
     private Timer timer;
     private Incident game;
-    public MainMenuStage(Incident g) {
+    public MainMenuStage(Incident g, final MainMenuScreen screen) {
         super();
 
         final int[] player_team = {1};
@@ -70,54 +71,54 @@ public class MainMenuStage extends Stage{
         titleBack.setColor(Color.BLACK);
         addActor(titleBack);
 
-        title = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Medium.ttf", 60, true);
+        title = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Medium.ttf", 60, 1);
         title.setText("INCIDENT");
         title.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
         addActor(title);
         title.setAlpha(0);
         title.fadeIn(Interpolation.linear, 3);
 
-        creditText = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Medium.ttf", 60, true);
+        creditText = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Medium.ttf", 60, 1);
         creditText.setText("Credit");
         creditText.setPosition(-250, 650);
         addActor(creditText);
 
-        gameText = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Medium.ttf", 60, true);
+        gameText = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Medium.ttf", 60, 1);
         gameText.setText("Game Setup");
         gameText.setPosition(-250, 650);
         addActor(gameText);
 
-        name1 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 24, false);
+        name1 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 24, 0);
         name1.setText("Chayapol Chaimongkolnimit \n58070026");
         name1.setPosition(-400, 550);
         addActor(name1);
 
-        name2 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 24, false);
+        name2 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 24, 0);
         name2.setText("Boonyarith Piriyothinkul \n58070077");
         name2.setPosition(-400, 450);
         addActor(name2);
 
-        name3 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 24, false);
+        name3 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 24, 0);
         name3.setText("Patcharapon Joksamut \n58070096");
         name3.setPosition(-400, 350);
         addActor(name3);
 
-        oppoentText = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 24, true);
+        oppoentText = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 24, 1);
         oppoentText.setText("Number of AI");
         oppoentText.setPosition(-250, 575);
         addActor(oppoentText);
 
-        diffiText = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 24, true);
+        diffiText = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 24, 1);
         diffiText.setText("AI Level");
         diffiText.setPosition(-250, 450);
         addActor(diffiText);
 
-        colorText = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 24, true);
+        colorText = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 24, 1);
         colorText.setText("Player Color");
         colorText.setPosition(-250, 325);
         addActor(colorText);
 
-        school = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Medium.ttf", 32, true);
+        school = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Medium.ttf", 32, 1);
         school.setText("ITKMITL");
         school.setPosition(-250, 250);
         addActor(school);
@@ -223,11 +224,16 @@ public class MainMenuStage extends Stage{
                             game.player_color = player_team[0];
                             game.ai_count = number_ai[0];
                             game.ai_diff = ai_level[0];
-                            videoPlayer.pause();
-                            videoPlayer.dispose();
-                            themeSong.stop();
-                            themeSong.dispose();
-                            MainMenuStage.this.dispose();
+                            try{
+                                videoPlayer.pause();
+                                videoPlayer.dispose();
+                                themeSong.stop();
+                                themeSong.dispose();
+                                screen.dispose();
+                            }
+                            catch (Exception e){
+
+                            }
                         }
                     }, 2);
                 }

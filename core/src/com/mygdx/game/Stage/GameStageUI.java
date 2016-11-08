@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.Actor.MyPauseBtn;
 import com.mygdx.game.Actor.MyTextDisplay;
+import com.mygdx.game.Actor.PrimitiveSqaure;
 import com.mygdx.game.Incident;
 
 public class GameStageUI extends Stage {
@@ -22,8 +23,20 @@ public class GameStageUI extends Stage {
     private MyTextDisplay digit3;
     private MyTextDisplay colon;
     private MyTextDisplay backCover;
+
+    private MyTextDisplay playerScore1;
+    private MyTextDisplay playerScore2;
+    private MyTextDisplay playerScore3;
+    private MyTextDisplay playerScore4;
+
+    private PrimitiveSqaure labelColorPy1;
+    private PrimitiveSqaure labelColorPy2;
+    private PrimitiveSqaure labelColorPy3;
+    private PrimitiveSqaure labelColorPy4;
+
     private Timer timer;
     private boolean isActive;
+    private PrimitiveSqaure beginBack;
 
     public GameStageUI(Incident g) {
         super();
@@ -33,10 +46,87 @@ public class GameStageUI extends Stage {
         isActive = false;
         timer = new Timer();
 
-        backCover = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 150, true);
-        backCover.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        backCover.setColor(new Color(1, 1, 1, 0.2f));
+        myPauseBtn = new MyPauseBtn(game.manager){
+            @Override
+            public void Myclick() {
+                super.Myclick();
+                isPause = true;
+            }
+        };
+        myPauseBtn.setPosition(30, 685);
+        myPauseBtn.setSize(50, 50);
+        myPauseBtn.setColor(new Color(1, 1, 1, 0.3f));
+        addActor(myPauseBtn);
 
+        playerScore1 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 25, 2);
+        playerScore2 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 25, 2);
+        playerScore3 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 25, 2);
+        playerScore4 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 25, 2);
+
+        playerScore1.setText("0 %");
+        playerScore2.setText("0 %");
+        playerScore3.setText("0 %");
+        playerScore4.setText("0 %");
+
+        playerScore1.setPosition(1300, 640);
+        playerScore2.setPosition(1300, 610);
+        playerScore3.setPosition(1300, 580);
+        playerScore4.setPosition(1300, 550);
+
+        addActor(playerScore1);
+        addActor(playerScore2);
+        addActor(playerScore3);
+        addActor(playerScore4);
+
+        labelColorPy1 = new PrimitiveSqaure(0);
+        labelColorPy2 = new PrimitiveSqaure(0);
+        labelColorPy3 = new PrimitiveSqaure(0);
+        labelColorPy4 = new PrimitiveSqaure(0);
+
+        labelColorPy1.setSize(15, 15);
+        labelColorPy2.setSize(15, 15);
+        labelColorPy3.setSize(15, 15);
+        labelColorPy4.setSize(15, 15);
+
+
+        PrimitiveSqaure[] tempObj = {labelColorPy1, labelColorPy2, labelColorPy3, labelColorPy4};
+        for(int i=0; i<4; i++) {
+            tempObj[i].setPosition(1310, 640 - (i * 33));
+        }
+
+        addActor(labelColorPy1);
+        addActor(labelColorPy2);
+        addActor(labelColorPy3);
+        addActor(labelColorPy4);
+
+        digit1 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 55, 0);
+        digit1.setText("99");
+        digit2 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 55, 0);
+        digit2.setText("99");
+        digit3 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Thin.ttf", 20, 0);
+        digit3.setText("99");
+        colon = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 55, 0);
+        colon.setText(":");
+
+        digit1.setPosition(1150, 725);
+        digit2.setPosition(1230, 725);
+        digit3.setPosition(1295, 725);
+        colon.setPosition(1213, 730);
+
+        addActor(digit1);
+        addActor(digit2);
+        addActor(digit3);
+        addActor(colon);
+
+        beginBack = new PrimitiveSqaure(0);
+        beginBack.setColor(new Color(34/255f, 34/255f, 34/255f, 0.8f));
+        beginBack.setSize(Gdx.graphics.getWidth(), 150);
+        beginBack.setPosition(0, Gdx.graphics.getHeight()/2 - 75);
+        addActor(beginBack);
+
+        backCover = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 125, 1);
+        backCover.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+        backCover.setColor(new Color(1, 1, 1, 1));
         backCover.setText("3");
         timer.scheduleTask(new Timer.Task() {
             @Override
@@ -51,6 +141,7 @@ public class GameStageUI extends Stage {
                             public void run() {
                                 backCover.setText("Start");
                                 backCover.changeColor(new Color(0, 0, 0, 0), 2);
+                                beginBack.changeColor(new Color(0, 0, 0, 0), 2);
                                 isActive = true;
                             }
                         }, 1);
@@ -59,38 +150,6 @@ public class GameStageUI extends Stage {
             }
         }, 2);
         addActor(backCover);
-
-
-        myPauseBtn = new MyPauseBtn(game.manager){
-            @Override
-            public void Myclick() {
-                super.Myclick();
-                isPause = true;
-            }
-        };
-        myPauseBtn.setPosition(30, 685);
-        myPauseBtn.setSize(50, 50);
-        myPauseBtn.setColor(new Color(1, 1, 1, 0.3f));
-        addActor(myPauseBtn);
-
-        digit1 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 55, false);
-        digit1.setText("99");
-        digit2 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 55, false);
-        digit2.setText("99");
-        digit3 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Thin.ttf", 20, false);
-        digit3.setText("99");
-        colon = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 55, false);
-        colon.setText(":");
-
-        digit1.setPosition(1150, 725);
-        digit2.setPosition(1230, 725);
-        digit3.setPosition(1295, 725);
-        colon.setPosition(1213, 730);
-
-        addActor(digit1);
-        addActor(digit2);
-        addActor(digit3);
-        addActor(colon);
     }
 
     @Override

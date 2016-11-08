@@ -23,7 +23,7 @@ public class MainMenuScreen implements Screen{
     public MainMenuScreen(Incident gam) {
         super();
         game = gam;
-        stage = new MainMenuStage(game);
+        stage = new MainMenuStage(game, this);
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -62,6 +62,11 @@ public class MainMenuScreen implements Screen{
 
     @Override
     public void dispose() {
+        try{
+            stage.dispose();
+        }
+        catch (Exception e){
 
+        }
     }
 }

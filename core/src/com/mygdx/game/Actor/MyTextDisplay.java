@@ -20,10 +20,10 @@ public class MyTextDisplay extends Actor{
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private BitmapFont font;
     private AssetManager manager;
-    private boolean center;
+    private int center;
     private String text;
 
-    public MyTextDisplay(String path, int size, boolean c) {
+    public MyTextDisplay(String path, int size, int c) {
         super();
         center = c;
         text = "";
@@ -37,10 +37,15 @@ public class MyTextDisplay extends Actor{
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        if(center){
+        if(center == 1){
             GlyphLayout layout = new GlyphLayout(font, text);
             font.setColor(getColor());
             font.draw(batch, text, getX() - layout.width/2, getY() + layout.height/2);
+        }
+        else if(center == 2){
+            GlyphLayout layout = new GlyphLayout(font, text);
+            font.setColor(getColor());
+            font.draw(batch, text, getX() - layout.width, getY());
         }
         else{
             font.setColor(getColor());
@@ -61,9 +66,7 @@ public class MyTextDisplay extends Actor{
         return super.remove();
     }
 
-    public void setCenter(boolean center) {
-        this.center = center;
-    }
+
 
     public void setText(String text) {
         this.text = text;
@@ -102,5 +105,9 @@ public class MyTextDisplay extends Actor{
         ma.setInterpolation(Interpolation.pow3);
         ma.setDuration(d);
         addAction(ma);
+    }
+
+    public void setCenter(int center) {
+        this.center = center;
     }
 }

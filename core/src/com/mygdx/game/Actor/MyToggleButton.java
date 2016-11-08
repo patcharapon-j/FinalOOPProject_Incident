@@ -21,7 +21,7 @@ public class MyToggleButton extends Actor{
         active = false;
         selected = false;
         shape = new PrimitiveSqaure(0);
-        text = new MyTextDisplay(path, size, true);
+        text = new MyTextDisplay(path, size, 1);
 
         addListener(new ClickListener(){
             @Override

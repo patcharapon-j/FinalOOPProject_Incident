@@ -24,7 +24,7 @@ public class MyButton extends Group {
         super();
         active = false;
         shape = new PrimitiveSqaure(0);
-        text = new MyTextDisplay(path, size, true);
+        text = new MyTextDisplay(path, size, 1);
         addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
