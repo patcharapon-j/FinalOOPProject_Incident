@@ -13,6 +13,7 @@ import com.mygdx.game.Actor.PrimitiveSqaure;
 import com.mygdx.game.Actor.*;
 import com.mygdx.game.Incident;
 import com.mygdx.game.Screen.GameScreen;
+import com.mygdx.game.Utility.PlayerData;
 
 import java.util.ArrayList;
 
@@ -46,8 +47,9 @@ public class GameStageUI extends Stage {
     private Timer timer;
     private boolean isActive;
     private PrimitiveSqaure beginBack;
+    private ArrayList<PlayerData> allData;
 
-    public GameStageUI(Incident g, int ai_count) {
+    public GameStageUI(Incident g, int ai_count, ArrayList<PlayerData> d) {
         super();
         game = g;
         isRed = true;
