@@ -6,9 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
-import com.mygdx.game.Actor.MyPauseBtn;
-import com.mygdx.game.Actor.MyTextDisplay;
-import com.mygdx.game.Actor.PrimitiveSqaure;
+import com.mygdx.game.Actor.*;
 import com.mygdx.game.Incident;
 import com.mygdx.game.Screen.GameScreen;
 
@@ -34,6 +32,10 @@ public class GameStageUI extends Stage {
     private PrimitiveSqaure labelColorPy2;
     private PrimitiveSqaure labelColorPy3;
     private PrimitiveSqaure labelColorPy4;
+
+    private PrimitiveCircle circle;
+
+    private MySpriteActor mainframeSp;
 
     private Timer timer;
     private boolean isActive;
@@ -73,7 +75,7 @@ public class GameStageUI extends Stage {
         for(int i=0; i<4; i++) {
             tempObjText[i].setPosition(1300, 640 - (i * 33));
         }
-        
+
         addActor(playerScore1);
         if (ai_count >= 1) addActor(playerScore2);
         if (ai_count >= 2) addActor(playerScore3);
@@ -104,6 +106,22 @@ public class GameStageUI extends Stage {
         if (ai_count >= 1) addActor(labelColorPy2);
         if (ai_count >= 2) addActor(labelColorPy3);
         if (ai_count >= 3) addActor(labelColorPy4);
+
+
+
+        mainframeSp = new MySpriteActor("Sprite/MainFrame.png", game);
+        mainframeSp.setPosition(50, 50);
+        mainframeSp.setColor(GameScreen.mainColor[GameScreen.userColor.get(0)]);
+        mainframeSp.setSize(70 ,70);
+
+        addActor(mainframeSp);
+
+        circle = new PrimitiveCircle(1);
+        circle.setColor(Color.WHITE);
+        circle.setSize(45, 45);
+        circle.setPosition(mainframeSp.getWidth()/2+ mainframeSp.getX(),mainframeSp.getHeight()/2+mainframeSp.getY());
+
+        addActor(circle);
 
         digit1 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 55, 0);
         digit1.setText("99");
