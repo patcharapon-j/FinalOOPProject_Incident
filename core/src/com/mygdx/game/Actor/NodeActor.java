@@ -245,12 +245,11 @@ public class NodeActor extends Actor{
         }
         else{
             node.damage(attack * Gdx.graphics.getDeltaTime() * allData.get(team).getAttackMul(), team, getColor());
-            if(lastPelletTime + 100 < TimeUtils.millis()){
+            if(TimeUtils.millis()%200>150){
                 Pellet temp = new Pellet(node.getX() + node.getWidth()/2, node.getY() + node.getHeight()/2);
                 temp.setPosition(getX() + getWidth()/2, getY()+getHeight()/2);
                 temp.setColor(getColor());
                 gameScreen.getPelletStage().addActor(temp);
-                lastPelletTime = TimeUtils.millis();
             }
         }
     }
@@ -261,12 +260,11 @@ public class NodeActor extends Actor{
         }
         else{
             node.damage(attack * Gdx.graphics.getDeltaTime() * allData.get(team).getAttackMul(), team, getColor());
-            if(lastPelletTime + 100 < TimeUtils.millis()){
+            if(TimeUtils.millis()%200>150){
                 Pellet temp = new Pellet(node.getX() + node.getWidth()/2, node.getY() + node.getHeight()/2);
                 temp.setPosition(getX() + getWidth()/2, getY()+getHeight()/2);
                 temp.setColor(getColor());
                 gameScreen.getPelletStage().addActor(temp);
-                lastPelletTime = TimeUtils.millis();
             }
         }
     }
