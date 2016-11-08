@@ -55,6 +55,7 @@ public class NodeActor extends Actor{
         sr = new ShapeRenderer();
         oriHeight = sprite.getHeight();
         oriWidth = sprite.getWidth();
+        changeType(ty);
     }
 
     @Override
@@ -87,12 +88,38 @@ public class NodeActor extends Actor{
         sprite.setSize(getWidth(), getHeight());
 
         if(lastHealTime + 10000 < TimeUtils.millis()){
-            hp += maxHp * allData.get(team).getHpMul() / 30 * delta;
+            hp += maxHp * allData.get(team).getHpMul() / 60 * delta;
             hp = Math.min(hp, maxHp * allData.get(team).getHpMul());
         }
 
-        if(target != null){
-            attack(target);
+        switch (type){
+            //blank
+            case 0:
+                break;
+            //MainFrame
+            case 1:
+                if(target != null){
+                    attack(target);
+                }
+                break;
+            //ddos
+            case 2:
+                break;
+            //virus
+            case 3:
+                break;
+            //antivirus
+            case 4:
+                break;
+            //datacenter
+            case 5:
+                break;
+            //defender
+            case 6:
+                break;
+            //miner
+            case 7:
+                break;
         }
     }
 
@@ -124,8 +151,38 @@ public class NodeActor extends Actor{
     public void changeType(int t){
         type = t;
         switch (type){
+            //blank
             case 0:
                 sprite.setTexture(manager.get("Sprite/blank.png", Texture.class));
+                getMaxHp();
+                break;
+            //mainframe
+            case 1:
+                sprite.setTexture(manager.get("Sprite/android.png", Texture.class));
+                break;
+            //ddos
+            case 2:
+                sprite.setTexture(manager.get("Sprite/DDos.png", Texture.class));
+                break;
+            //virus
+            case 3:
+                sprite.setTexture(manager.get("Sprite/virus.png", Texture.class));
+                break;
+            //antivirus
+            case 4:
+                sprite.setTexture(manager.get("Sprite/AntiVirus.png", Texture.class));
+                break;
+            //datacenter
+            case 5:
+                sprite.setTexture(manager.get("Sprite/datacenter.png", Texture.class));
+                break;
+            //defender
+            case 6:
+                sprite.setTexture(manager.get("Sprite/shield.png", Texture.class));
+                break;
+            //miner
+            case 7:
+                sprite.setTexture(manager.get("Sprite/miner.png", Texture.class));
                 break;
         }
     }

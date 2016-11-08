@@ -25,6 +25,13 @@ public class Incident extends Game {
 		manager.load("Sprite/GridBg.png", Texture.class);
 		manager.load("Sprite/blank.png", Texture.class);
 		manager.load("Sprite/pauseBtn.png", Texture.class);
+		manager.load("Sprite/android.png", Texture.class);
+        manager.load("Sprite/datacenter.png", Texture.class);
+        manager.load("Sprite/shield.png", Texture.class);
+        manager.load("Sprite/virus.png", Texture.class);
+        manager.load("Sprite/DDos.png", Texture.class);
+        manager.load("Sprite/AntiVirus.png", Texture.class);
+        manager.load("Sprite/miner.png", Texture.class);
         isGameStart = true;
 
 	}

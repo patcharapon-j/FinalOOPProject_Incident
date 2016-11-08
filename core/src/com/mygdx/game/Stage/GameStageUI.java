@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.Actor.MyPauseBtn;
+import com.mygdx.game.Actor.MySpriteActor;
 import com.mygdx.game.Actor.MyTextDisplay;
 import com.mygdx.game.Actor.PrimitiveSqaure;
 import com.mygdx.game.Incident;
@@ -81,6 +82,7 @@ public class GameStageUI extends Stage {
         addActor(playerScore2);
         addActor(playerScore3);
         addActor(playerScore4);
+
 
         labelColorPy1 = new PrimitiveSqaure(0);
         labelColorPy2 = new PrimitiveSqaure(0);

@@ -57,15 +57,17 @@ public class NodeStage extends Stage{
 
 
 
+        int t=0;
         for(int line=0; line < number_node.length; line++) {
 
             for(int node=0; node<number_node[line]; node++){
 
-                NodeActor temp1 = new NodeActor(game.manager, 0, 0, allData, gameScreen);
+                NodeActor temp1 = new NodeActor(game.manager, 0, t, allData, gameScreen);
                 temp1.setColor(Color.WHITE);
                 temp1.setPosition(300 + node * 120 + (60* space_ratio[line]), 85 + line * 95);
                 temp1.setScale(0.3f);
                 addActor(temp1);
+                t+=1;
 
                 switch (count) {
                     case 1: {
