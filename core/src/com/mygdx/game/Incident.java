@@ -32,6 +32,7 @@ public class Incident extends Game {
         manager.load("Sprite/DDos.png", Texture.class);
         manager.load("Sprite/AntiVirus.png", Texture.class);
         manager.load("Sprite/miner.png", Texture.class);
+		manager.load("Sprite/MainFrame.png", Texture.class);
         isGameStart = true;
 
 	}
