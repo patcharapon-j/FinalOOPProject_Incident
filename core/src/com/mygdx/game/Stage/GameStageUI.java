@@ -68,10 +68,10 @@ public class GameStageUI extends Stage {
         playerScore3.setText("0 %");
         playerScore4.setText("0 %");
 
-        playerScore1.setPosition(1300, 640);
-        playerScore2.setPosition(1300, 610);
-        playerScore3.setPosition(1300, 580);
-        playerScore4.setPosition(1300, 550);
+        MyTextDisplay[] tempObjText = {playerScore1, playerScore2, playerScore3, playerScore4};
+        for(int i=0; i<4; i++) {
+            tempObjText[i].setPosition(1300, 640 - (i * 33));
+        }
 
         addActor(playerScore1);
         addActor(playerScore2);
@@ -91,7 +91,7 @@ public class GameStageUI extends Stage {
 
         PrimitiveSqaure[] tempObj = {labelColorPy1, labelColorPy2, labelColorPy3, labelColorPy4};
         for(int i=0; i<4; i++) {
-            tempObj[i].setPosition(1310, 640 - (i * 33));
+            tempObj[i].setPosition(1310, 625 - (i * 33));
         }
 
         addActor(labelColorPy1);
