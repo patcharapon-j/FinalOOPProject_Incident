@@ -6,11 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
-import com.mygdx.game.Actor.MyPauseBtn;
-import com.mygdx.game.Actor.MyTextDisplay;
-import com.mygdx.game.Actor.PrimitiveSqaure;
+import com.mygdx.game.Actor.*;
 import com.mygdx.game.Incident;
-import com.mygdx.game.Utility.PlayerData;
+import com.mygdx.game.Screen.GameScreen;
 
 import java.util.ArrayList;
 
@@ -36,12 +34,16 @@ public class GameStageUI extends Stage {
     private PrimitiveSqaure labelColorPy2;
     private PrimitiveSqaure labelColorPy3;
     private PrimitiveSqaure labelColorPy4;
-    private ArrayList<PlayerData> allData;
+
+    private PrimitiveCircle circle;
+
+    private MySpriteActor mainframeSp;
+
     private Timer timer;
     private boolean isActive;
     private PrimitiveSqaure beginBack;
 
-    public GameStageUI(Incident g, ArrayList<PlayerData> d) {
+    public GameStageUI(Incident g, int ai_count) {
         super();
         game = g;
         isRed = true;
@@ -78,14 +80,19 @@ public class GameStageUI extends Stage {
         }
 
         addActor(playerScore1);
-        addActor(playerScore2);
-        addActor(playerScore3);
-        addActor(playerScore4);
+        if (ai_count >= 1) addActor(playerScore2);
+        if (ai_count >= 2) addActor(playerScore3);
+        if (ai_count >= 3) addActor(playerScore4);
 
         labelColorPy1 = new PrimitiveSqaure(0);
         labelColorPy2 = new PrimitiveSqaure(0);
         labelColorPy3 = new PrimitiveSqaure(0);
         labelColorPy4 = new PrimitiveSqaure(0);
+
+        labelColorPy1.setColor(GameScreen.mainColor[GameScreen.userColor.get(0)]);
+        labelColorPy2.setColor(GameScreen.mainColor[GameScreen.userColor.get(1)]);
+        labelColorPy3.setColor(GameScreen.mainColor[GameScreen.userColor.get(2)]);
+        labelColorPy4.setColor(GameScreen.mainColor[GameScreen.userColor.get(3)]);
 
         labelColorPy1.setSize(15, 15);
         labelColorPy2.setSize(15, 15);
@@ -95,13 +102,29 @@ public class GameStageUI extends Stage {
 
         PrimitiveSqaure[] tempObj = {labelColorPy1, labelColorPy2, labelColorPy3, labelColorPy4};
         for(int i=0; i<4; i++) {
-            tempObj[i].setPosition(1310, 625 - (i * 33));
+            tempObj[i].setPosition(1310, 624 - (i * 33));
         }
 
         addActor(labelColorPy1);
-        addActor(labelColorPy2);
-        addActor(labelColorPy3);
-        addActor(labelColorPy4);
+        if (ai_count >= 1) addActor(labelColorPy2);
+        if (ai_count >= 2) addActor(labelColorPy3);
+        if (ai_count >= 3) addActor(labelColorPy4);
+
+
+
+        mainframeSp = new MySpriteActor("Sprite/MainFrame.png", game);
+        mainframeSp.setPosition(50, 50);
+        mainframeSp.setColor(GameScreen.mainColor[GameScreen.userColor.get(0)]);
+        mainframeSp.setSize(70 ,70);
+
+        addActor(mainframeSp);
+
+        circle = new PrimitiveCircle(1);
+        circle.setColor(Color.WHITE);
+        circle.setSize(45, 45);
+        circle.setPosition(mainframeSp.getWidth()/2+ mainframeSp.getX(),mainframeSp.getHeight()/2+mainframeSp.getY());
+
+        addActor(circle);
 
         digit1 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 55, 0);
         digit1.setText("99");
