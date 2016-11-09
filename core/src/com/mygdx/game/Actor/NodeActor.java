@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -58,6 +59,7 @@ public class NodeActor extends Actor{
         sr = new ShapeRenderer();
         oriHeight = sprite.getHeight();
         oriWidth = sprite.getWidth();
+        setTouchable(Touchable.enabled);
         changeType(ty);
     }
 
@@ -90,9 +92,23 @@ public class NodeActor extends Actor{
         sprite.setPosition(getX(), getY());
         sprite.setSize(getWidth(), getHeight());
 
-        if(lastHealTime + 10000 < TimeUtils.millis()){
-            hp += maxHp * allData.get(team).getHpMul() / 60 * Gdx.graphics.getDeltaTime();
-            hp = Math.min(hp, maxHp * allData.get(team).getHpMul());
+        if(type != 5){
+            if(lastHealTime + 10000 < TimeUtils.millis()){
+                hp += maxHp * allData.get(team).getHpMul() / 60 * Gdx.graphics.getDeltaTime();
+                hp = Math.min(hp, maxHp * allData.get(team).getHpMul());
+            }
+        }
+        else{
+            if(team == 0){
+                if(lastHealTime + 10000 < TimeUtils.millis()){
+                    hp += maxHp * allData.get(team).getHpMul() / 60 * Gdx.graphics.getDeltaTime();
+                    hp = Math.min(hp, maxHp * allData.get(team).getHpMul());
+                }
+            }
+            else{
+                    hp -= maxHp * allData.get(team).getHpMul() / 30 * Gdx.graphics.getDeltaTime();
+                    hp = Math.min(hp, maxHp * allData.get(team).getHpMul());
+            }
         }
 
         switch (type){
@@ -138,11 +154,17 @@ public class NodeActor extends Actor{
                 if(team != 0){
                     allData.get(team).advanceProgess(1 * Gdx.graphics.getDeltaTime());
                 }
+                if(hp <= 0){
+                    changeTeam(0, Color.WHITE);
+                    changeType(5);
+
+                }
                 break;
             //defender
             case 6:
                 break;
         }
+
     }
 
     @Override
@@ -236,6 +258,9 @@ public class NodeActor extends Actor{
         if(hp <= 0){
             hp = maxHp * allData.get(team).getHpMul();
             changeTeam(t, c);
+            if(type != 5){
+                changeType(0);
+            }
         }
     }
 

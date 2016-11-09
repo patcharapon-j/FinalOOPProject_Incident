@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.game.Actor.BuyNode;
 import com.mygdx.game.Actor.CircleDynamic;
 import com.mygdx.game.Actor.NodeActor;
 import com.mygdx.game.Incident;
@@ -24,10 +25,14 @@ public class NodeStage extends Stage{
     private Incident game;
     private ArrayList<PlayerData> allData;
     private NodeActor selected;
+    private BuyNode selectedBuy;
     private GameScreen gameScreen;
     private CircleDynamic cir;
     private int count;
     private ArrayList<NodeActor> allNode;
+    private BuyNode buy1;
+    private BuyNode buy2;
+    private BuyNode buy3;
 
     public NodeStage(Incident g, ArrayList<PlayerData> datas, GameScreen ga) {
         super();
@@ -173,6 +178,21 @@ public class NodeStage extends Stage{
 
         }
 
+        buy1 = new BuyNode(game.manager, 2, 30, 1280, 150);
+        buy1.setColor(GameScreen.mainColor[GameScreen.userColor.get(0)]);
+        buy1.setSize(50, 50);
+        addActor(buy1);
+
+        buy2 = new BuyNode(game.manager, 3, 30, 1280, 250);
+        buy2.setColor(GameScreen.mainColor[GameScreen.userColor.get(0)]);
+        buy2.setSize(50, 50);
+        addActor(buy2);
+
+        buy3 = new BuyNode(game.manager, 4, 30, 1280, 350);
+        buy3.setColor(GameScreen.mainColor[GameScreen.userColor.get(0)]);
+        buy3.setSize(50, 50);
+        addActor(buy3);
+
     }
 
     @Override
@@ -183,6 +203,10 @@ public class NodeStage extends Stage{
     @Override
     public void act() {
         super.act();
+        if(selectedBuy != null){
+            selectedBuy.setPosition(Gdx.input.getX() - selectedBuy.getWidth()/2,
+                    Gdx.graphics.getHeight() - Gdx.input.getY() - selectedBuy.getHeight()/2);
+        }
     }
 
     @Override
@@ -192,19 +216,25 @@ public class NodeStage extends Stage{
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if(selected == null){
-            Actor temp = hit(screenX, Gdx.graphics.getHeight() - screenY, false);
-            if(temp != null){
-                if(temp.getClass() == NodeActor.class){
-                    NodeActor node = (NodeActor) temp;
-                    selected = node;
-                    selected.setTarget(null);
+        if(button == Input.Buttons.LEFT){
+            if(selected == null){
+                Actor temp = hit(screenX, Gdx.graphics.getHeight() - screenY, false);
+                if(temp != null){
+                    if(temp.getClass() == NodeActor.class){
+                        NodeActor node = (NodeActor) temp;
+                        selected = node;
+                        selected.setTarget(null);
 
 
-                    cir.setSize(0, 0);
-                    cir.setColor(new Color(0.4f, 0.4f, 0.4f, 0));
-                    cir.setPosition(selected.getX() + selected.getWidth()/2, selected.getY() + selected.getHeight()/2);
-                    cir.expand();
+                        cir.setSize(0, 0);
+                        cir.setColor(new Color(0.4f, 0.4f, 0.4f, 0));
+                        cir.setPosition(selected.getX() + selected.getWidth()/2, selected.getY() + selected.getHeight()/2);
+                        cir.expand();
+                    }
+                    else if(temp.getClass() == BuyNode.class){
+                        BuyNode node = (BuyNode) temp;
+                        selectedBuy = node;
+                    }
                 }
             }
         }
@@ -213,19 +243,32 @@ public class NodeStage extends Stage{
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        Actor temp = hit(screenX, Gdx.graphics.getHeight() - screenY, false);
-        if(temp != null && selected != null){
-            if(temp.getClass() == NodeActor.class){
-                if(calDistance(selected.getX() + selected.getWidth()/2,
-                        selected.getY() + selected.getHeight()/2,
-                        temp.getX() + temp.getWidth()/2,
-                        temp.getY() + temp.getHeight()/2) <= 150){
-                    selected.setTarget((NodeActor) temp);
-                }
-            }
-        }
-        cir.contract();
-        selected = null;
+       if(button == Input.Buttons.LEFT){
+           Actor temp = hit(screenX, Gdx.graphics.getHeight() - screenY, true);
+           System.out.print(temp);
+           if(temp != null && selected != null){
+               if(temp.getClass() == NodeActor.class){
+                   if(calDistance(selected.getX() + selected.getWidth()/2,
+                           selected.getY() + selected.getHeight()/2,
+                           temp.getX() + temp.getWidth()/2,
+                           temp.getY() + temp.getHeight()/2) <= 150){
+                       selected.setTarget((NodeActor) temp);
+                   }
+               }
+           }
+           if(selectedBuy != null){
+               if(temp != null){
+                    if(temp.getClass() == NodeActor.class){
+                        NodeActor node = (NodeActor)temp;
+                        node.changeType(selectedBuy.getType());
+                    }
+               }
+               selectedBuy.resetPosition();
+           }
+           selectedBuy = null;
+           cir.contract();
+           selected = null;
+       }
         return super.touchUp(screenX, screenY, pointer, button);
     }
 
