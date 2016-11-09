@@ -112,5 +112,45 @@ public class PlayerData {
     public void setDestroyed(boolean destroyed) {
         this.destroyed = destroyed;
     }
+
+    public int getRangeLevel() {
+        return rangeLevel;
+    }
+
+    public void setRangeLevel(int rangeLevel) {
+        this.rangeLevel = rangeLevel;
+    }
+
+    public float getRange() {
+        return range;
+    }
+
+    public void setRange(float range) {
+        this.range = range;
+    }
+
+    public int getAttackPrice() {
+        return attackPrice;
+    }
+
+    public void setAttackPrice(int attackPrice) {
+        this.attackPrice = attackPrice;
+    }
+
+    public int getHpPrice() {
+        return hpPrice;
+    }
+
+    public void setHpPrice(int hpPrice) {
+        this.hpPrice = hpPrice;
+    }
+
+    public int getRangePrince() {
+        return rangePrince;
+    }
+
+    public void setRangePrince(int rangePrince) {
+        this.rangePrince = rangePrince;
+    }
 }
 

@@ -36,6 +36,7 @@ public class MySpriteActor extends Actor {
         super.act(delta);
         sprite.setPosition(getX(), getY());
         sprite.setSize(getWidth(), getHeight());
+        sprite.setRotation(getRotation());
     }
 
     @Override

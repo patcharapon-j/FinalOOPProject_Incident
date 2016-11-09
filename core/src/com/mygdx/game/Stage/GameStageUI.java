@@ -3,8 +3,6 @@ package com.mygdx.game.Stage;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.Actor.MyPauseBtn;
 import com.mygdx.game.Actor.MySpriteActor;
@@ -39,26 +37,33 @@ public class GameStageUI extends Stage {
 
     private MyTextDisplay labelDatacenter;
 
+    private MyTextDisplay playerInfo1;
+    private MyTextDisplay playerInfo2;
+    private MyTextDisplay playerInfo3;
+    private MyTextDisplay playerInfo4;
+
     private PrimitiveSqaure labelColorPy1;
     private PrimitiveSqaure labelColorPy2;
     private PrimitiveSqaure labelColorPy3;
     private PrimitiveSqaure labelColorPy4;
     private PrimitiveSqaure moneyBack;
 
-    private PrimitiveSqaure infoBox2;
-    private PrimitiveSqaure infoBox3;
-    private PrimitiveSqaure infoBox4;
+    private PrimitiveSqaure infoBoxTop;
+    private PrimitiveSqaure infoBoxMid;
+    private PrimitiveSqaure infoBoxBot;
 
-    private PrimitiveSqaure labelBox2;
-    private PrimitiveSqaure labelBox3;
-    private PrimitiveSqaure labelBox4;
+    private PrimitiveSqaure colorMark2;
+    private PrimitiveSqaure colorMark3;
+    private PrimitiveSqaure colorMark4;
 
 
     private PrimitiveCircle circle;
 
     private MySpriteActor mainframeSp;
     private MySpriteActor creditIcon;
-    private MySpriteActor adkUp, mechUp, portUp;
+    private MySpriteActor adkUp, mechUp, coinUp;
+    private MySpriteActor adkUpIcon, mechUpIcon, coinUpIcon;
+    private MySpriteActor nodeIcon;
 
     private Timer timer;
     private boolean isActive;
@@ -138,90 +143,169 @@ public class GameStageUI extends Stage {
         if (ai_count >= 2) addActor(labelColorPy3);
         if (ai_count >= 3) addActor(labelColorPy4);
 
-        final int hBoxInfo = 30;
-        final int wBoxInfo = 140;
+        final int hBoxInfo = 40;
+        final int wBoxInfo = 180;
 
-        final int hlabelBoxInfo = 30;
+        final int hlabelBoxInfo = 40;
         final int wlabelBoxInfo = 10;
 
-        final float gapInfo = 5;
+        final float boxDefaultY = 200;
+        final float boxGap = 5;
+//Player info background **[Left Side of Screen(Gray)]
+        infoBoxTop = new PrimitiveSqaure(0);
+        infoBoxMid = new PrimitiveSqaure(0);
+        infoBoxBot = new PrimitiveSqaure(0);
 
-        float posXBox = 0 , posYBox = 200;
+        infoBoxTop.setSize(wBoxInfo, hBoxInfo);
+        infoBoxMid.setSize(wBoxInfo, hBoxInfo);
+        infoBoxBot.setSize(wBoxInfo, hBoxInfo);
 
-        infoBox2 = new PrimitiveSqaure(0);
-        infoBox3 = new PrimitiveSqaure(0);
-        infoBox4 = new PrimitiveSqaure(0);
+        infoBoxTop.setPosition(0, boxDefaultY+(hBoxInfo+boxGap)*2);
+        infoBoxMid.setPosition(0, boxDefaultY+hBoxInfo+boxGap);
+        infoBoxBot.setPosition(0, boxDefaultY);
 
-        infoBox2.setSize(wBoxInfo, hBoxInfo);
-        infoBox3.setSize(wBoxInfo, hBoxInfo);
-        infoBox4.setSize(wBoxInfo, hBoxInfo);
+        infoBoxTop.setColor(1, 1, 1, 0.1f);
+        infoBoxMid.setColor(1, 1, 1, 0.1f);
+        infoBoxBot.setColor(1, 1, 1, 0.1f);
 
-        infoBox2.setPosition(posXBox, 200+35+30+5);
-        infoBox3.setPosition(posXBox, 200+30+5);
-        infoBox4.setPosition(posXBox, 200);
+//Player color marks **[Left side of Screen]
+        colorMark2 = new PrimitiveSqaure(0);
+        colorMark3 = new PrimitiveSqaure(0);
+        colorMark4 = new PrimitiveSqaure(0);
 
-        infoBox2.setColor(0.21f, 0.21f, 0.21f, 0.7f);
-        infoBox3.setColor(0.21f, 0.21f, 0.21f, 0.7f);
-        infoBox4.setColor(0.21f, 0.21f, 0.21f, 0.7f);
+        colorMark2.setSize(wlabelBoxInfo, hlabelBoxInfo);
+        colorMark3.setSize(wlabelBoxInfo, hlabelBoxInfo);
+        colorMark4.setSize(wlabelBoxInfo, hlabelBoxInfo);
 
-        labelBox2 = new PrimitiveSqaure(0);
-        labelBox3 = new PrimitiveSqaure(0);
-        labelBox4 = new PrimitiveSqaure(0);
+        colorMark2.setPosition(infoBoxTop.getX(), infoBoxTop.getY());
+        colorMark3.setPosition(infoBoxMid.getX(), infoBoxMid.getY());
+        colorMark4.setPosition(infoBoxBot.getX(), infoBoxBot.getY());
 
-        labelBox2.setSize(wlabelBoxInfo, hlabelBoxInfo);
-        labelBox3.setSize(wlabelBoxInfo, hlabelBoxInfo);
-        labelBox4.setSize(wlabelBoxInfo, hlabelBoxInfo);
+        colorMark2.setColor(labelColorPy2.getColor());
+        colorMark3.setColor(labelColorPy3.getColor());
+        colorMark4.setColor(labelColorPy4.getColor());
 
-        labelBox2.setPosition(infoBox2.getX(), infoBox2.getY());
-        labelBox3.setPosition(infoBox3.getX(), infoBox3.getY());
-        labelBox4.setPosition(infoBox4.getX(), infoBox4.getY());
+//Label : Player info about node, upgrade **[Left Side of Screen]
+        playerInfo1 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 16, 0);
+        playerInfo2 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 16, 0);
+        playerInfo3 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 16, 0);
+        playerInfo4 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 16, 0);
 
-        labelBox2.setColor(labelColorPy2.getColor());
-        labelBox3.setColor(labelColorPy3.getColor());
-        labelBox4.setColor(labelColorPy4.getColor());
+        final float paddingB = 16;
+        final float paddingL = 48;
+
+        playerInfo1.setText("0        0       0        0");
+        playerInfo2.setText("0        0       0        0");
+        playerInfo3.setText("0        0       0        0");
+        playerInfo4.setText("0        0       0        0");
+
+        //playerInfo1.setPosition(0, 50);
+        //addActor(playerInfo1);
+
+//Player Info Icon **[Left side of Screen (icon)]
 
 
-        if (ai_count >= 1) {
-            addActor(infoBox2);
-            addActor(labelBox2);
+        final float wIcon = 25;
+        final float hIcon = 25;
+
+
+        for(int i=0; i < ai_count;i++) {
+            adkUpIcon = new MySpriteActor("Sprite/adkUpIcon2.png", game);
+            mechUpIcon = new MySpriteActor("Sprite/mechUpIcon.png", game);
+            coinUpIcon = new MySpriteActor("Sprite/credit.png", game);
+            nodeIcon = new MySpriteActor("Sprite/blank.png", game);
+
+            nodeIcon.setSize(wIcon, hIcon);
+            adkUpIcon.setSize(wIcon, hIcon);
+            mechUpIcon.setSize(wIcon, hIcon);
+            coinUpIcon.setSize(wIcon, hIcon);
+
+            nodeIcon.setPosition(20, (infoBoxBot.getY() + 7.5f)+(45*i));
+            adkUpIcon.setPosition(60, (infoBoxBot.getY() + 7.5f)+(45*i));
+            mechUpIcon.setPosition(100,(infoBoxBot.getY() + 7.5f)+(45*i));
+            coinUpIcon.setPosition(140,(infoBoxBot.getY() + 7.5f)+(45*i));
+            addActor(nodeIcon);
+            addActor(adkUpIcon);
+            addActor(mechUpIcon);
+            addActor(coinUpIcon);
         }
-        if (ai_count >= 2) {
-            addActor(infoBox3);
-            addActor(labelBox3);
+
+        if (ai_count == 1) {
+            colorMark4.setColor(labelColorPy2.getColor());
+            playerInfo2.setColor(labelColorPy2.getColor());
+            playerInfo2.setPosition(infoBoxBot.getX()+paddingL, infoBoxBot.getY()+paddingB);
+            addActor(infoBoxBot);
+            addActor(colorMark4);
+            addActor(playerInfo2);
         }
-        if (ai_count >= 3) {
-            addActor(infoBox4);
-            addActor(labelBox4);
+        else if (ai_count == 2) {
+            colorMark3.setColor(labelColorPy2.getColor());
+            colorMark4.setColor(labelColorPy3.getColor());
+            playerInfo2.setColor(labelColorPy2.getColor());
+            playerInfo3.setColor(labelColorPy3.getColor());
+            playerInfo2.setPosition(infoBoxMid.getX()+paddingL, infoBoxMid.getY()+paddingB);
+            playerInfo3.setPosition(infoBoxBot.getX()+paddingL, infoBoxBot.getY()+paddingB);
+            addActor(infoBoxMid);
+            addActor(colorMark3);
+            addActor(infoBoxBot);
+            addActor(colorMark4);
+            addActor(playerInfo2);
+            addActor(playerInfo3);
         }
-
-        mainframeSp = new MySpriteActor("Sprite/MainFrame.png", game);
-        mainframeSp.setPosition(50, 50);
-        mainframeSp.setColor(GameScreen.mainColor[GameScreen.userColor.get(0)]);
-        mainframeSp.setSize(70 ,70);
-
-        addActor(mainframeSp);
-
-        circle = new PrimitiveCircle(1);
-        circle.setColor(Color.WHITE);
-        circle.setSize(45, 45);
-        circle.setPosition(mainframeSp.getWidth()/2+ mainframeSp.getX(),mainframeSp.getHeight()/2+mainframeSp.getY());
+        else if (ai_count == 3) {
+            colorMark2.setColor(labelColorPy2.getColor());
+            colorMark3.setColor(labelColorPy3.getColor());
+            colorMark4.setColor(labelColorPy4.getColor());
+            playerInfo2.setColor(labelColorPy2.getColor());
+            playerInfo3.setColor(labelColorPy3.getColor());
+            playerInfo4.setColor(labelColorPy4.getColor());
+            playerInfo2.setPosition(infoBoxTop.getX()+paddingL, infoBoxTop.getY()+paddingB);
+            playerInfo3.setPosition(infoBoxMid.getX()+paddingL, infoBoxMid.getY()+paddingB);
+            playerInfo4.setPosition(infoBoxBot.getX()+paddingL, infoBoxBot.getY()+paddingB);
+            addActor(infoBoxTop);
+            addActor(colorMark2);
+            addActor(infoBoxMid);
+            addActor(colorMark3);
+            addActor(infoBoxBot);
+            addActor(colorMark4);
+            addActor(playerInfo2);
+            addActor(playerInfo3);
+            addActor(playerInfo4);
+        }
+        circle = new PrimitiveCircle(0);
+        circle.setColor(1, 1, 1, 0.1f);
+        circle.setSize(130, 130);
+        circle.setPosition(30, 20);
 
         addActor(circle);
 
-        adkUp = new MySpriteActor("Sprite/AdkUpgrade.png", game);
-        mechUp = new MySpriteActor("Sprite/MachineUpgrade.png", game);
-        portUp = new MySpriteActor("Sprite/PortUpgrade.png", game);
+        mainframeSp = new MySpriteActor("Sprite/MainFrame.png", game);
+        mainframeSp.setPosition(circle.getX()-80, circle.getY()-70);
+        mainframeSp.setRotation(-45f);
+        mainframeSp.setColor(GameScreen.mainColor[GameScreen.userColor.get(0)]);
+        mainframeSp.setSize(190, 190);
 
-        adkUp.setSize(50,50);
-        adkUp.setPosition(150,60);
-        mechUp.setSize(50,50);
-        mechUp.setPosition(220,60);
-        portUp.setSize(100,100);
-        portUp.setPosition(290,60);
+        addActor(mainframeSp);
+
+
+
+        adkUp = new MySpriteActor("Sprite/adkUpgrade2.png", game);
+        mechUp = new MySpriteActor("Sprite/mechineUpgrade.png", game);
+        coinUp = new MySpriteActor("Sprite/creditUpgrade.png", game);
+        final float wUpgrade = 50;
+        final float hUpgrade = 50;
+
+        adkUp.setSize (wUpgrade, hUpgrade);
+        mechUp.setSize(wUpgrade, hUpgrade);
+        coinUp.setSize(wUpgrade, hUpgrade);
+
+        adkUp.setPosition(20,130);
+        mechUp.setPosition(95,95);
+        coinUp.setPosition(140,20);
 
         addActor(adkUp);
         addActor(mechUp);
-        addActor(portUp);
+        addActor(coinUp);
 
         digit1 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 55, 0);
         digit1.setText("99");
@@ -313,6 +397,7 @@ public class GameStageUI extends Stage {
         playerScore3.setText((int)allData.get(3).getProgess() +" %");
         playerScore4.setText((int)allData.get(4).getProgess() +" %");
 
+        //allData.get(1).get
 
         if(isActive){
             time -= 1000 * Gdx.graphics.getDeltaTime();

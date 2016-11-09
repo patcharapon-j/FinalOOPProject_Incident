@@ -31,7 +31,7 @@ public class PrimitiveCircle extends Actor {
             sr.begin(ShapeRenderer.ShapeType.Filled);
         }
         else if(drawMode == 1){
-            Gdx.gl20.glLineWidth(4);
+            Gdx.gl20.glLineWidth(10);
             sr.begin(ShapeRenderer.ShapeType.Line);
         }
         sr.setColor(getColor());

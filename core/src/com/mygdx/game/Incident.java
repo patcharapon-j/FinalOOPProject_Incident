@@ -33,10 +33,14 @@ public class Incident extends Game {
         manager.load("Sprite/AntiVirus.png", Texture.class);
         manager.load("Sprite/miner.png", Texture.class);
 		manager.load("Sprite/MainFrame.png", Texture.class);
-		manager.load("Sprite/AdkUpgrade.png", Texture.class);
-		manager.load("Sprite/MachineUpgrade.png", Texture.class);
-		manager.load("Sprite/PortUpgrade.png", Texture.class);
-        manager.load("Sprite/credit.png", Texture.class);
+		manager.load("Sprite/adkUpgrade.png", Texture.class);
+		manager.load("Sprite/adkUpIcon.png", Texture.class);
+		manager.load("Sprite/adkUpgrade2.png", Texture.class);
+		manager.load("Sprite/adkUpIcon2.png", Texture.class);
+		manager.load("Sprite/mechineUpgrade.png", Texture.class);
+		manager.load("Sprite/mechUpIcon.png", Texture.class);
+		manager.load("Sprite/creditUpgrade.png", Texture.class);
+		manager.load("Sprite/credit.png", Texture.class);
 
         isGameStart = true;
 
