@@ -123,6 +123,20 @@ public class GameScreen implements Screen {
                     }
                 }
             }
+
+            int des = 0;
+
+            for(int i=1;i <= ai_count + 1;i++){
+                if(i==1 && alldata.get(i).isDestroyed()){
+                    endGame(false);
+                }
+                else if(alldata.get(i).isDestroyed()){
+                    des ++;
+                }
+            }
+            if(des == ai_count){
+                endGame(true);
+            }
         }
 
         gameOverStage.act();
