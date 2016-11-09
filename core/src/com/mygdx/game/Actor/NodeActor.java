@@ -165,6 +165,12 @@ public class NodeActor extends Actor{
                 break;
         }
 
+        if(type == 1){
+            allData.get(team).increaseMoney(1 * delta);
+        }
+        else{
+            allData.get(team).increaseMoney(0.3f * delta);
+        }
     }
 
     @Override

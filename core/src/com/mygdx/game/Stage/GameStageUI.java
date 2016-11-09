@@ -24,11 +24,13 @@ public class GameStageUI extends Stage {
     private boolean isPause;
     private int time = 600000;
     private boolean isRed;
+
     private MyTextDisplay digit1;
     private MyTextDisplay digit2;
     private MyTextDisplay digit3;
     private MyTextDisplay colon;
     private MyTextDisplay backCover;
+    private MyTextDisplay moneyCount;
 
     private MyTextDisplay playerScore1;
     private MyTextDisplay playerScore2;
@@ -41,10 +43,12 @@ public class GameStageUI extends Stage {
     private PrimitiveSqaure labelColorPy2;
     private PrimitiveSqaure labelColorPy3;
     private PrimitiveSqaure labelColorPy4;
+    private PrimitiveSqaure moneyBack;
 
     private PrimitiveCircle circle;
 
     private MySpriteActor mainframeSp;
+    private MySpriteActor creditIcon;
 
     private Timer timer;
     private boolean isActive;
@@ -189,6 +193,24 @@ public class GameStageUI extends Stage {
             }
         }, 2);
         addActor(backCover);
+
+        moneyBack = new PrimitiveSqaure(0);
+        moneyBack.setColor(1, 1, 1, 0.1f);
+        moneyBack.setSize(300, 60);
+        moneyBack.setPosition(1125, 40);
+        addActor(moneyBack);
+
+        moneyCount = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 40, 2);
+        moneyCount.setPosition(1265, 84);
+        moneyCount.setColor(Color.WHITE);
+        moneyCount.setText("0");
+        addActor(moneyCount);
+
+        creditIcon = new MySpriteActor("Sprite/credit.png", game);
+        creditIcon.setSize(40, 40);
+        creditIcon.setColor(GameScreen.mainColor[GameScreen.userColor.get(0)]);
+        creditIcon.setPosition(1285, 50);
+        addActor(creditIcon);
     }
 
     @Override
@@ -202,6 +224,8 @@ public class GameStageUI extends Stage {
         digit1.setText(String.format("%02d", time/60000));
         digit2.setText(String.format("%02d", time%60000/1000));
         digit3.setText(String.format("%03d", time%1000));
+
+        moneyCount.setText((int)allData.get(1).getMoney()+"");
 
         playerScore1.setText((int)allData.get(1).getProgess() +" %");
         playerScore2.setText((int)allData.get(2).getProgess() +" %");
@@ -218,6 +242,13 @@ public class GameStageUI extends Stage {
                 digit3.changeColor(Color.RED, 1);
                 colon.changeColor(Color.RED, 1);
             }
+        }
+        else{
+            allData.get(0).setMoney(0);
+            allData.get(1).setMoney(0);
+            allData.get(2).setMoney(0);
+            allData.get(3).setMoney(0);
+            allData.get(4).setMoney(0);
         }
     }
 

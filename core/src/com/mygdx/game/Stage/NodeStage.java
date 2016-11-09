@@ -272,16 +272,6 @@ public class NodeStage extends Stage{
         return super.touchUp(screenX, screenY, pointer, button);
     }
 
-    @Override
-    public boolean keyDown(int keyCode) {
-        if(keyCode == Input.Keys.A){
-            if(selected != null){
-                selected.changeType((selected.getType()+1)%7);
-            }
-        }
-        return super.keyDown(keyCode);
-    }
-
     public double calDistance(float x1, float y1, float x2, float y2){
         return Math.pow(Math.pow(x1-x2, 2) +  Math.pow(y1-y2, 2), 0.5);
     }

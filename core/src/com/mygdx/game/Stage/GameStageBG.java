@@ -18,7 +18,7 @@ public class GameStageBG extends Stage{
         game = g;
         gridBG = new MySpriteActor("Sprite/GridBg.png", game);
         gridBG.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        gridBG.setPosition(0,0);
+        gridBG.setPosition(0,-50);
         gridBG.setScale(1.20f);
         addActor(gridBG);
         gridBG.setalpha(0.15f);

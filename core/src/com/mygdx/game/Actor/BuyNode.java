@@ -45,28 +45,11 @@ public class BuyNode extends Actor{
         textDisplay = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 18, 1);
         textDescribe = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 18, 2);
         textName = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Medium.ttf", 18, 2);
-        textDescribe.setColor(new Color(1, 1, 1, 0));
-        textName.setColor(new Color(1, 1, 1, 0));
+        textDescribe.setColor(new Color(1, 1, 1, 1));
+        textName.setColor(new Color(1, 1, 1, 1));
         back = new PrimitiveSqaure(0);
         textDisplay.setText(cost+"");
         changeType(ty);
-
-        addListener(new ClickListener(){
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                super.enter(event, x, y, pointer, fromActor);
-                textDescribe.changeColor(new Color(1, 1, 1, 1), 0.5f);
-                textName.changeColor(new Color(1, 1, 1, 1), 0.5f);
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                super.exit(event, x, y, pointer, toActor);
-                textDescribe.changeColor(new Color(1, 1, 1, 0), 0.5f);
-                textName.changeColor(new Color(1, 1, 1, 0), 0.5f);
-            }
-
-        });
 
     }
 
@@ -86,8 +69,8 @@ public class BuyNode extends Actor{
         sprite.setPosition(getX(), getY());
         sprite.setSize(getWidth(), getHeight());
         textDisplay.setPosition(getX() + getWidth()/2, getY() - 15);
-        textDescribe.setPosition(getX() - 20, getY() + getHeight()/2 - 10);
-        textName.setPosition(getX() - 20, getY() + getHeight()/2 + 10);
+        //textDescribe.setPosition(getX() - 20, getY() + getHeight()/2 - 10);
+        //textName.setPosition(getX() - 20, getY() + getHeight()/2 + 10);
         back.setPosition(getX() - 100, getY());
     }
 
@@ -154,20 +137,6 @@ public class BuyNode extends Actor{
                 sprite.setTexture(manager.get("Sprite/shield.png", Texture.class));
                 break;
         }
-    }
-
-    public void changeTeam(int t, Color c){
-        team = t;
-        changeColor(c, 1);
-    }
-
-    @Override
-    public void setPosition(float x, float y) {
-        super.setPosition(x, y);
-    }
-
-    public int getTeam() {
-        return team;
     }
 
     public int getType() {
