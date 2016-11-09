@@ -205,14 +205,14 @@ public class GameStageUI extends Stage {
 //Player Info Icon **[Left side of Screen (icon)]
 
 
-        final float wIcon = 30;
-        final float hIcon = 30;
+        final float wIcon = 25;
+        final float hIcon = 25;
 
 
         for(int i=0; i < ai_count;i++) {
-            adkUpIcon = new MySpriteActor("Sprite/AdkUpgrade.png", game);
-            mechUpIcon = new MySpriteActor("Sprite/MachineUpgrade.png", game);
-            coinUpIcon = new MySpriteActor("Sprite/PortUpgrade.png", game);
+            adkUpIcon = new MySpriteActor("Sprite/adkUpIcon2.png", game);
+            mechUpIcon = new MySpriteActor("Sprite/mechUpIcon.png", game);
+            coinUpIcon = new MySpriteActor("Sprite/credit.png", game);
             nodeIcon = new MySpriteActor("Sprite/blank.png", game);
 
             nodeIcon.setSize(wIcon, hIcon);
@@ -220,10 +220,10 @@ public class GameStageUI extends Stage {
             mechUpIcon.setSize(wIcon, hIcon);
             coinUpIcon.setSize(wIcon, hIcon);
 
-            nodeIcon.setPosition(20, (infoBoxBot.getY() + 5)+(45*i));
-            adkUpIcon.setPosition(60, (infoBoxBot.getY() + 5)+(45*i));
-            mechUpIcon.setPosition(100,(infoBoxBot.getY() + 5)+(45*i));
-            coinUpIcon.setPosition(140,(infoBoxBot.getY() + 5)+(45*i));
+            nodeIcon.setPosition(20, (infoBoxBot.getY() + 7.5f)+(45*i));
+            adkUpIcon.setPosition(60, (infoBoxBot.getY() + 7.5f)+(45*i));
+            mechUpIcon.setPosition(100,(infoBoxBot.getY() + 7.5f)+(45*i));
+            coinUpIcon.setPosition(140,(infoBoxBot.getY() + 7.5f)+(45*i));
             addActor(nodeIcon);
             addActor(adkUpIcon);
             addActor(mechUpIcon);
@@ -272,32 +272,36 @@ public class GameStageUI extends Stage {
             addActor(playerInfo3);
             addActor(playerInfo4);
         }
-
-        mainframeSp = new MySpriteActor("Sprite/MainFrame.png", game);
-        mainframeSp.setPosition(50, 50);
-        mainframeSp.setColor(GameScreen.mainColor[GameScreen.userColor.get(0)]);
-        mainframeSp.setSize(70 ,70);
-
-        addActor(mainframeSp);
-
-        circle = new PrimitiveCircle(1);
-        circle.setColor(Color.WHITE);
-        circle.setSize(45, 45);
-        circle.setPosition(mainframeSp.getWidth()/2+ mainframeSp.getX(),mainframeSp.getHeight()/2+mainframeSp.getY());
+        circle = new PrimitiveCircle(0);
+        circle.setColor(1, 1, 1, 0.1f);
+        circle.setSize(130, 130);
+        circle.setPosition(30, 20);
 
         addActor(circle);
 
-        adkUp = new MySpriteActor("Sprite/AdkUpgrade.png", game);
-        mechUp = new MySpriteActor("Sprite/MachineUpgrade.png", game);
-        coinUp = new MySpriteActor("Sprite/PortUpgrade.png", game);
+        mainframeSp = new MySpriteActor("Sprite/MainFrame.png", game);
+        mainframeSp.setPosition(circle.getX()-80, circle.getY()-70);
+        mainframeSp.setRotation(-45f);
+        mainframeSp.setColor(GameScreen.mainColor[GameScreen.userColor.get(0)]);
+        mainframeSp.setSize(190, 190);
+
+        addActor(mainframeSp);
 
 
-        adkUp.setSize(50,50);
-        adkUp.setPosition(150,60);
-        mechUp.setSize(50,50);
-        mechUp.setPosition(220,60);
-        coinUp.setSize(100,100);
-        coinUp.setPosition(290,60);
+
+        adkUp = new MySpriteActor("Sprite/adkUpgrade2.png", game);
+        mechUp = new MySpriteActor("Sprite/mechineUpgrade.png", game);
+        coinUp = new MySpriteActor("Sprite/creditUpgrade.png", game);
+        final float wUpgrade = 50;
+        final float hUpgrade = 50;
+
+        adkUp.setSize (wUpgrade, hUpgrade);
+        mechUp.setSize(wUpgrade, hUpgrade);
+        coinUp.setSize(wUpgrade, hUpgrade);
+
+        adkUp.setPosition(20,130);
+        mechUp.setPosition(95,95);
+        coinUp.setPosition(140,20);
 
         addActor(adkUp);
         addActor(mechUp);
