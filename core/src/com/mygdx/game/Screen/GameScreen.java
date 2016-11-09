@@ -1,11 +1,13 @@
 package com.mygdx.game.Screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.Actor.PrimitiveSqaure;
 import com.mygdx.game.Incident;
 import com.mygdx.game.Stage.*;
@@ -25,8 +27,10 @@ public class GameScreen implements Screen {
     private GameStageUI gameStageUI;
     private NodeStage nodeStage;
     private Stage pelletStage;
+    private GameOverStage gameOverStage;
     private TransitionStage transitionStage;
     private ArrayList<PlayerData> alldata;
+    private boolean isOver;
 
     static public ArrayList<Integer> userColor;
     static public final Color[] mainColor = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW};
@@ -37,6 +41,7 @@ public class GameScreen implements Screen {
         player_color = c;
         ai_count = cnt;
         ai_level = cl;
+        isOver = false;
         alldata = new ArrayList<PlayerData>();
 
         /*
@@ -66,6 +71,7 @@ public class GameScreen implements Screen {
         gameStageUI = new GameStageUI(game, ai_count, alldata);
         pelletStage = new Stage();
         nodeStage = new NodeStage(game, alldata, this);
+        gameOverStage = new GameOverStage(game, this);
         coverStage = new CoverStage(game, this);
         transitionStage = new TransitionStage();
 
@@ -73,8 +79,17 @@ public class GameScreen implements Screen {
         im.addProcessor(nodeStage);
         im.addProcessor(gameStageUI);
         im.addProcessor(coverStage);
+        im.addProcessor(gameOverStage);
 
         Gdx.input.setInputProcessor(im);
+
+        Timer timer = new Timer();
+        timer.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                endGame(false);
+            }
+        }, 10);
     }
 
     @Override
@@ -87,16 +102,26 @@ public class GameScreen implements Screen {
         Gdx.gl20.glClearColor(0.1f, 0.1f, 0.1f, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if(!gameStageUI.isPause()){
+        if(!gameStageUI.isPause() && !isOver){
             gameStageBG.act();
             nodeStage.act();
             gameStageUI.act();
             pelletStage.act();
         }
         else{
-            coverStage.pauseMenu();
+            if(!isOver){
+                coverStage.pauseMenu();
+            }
         }
 
+        if(isOver){
+            if(Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)){
+                game.setScreen(new MainMenuScreen(game));
+                dispose();
+            }
+        }
+
+        gameOverStage.act();
         coverStage.act();
         transitionStage.act();
 
@@ -105,6 +130,7 @@ public class GameScreen implements Screen {
         nodeStage.draw();
         gameStageUI.draw();
         coverStage.draw();
+        gameOverStage.draw();
         transitionStage.draw();
     }
 
@@ -135,7 +161,7 @@ public class GameScreen implements Screen {
         coverStage.dispose();
         pelletStage.dispose();
         nodeStage.dispose();
-
+        gameOverStage.dispose();
 
     }
 
@@ -169,5 +195,10 @@ public class GameScreen implements Screen {
 
     public int getAi_level() {
         return ai_level;
+    }
+
+    public void endGame(boolean b){
+        isOver = true;
+        gameOverStage.gameover(b);
     }
 }
