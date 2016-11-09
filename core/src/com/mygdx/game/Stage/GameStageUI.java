@@ -45,6 +45,15 @@ public class GameStageUI extends Stage {
     private PrimitiveSqaure labelColorPy4;
     private PrimitiveSqaure moneyBack;
 
+    private PrimitiveSqaure infoBox2;
+    private PrimitiveSqaure infoBox3;
+    private PrimitiveSqaure infoBox4;
+
+    private PrimitiveSqaure labelBox2;
+    private PrimitiveSqaure labelBox3;
+    private PrimitiveSqaure labelBox4;
+
+
     private PrimitiveCircle circle;
 
     private MySpriteActor mainframeSp;
@@ -129,6 +138,62 @@ public class GameStageUI extends Stage {
         if (ai_count >= 2) addActor(labelColorPy3);
         if (ai_count >= 3) addActor(labelColorPy4);
 
+        final int hBoxInfo = 30;
+        final int wBoxInfo = 140;
+
+        final int hlabelBoxInfo = 30;
+        final int wlabelBoxInfo = 10;
+
+        final float gapInfo = 5;
+
+        float posXBox = 0 , posYBox = 200;
+
+        infoBox2 = new PrimitiveSqaure(0);
+        infoBox3 = new PrimitiveSqaure(0);
+        infoBox4 = new PrimitiveSqaure(0);
+
+        infoBox2.setSize(wBoxInfo, hBoxInfo);
+        infoBox3.setSize(wBoxInfo, hBoxInfo);
+        infoBox4.setSize(wBoxInfo, hBoxInfo);
+
+        infoBox2.setPosition(posXBox, 200+35+30+5);
+        infoBox3.setPosition(posXBox, 200+30+5);
+        infoBox4.setPosition(posXBox, 200);
+
+        infoBox2.setColor(0.21f, 0.21f, 0.21f, 0.7f);
+        infoBox3.setColor(0.21f, 0.21f, 0.21f, 0.7f);
+        infoBox4.setColor(0.21f, 0.21f, 0.21f, 0.7f);
+
+        labelBox2 = new PrimitiveSqaure(0);
+        labelBox3 = new PrimitiveSqaure(0);
+        labelBox4 = new PrimitiveSqaure(0);
+
+        labelBox2.setSize(wlabelBoxInfo, hlabelBoxInfo);
+        labelBox3.setSize(wlabelBoxInfo, hlabelBoxInfo);
+        labelBox4.setSize(wlabelBoxInfo, hlabelBoxInfo);
+
+        labelBox2.setPosition(infoBox2.getX(), infoBox2.getY());
+        labelBox3.setPosition(infoBox3.getX(), infoBox3.getY());
+        labelBox4.setPosition(infoBox4.getX(), infoBox4.getY());
+
+        labelBox2.setColor(labelColorPy2.getColor());
+        labelBox3.setColor(labelColorPy3.getColor());
+        labelBox4.setColor(labelColorPy4.getColor());
+
+
+        if (ai_count >= 1) {
+            addActor(infoBox2);
+            addActor(labelBox2);
+        }
+        if (ai_count >= 2) {
+            addActor(infoBox3);
+            addActor(labelBox3);
+        }
+        if (ai_count >= 3) {
+            addActor(infoBox4);
+            addActor(labelBox4);
+        }
+
         mainframeSp = new MySpriteActor("Sprite/MainFrame.png", game);
         mainframeSp.setPosition(50, 50);
         mainframeSp.setColor(GameScreen.mainColor[GameScreen.userColor.get(0)]);
@@ -151,7 +216,7 @@ public class GameStageUI extends Stage {
         adkUp.setPosition(150,60);
         mechUp.setSize(50,50);
         mechUp.setPosition(220,60);
-        portUp.setSize(50,50);
+        portUp.setSize(100,100);
         portUp.setPosition(290,60);
 
         addActor(adkUp);
