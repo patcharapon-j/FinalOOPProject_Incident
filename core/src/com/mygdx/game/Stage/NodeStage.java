@@ -39,7 +39,7 @@ public class NodeStage extends Stage{
         gameScreen.getGameStageBG().addActor(cir);
         count = gameScreen.getAi_count();
         allNode = new ArrayList<NodeActor>();
-        //count = 1;
+        //count = 3;
 
         int[] number_node = {4, 5, 6, 7, 6, 5, 4};
         int[] space_ratio = {3, 2, 1, 0, 1, 2, 3};
@@ -48,29 +48,36 @@ public class NodeStage extends Stage{
 
             for(int node=0; node<number_node[line]; node++){
 
-                NodeActor temp1 = new NodeActor(game.manager, 0, 0, allData, gameScreen, allNode);
-                temp1.setColor(Color.WHITE);
-                temp1.setPosition(300 + node * 120 + (60* space_ratio[line]), 85 + line * 95);
-                temp1.setScale(0.3f);
-                addActor(temp1);
-                allNode.add(temp1);
-
                 switch (count) {
                     case 1: {
                         if(line == 3 && node == 0){
                             NodeActor temp = new NodeActor(game.manager, 1, 1, allData, gameScreen, allNode);
                             temp.setColor(GameScreen.mainColor[GameScreen.userColor.get(0)]);
-                            temp.setPosition(300 + node * 120 + (60* space_ratio[line]), 85 + line * 95);
-                            temp.setScale(0.5f);
+                            temp.setPosition(300 + node * 120 + (60* space_ratio[line]), 77 + line * 95);
+                            temp.setScale(0.4f);
                             addActor(temp);
                             allNode.add(temp);
                         } else if((line == 3 && node == 6)){
                             NodeActor temp = new NodeActor(game.manager, 2, 1, allData, gameScreen, allNode);
                             temp.setColor(GameScreen.mainColor[GameScreen.userColor.get(1)]);
-                            temp.setPosition(300 + node * 120 + (60* space_ratio[line]), 85 + line * 95);
-                            temp.setScale(0.5f);
+                            temp.setPosition(300 + node * 120 + (60* space_ratio[line]), 77 + line * 95);
+                            temp.setScale(0.4f);
                             addActor(temp);
                             allNode.add(temp);
+                        } else if(line == 3 && node == 3) {
+                            NodeActor temp1 = new NodeActor(game.manager, 0, 5, allData, gameScreen, allNode);
+                            temp1.setColor(Color.WHITE);
+                            temp1.setPosition(286 + node * 120 + (60* space_ratio[line]), 70 + line * 95);
+                            temp1.setScale(0.5f);
+                            addActor(temp1);
+                            allNode.add(temp1);
+                        } else {
+                            NodeActor temp1 = new NodeActor(game.manager, 0, 0, allData, gameScreen, allNode);
+                            temp1.setColor(Color.WHITE);
+                            temp1.setPosition(300 + node * 120 + (60* space_ratio[line]), 85 + line * 95);
+                            temp1.setScale(0.3f);
+                            addActor(temp1);
+                            allNode.add(temp1);
                         }
                         break;
                     }
@@ -78,24 +85,38 @@ public class NodeStage extends Stage{
                         if(line == 3 && node == 0){
                             NodeActor temp = new NodeActor(game.manager, 1, 1, allData, gameScreen, allNode);
                             temp.setColor(GameScreen.mainColor[GameScreen.userColor.get(0)]);
-                            temp.setPosition(300 + node * 120 + (60* space_ratio[line]), 85 + line * 95);
-                            temp.setScale(0.5f);
+                            temp.setPosition(300 + node * 120 + (60* space_ratio[line]), 77 + line * 95);
+                            temp.setScale(0.4f);
                             addActor(temp);
                             allNode.add(temp);
                         } else if((line == 6 && node == 3)){
                             NodeActor temp = new NodeActor(game.manager, 2, 1, allData, gameScreen, allNode);
                             temp.setColor(GameScreen.mainColor[GameScreen.userColor.get(1)]);
-                            temp.setPosition(300 + node * 120 + (60* space_ratio[line]), 85 + line * 95);
-                            temp.setScale(0.5f);
+                            temp.setPosition(300 + node * 120 + (60* space_ratio[line]), 77 + line * 95);
+                            temp.setScale(0.4f);
                             addActor(temp);
                             allNode.add(temp);
                         } else if((line == 0 && node == 3)){
                             NodeActor temp = new NodeActor(game.manager, 3, 1, allData, gameScreen, allNode);
                             temp.setColor(GameScreen.mainColor[GameScreen.userColor.get(2)]);
-                            temp.setPosition(300 + node * 120 + (60* space_ratio[line]), 85 + line * 95);
-                            temp.setScale(0.5f);
+                            temp.setPosition(300 + node * 120 + (60* space_ratio[line]), 77 + line * 95);
+                            temp.setScale(0.4f);
                             addActor(temp);
                             allNode.add(temp);
+                        } else if(line == 3 && node == 3) {
+                            NodeActor temp1 = new NodeActor(game.manager, 0, 5, allData, gameScreen, allNode);
+                            temp1.setColor(Color.WHITE);
+                            temp1.setPosition(286 + node * 120 + (60* space_ratio[line]), 70 + line * 95);
+                            temp1.setScale(0.5f);
+                            addActor(temp1);
+                            allNode.add(temp1);
+                        } else {
+                            NodeActor temp1 = new NodeActor(game.manager, 0, 0, allData, gameScreen, allNode);
+                            temp1.setColor(Color.WHITE);
+                            temp1.setPosition(300 + node * 120 + (60* space_ratio[line]), 85 + line * 95);
+                            temp1.setScale(0.3f);
+                            addActor(temp1);
+                            allNode.add(temp1);
                         }
                         break;
                     }
@@ -103,31 +124,45 @@ public class NodeStage extends Stage{
                         if(line == 0 && node == 0){
                             NodeActor temp = new NodeActor(game.manager, 1, 1, allData, gameScreen, allNode);
                             temp.setColor(GameScreen.mainColor[GameScreen.userColor.get(0)]);
-                            temp.setPosition(300 + node * 120 + (60* space_ratio[line]), 85 + line * 95);
-                            temp.setScale(0.5f);
+                            temp.setPosition(296 + node * 120 + (60* space_ratio[line]), 79 + line * 95);
+                            temp.setScale(0.4f);
                             addActor(temp);
                             allNode.add(temp);
                         } else if((line == 6 && node == 0)){
                             NodeActor temp = new NodeActor(game.manager, 2, 1, allData, gameScreen, allNode);
                             temp.setColor(GameScreen.mainColor[GameScreen.userColor.get(1)]);
-                            temp.setPosition(300 + node * 120 + (60* space_ratio[line]), 85 + line * 95);
-                            temp.setScale(0.5f);
+                            temp.setPosition(296 + node * 120 + (60* space_ratio[line]), 79 + line * 95);
+                            temp.setScale(0.4f);
                             addActor(temp);
                             allNode.add(temp);
                         } else if((line == 6 && node == 3)){
                             NodeActor temp = new NodeActor(game.manager, 3, 1, allData, gameScreen, allNode);
                             temp.setColor(GameScreen.mainColor[GameScreen.userColor.get(2)]);
-                            temp.setPosition(300 + node * 120 + (60* space_ratio[line]), 85 + line * 95);
-                            temp.setScale(0.5f);
+                            temp.setPosition(296 + node * 120 + (60* space_ratio[line]), 79 + line * 95);
+                            temp.setScale(0.4f);
                             addActor(temp);
                             allNode.add(temp);
                         } else if((line == 0 && node == 3)){
                             NodeActor temp = new NodeActor(game.manager, 4, 1, allData, gameScreen, allNode);
                             temp.setColor(GameScreen.mainColor[GameScreen.userColor.get(3)]);
-                            temp.setPosition(300 + node * 120 + (60* space_ratio[line]), 85 + line * 95);
-                            temp.setScale(0.5f);
+                            temp.setPosition(296 + node * 120 + (60* space_ratio[line]), 79 + line * 95);
+                            temp.setScale(0.4f);
                             addActor(temp);
                             allNode.add(temp);
+                        } else if(line == 3 && node == 3) {
+                            NodeActor temp1 = new NodeActor(game.manager, 0, 5, allData, gameScreen, allNode);
+                            temp1.setColor(Color.WHITE);
+                            temp1.setPosition(286 + node * 120 + (60* space_ratio[line]), 70 + line * 95);
+                            temp1.setScale(0.5f);
+                            addActor(temp1);
+                            allNode.add(temp1);
+                        } else {
+                            NodeActor temp1 = new NodeActor(game.manager, 0, 0, allData, gameScreen, allNode);
+                            temp1.setColor(Color.WHITE);
+                            temp1.setPosition(300 + node * 120 + (60* space_ratio[line]), 85 + line * 95);
+                            temp1.setScale(0.3f);
+                            addActor(temp1);
+                            allNode.add(temp1);
                         }
                         break;
                     }
