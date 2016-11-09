@@ -49,6 +49,7 @@ public class GameStageUI extends Stage {
 
     private MySpriteActor mainframeSp;
     private MySpriteActor creditIcon;
+    private MySpriteActor adkUp, mechUp, portUp;
 
     private Timer timer;
     private boolean isActive;
@@ -141,6 +142,21 @@ public class GameStageUI extends Stage {
         circle.setPosition(mainframeSp.getWidth()/2+ mainframeSp.getX(),mainframeSp.getHeight()/2+mainframeSp.getY());
 
         addActor(circle);
+
+        adkUp = new MySpriteActor("Sprite/AdkUpgrade.png", game);
+        mechUp = new MySpriteActor("Sprite/MachineUpgrade.png", game);
+        portUp = new MySpriteActor("Sprite/PortUpgrade.png", game);
+
+        adkUp.setSize(50,50);
+        adkUp.setPosition(150,60);
+        mechUp.setSize(50,50);
+        mechUp.setPosition(220,60);
+        portUp.setSize(50,50);
+        portUp.setPosition(290,60);
+
+        addActor(adkUp);
+        addActor(mechUp);
+        addActor(portUp);
 
         digit1 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 55, 0);
         digit1.setText("99");
