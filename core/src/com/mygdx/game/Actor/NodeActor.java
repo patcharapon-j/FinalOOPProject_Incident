@@ -262,11 +262,15 @@ public class NodeActor extends Actor{
         hp -= amount;
         lastHealTime = TimeUtils.millis();
         if(hp <= 0){
-            hp = maxHp * allData.get(team).getHpMul();
-            changeTeam(t, c);
-            if(type != 5){
+            if(type == 1){
+                allData.get(team).setDestroyed(true);
                 changeType(0);
             }
+            else if(type != 5){
+                changeType(0);
+            }
+            hp = maxHp * allData.get(team).getHpMul();
+            changeTeam(t, c);
         }
     }
 

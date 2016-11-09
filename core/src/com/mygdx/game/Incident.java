@@ -36,6 +36,7 @@ public class Incident extends Game {
 		manager.load("Sprite/AdkUpgrade.png", Texture.class);
 		manager.load("Sprite/MachineUpgrade.png", Texture.class);
 		manager.load("Sprite/PortUpgrade.png", Texture.class);
+        manager.load("Sprite/credit.png", Texture.class);
 
         isGameStart = true;
 

@@ -13,8 +13,10 @@ public class PlayerData {
     private int attackPrice;
     private int hpPrice;
     private int rangePrince;
+    private boolean destroyed;
     public PlayerData() {
         super();
+        destroyed = false;
         attackLevel = 1;
         attackMul = 1;
         hpLevel = 1;
@@ -101,6 +103,14 @@ public class PlayerData {
 
     public void setProgess(float progess) {
         this.progess = progess;
+    }
+
+    public boolean isDestroyed() {
+        return destroyed;
+    }
+
+    public void setDestroyed(boolean destroyed) {
+        this.destroyed = destroyed;
     }
 }
 

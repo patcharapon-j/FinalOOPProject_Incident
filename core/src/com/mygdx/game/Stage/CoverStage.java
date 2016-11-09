@@ -87,7 +87,12 @@ public class CoverStage extends Stage{
             public void myClick() {
                 super.myClick();
                 g.setScreen(new MainMenuScreen(g));
-                dispose();
+                try{
+                    screen.dispose();
+                }
+                catch (Exception e){
+
+                }
             }
         };
         backButton.setSize(500, 50);
