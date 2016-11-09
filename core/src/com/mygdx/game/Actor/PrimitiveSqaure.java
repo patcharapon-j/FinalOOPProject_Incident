@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SizeToAction;
 
 public class PrimitiveSqaure extends Actor {
 
@@ -66,6 +67,14 @@ public class PrimitiveSqaure extends Actor {
         ma.setInterpolation(Interpolation.pow3);
         ma.setDuration(d);
         addAction(ma);
+    }
+
+    public void changeSize(float w, float h, float d){
+        SizeToAction sa = new SizeToAction();
+        sa.setSize(w, h);
+        sa.setInterpolation(Interpolation.pow3);
+        sa.setDuration(d);
+        addAction(sa);
     }
 
     public void setDrawMode(int drawMode) {

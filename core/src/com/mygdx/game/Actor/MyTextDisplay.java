@@ -92,7 +92,7 @@ public class MyTextDisplay extends Actor{
         addAction(action);
     }
 
-    public void changeColor(Color c, int d){
+    public void changeColor(Color c, float d){
         ColorAction ca = new ColorAction();
         ca.setEndColor(c);
         ca.setDuration(d);
@@ -106,6 +106,7 @@ public class MyTextDisplay extends Actor{
         ma.setDuration(d);
         addAction(ma);
     }
+
 
     public void setCenter(int center) {
         this.center = center;

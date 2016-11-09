@@ -70,9 +70,9 @@ public class GameScreen implements Screen {
         transitionStage = new TransitionStage();
 
         InputMultiplexer im = new InputMultiplexer();
-        im.addProcessor(coverStage);
-        im.addProcessor(gameStageUI);
         im.addProcessor(nodeStage);
+        im.addProcessor(gameStageUI);
+        im.addProcessor(coverStage);
 
         Gdx.input.setInputProcessor(im);
     }
