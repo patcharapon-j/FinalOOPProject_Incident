@@ -82,14 +82,6 @@ public class GameScreen implements Screen {
         im.addProcessor(gameOverStage);
 
         Gdx.input.setInputProcessor(im);
-
-        Timer timer = new Timer();
-        timer.scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                endGame(false);
-            }
-        }, 10);
     }
 
     @Override
@@ -118,6 +110,18 @@ public class GameScreen implements Screen {
             if(Gdx.input.isKeyPressed(Input.Keys.ANY_KEY)){
                 game.setScreen(new MainMenuScreen(game));
                 dispose();
+            }
+        }
+        else{
+            for(int i=1;i <= ai_count + 1;i++){
+                if(alldata.get(i).getProgess()>=100){
+                    if(i==1){
+                        endGame(true);
+                    }
+                    else{
+                        endGame(false);
+                    }
+                }
             }
         }
 

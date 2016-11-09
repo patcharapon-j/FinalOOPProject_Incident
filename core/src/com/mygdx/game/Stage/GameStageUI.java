@@ -183,7 +183,7 @@ public class GameStageUI extends Stage {
         beginBack.setPosition(0, Gdx.graphics.getHeight()/2 - 75);
         addActor(beginBack);
 
-        backCover = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 125, 1);
+        backCover = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 80, 1);
         backCover.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
         backCover.setColor(new Color(1, 1, 1, 1));
         backCover.setText("3");
