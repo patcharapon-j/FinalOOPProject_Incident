@@ -18,7 +18,7 @@ public class PlayerData {
         super();
         destroyed = false;
         attackLevel = 1;
-        attackMul = 10;
+        attackMul = 1;
         hpLevel = 1;
         hpMul = 1;
         range = 1;
