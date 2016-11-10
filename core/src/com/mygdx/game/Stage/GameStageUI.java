@@ -82,10 +82,12 @@ public class GameStageUI extends Stage {
     private boolean isActive;
     private PrimitiveSqaure beginBack;
     private ArrayList<PlayerData> allData;
+    private int ai_c;
 
     public GameStageUI(Incident g, int ai_count, ArrayList<PlayerData> d) {
         super();
         game = g;
+        ai_c = ai_count;
         isRed = true;
         isPause = false;
         isActive = false;
@@ -463,6 +465,39 @@ public class GameStageUI extends Stage {
         digit2.setText(String.format("%02d", time%60000/1000));
         digit3.setText(String.format("%03d", time%1000));
 
+        if(!allData.get(2).isDestroyed()){
+            playerInfo2.setText(allData.get(2).getNodeCount()+"        "+
+                    allData.get(2).getAttackLevel()+"       "
+                    +allData.get(2).getHpLevel()+ "        "
+                    +allData.get(2).getRangeLevel());
+        }
+        else{
+            playerInfo2.setText("");
+        }
+        if(!allData.get(3).isDestroyed()){
+            playerInfo3.setText(allData.get(3).getNodeCount()+"        "+
+                    allData.get(3).getAttackLevel()+"       "
+                    +allData.get(3).getHpLevel()+ "        "
+                    +allData.get(3).getRangeLevel());
+        }
+        else{
+            playerInfo3.setText("");
+        }
+        if(!allData.get(4).isDestroyed()){
+            playerInfo4.setText(allData.get(4).getNodeCount()+"        "+
+                    allData.get(4).getAttackLevel()+"       "
+                    +allData.get(4).getHpLevel()+ "        "
+                    +allData.get(4).getRangeLevel());
+        }
+        else{
+            playerInfo4.setText("");
+        }
+
+        txtadkUpInfo.setText(allData.get(1).getAttackLevel()+"");
+        txtmechUpInfo.setText(allData.get(1).getHpLevel()+"");
+        txtcreditUpInfo.setText(allData.get(1).getRangeLevel()+"");
+
+
         moneyCount.setText((int)allData.get(1).getMoney()+"");
 
         playerScore1.setText((int)allData.get(1).getProgess() +" %");
@@ -534,5 +569,33 @@ public class GameStageUI extends Stage {
 
     public int getTime() {
         return time;
+    }
+
+    public void playerDeath(int t){
+        t = (4 - ai_c) + (t) -1;
+        System.out.print(t+"");
+        switch (t){
+            case 2:
+                colorMark2.changeSize(180, 40, 1);
+                colorMark2.changeColor(new Color(colorMark2.getColor().r,
+                        colorMark2.getColor().g,
+                        colorMark2.getColor().b,
+                        0.7f), 1);
+                break;
+            case 3:
+                colorMark3.changeSize(180, 40, 1);
+                colorMark3.changeColor(new Color(colorMark3.getColor().r,
+                        colorMark3.getColor().g,
+                        colorMark3.getColor().b,
+                        0.7f), 1);
+                break;
+            case 4:
+                colorMark4.changeSize(180, 40, 1);
+                colorMark4.changeColor(new Color(colorMark4.getColor().r,
+                        colorMark4.getColor().g,
+                        colorMark4.getColor().b,
+                        0.7f), 1);
+                break;
+        }
     }
 }
