@@ -120,6 +120,10 @@ public class GameScreen implements Screen {
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
+        if(Gdx.input.isKeyJustPressed(Input.Keys.O)){
+            alldata.get(1).increaseMoney(100);
+        }
+
         if(!gameStageUI.isPause() && !isOver){
             gameStageBG.act();
             nodeStage.act();
