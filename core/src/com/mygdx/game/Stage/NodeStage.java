@@ -34,7 +34,7 @@ public class NodeStage extends Stage{
     private BuyNode buy2;
     private BuyNode buy3;
 
-    public NodeStage(Incident g, ArrayList<PlayerData> datas, GameScreen ga) {
+    public NodeStage(Incident g, ArrayList<PlayerData> datas, GameScreen ga, ArrayList<NodeActor> an) {
         super();
         game = g;
         allData = datas;
@@ -43,7 +43,7 @@ public class NodeStage extends Stage{
         cir = new CircleDynamic();
         gameScreen.getGameStageBG().addActor(cir);
         count = gameScreen.getAi_count();
-        allNode = new ArrayList<NodeActor>();
+        allNode = an;
         //count = 3;
 
         int[] number_node = {4, 5, 6, 7, 6, 5, 4};
