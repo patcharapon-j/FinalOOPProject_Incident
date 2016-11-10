@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
+import com.mygdx.game.Screen.GameScreen;
 
 public class MyToggleButton extends Actor{
 
@@ -17,8 +18,6 @@ public class MyToggleButton extends Actor{
     private MyTextDisplay text;
     private Boolean selected;
     private Boolean active;
-
-    private final Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicked.mp3"));
 
     public MyToggleButton(String path, int size) {
         super();
@@ -47,8 +46,8 @@ public class MyToggleButton extends Actor{
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 if(active){
-                    long id = clickSound.play(1.0f);
-                    clickSound.setPitch(id, 5);
+                    long id = GameScreen.clickSound.play(1.0f);
+                    GameScreen.clickSound.setPitch(id, 5);
                     myClick();
                 }
 

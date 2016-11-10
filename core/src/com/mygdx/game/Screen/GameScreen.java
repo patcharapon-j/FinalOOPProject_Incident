@@ -34,9 +34,11 @@ public class GameScreen implements Screen {
     private ArrayList<PlayerData> alldata;
     private boolean isOver;
 
-    private Music playingSceneSong;
+    static public Music playingSceneSong;
 
-    private final Sound invalidSound = Gdx.audio.newSound(Gdx.files.internal("invalid.mp3"));
+    static public final Sound invalidSound = Gdx.audio.newSound(Gdx.files.internal("invalid.mp3"));
+    static public final Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicked.mp3"));
+    static public final Sound mOverSound = Gdx.audio.newSound(Gdx.files.internal("mouseOver.mp3"));
 
     static public ArrayList<Integer> userColor;
     static public final Color[] mainColor = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW};
@@ -119,9 +121,11 @@ public class GameScreen implements Screen {
             nodeStage.act();
             gameStageUI.act();
             pelletStage.act();
+            playingSceneSong.play();
         }
         else{
             if(!isOver){
+                playingSceneSong.pause();
                 coverStage.pauseMenu();
             }
         }

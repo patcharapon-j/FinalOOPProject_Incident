@@ -14,16 +14,13 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.game.Screen.GameScreen;
 
 public class MyPauseBtn extends Actor {
 
     private Sprite sprite;
     private float oriX;
     private float oriY;
-
-    private final Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicked.mp3"));
-    private final Sound mOverSound = Gdx.audio.newSound(Gdx.files.internal("mouseOver.mp3"));
-
 
     public MyPauseBtn(AssetManager manager) {
         super();
@@ -35,8 +32,8 @@ public class MyPauseBtn extends Actor {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
 
-                long id = mOverSound.play(1.0f);
-                mOverSound.setPitch(id, 3);
+                long id = GameScreen.mOverSound.play(1.0f);
+                GameScreen.mOverSound.setPitch(id, 3);
 
                 SizeToAction sa = new SizeToAction();
                 sa.setInterpolation(Interpolation.pow3);
@@ -73,8 +70,8 @@ public class MyPauseBtn extends Actor {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                long id = clickSound.play(1.0f);
-                clickSound.setPitch(id, 3);
+                long id = GameScreen.clickSound.play(1.0f);
+                GameScreen.clickSound.setPitch(id, 3);
                 Myclick();
             }
         });

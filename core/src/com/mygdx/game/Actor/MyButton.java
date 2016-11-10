@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
+import com.mygdx.game.Screen.GameScreen;
 
 public class MyButton extends Group {
 
@@ -21,9 +22,6 @@ public class MyButton extends Group {
     private MyTextDisplay text;
     private Boolean active;
     private Timer timer;
-
-    private final Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicked.mp3"));
-    private final Sound mOverSound = Gdx.audio.newSound(Gdx.files.internal("mouseOver.mp3"));
 
     public MyButton(String path, int size) {
         super();
@@ -48,8 +46,8 @@ public class MyButton extends Group {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 if(active) {
-                    long id = mOverSound.play(1.0f);
-                    mOverSound.setPitch(id, 3);
+                    long id = GameScreen.mOverSound.play(1.0f);
+                    GameScreen.mOverSound.setPitch(id, 3);
                     changeColor(new Color(0.2f, 0.6f, 1, 0.5f), 0.5f, Interpolation.pow3Out);
                     changeSize(550, 100, Interpolation.pow3Out, 0.5f);
                 }
@@ -67,8 +65,8 @@ public class MyButton extends Group {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 if(active) {
-                    long id = clickSound.play(1.0f);
-                    clickSound.setPitch(id, 3);
+                    long id = GameScreen.clickSound.play(1.0f);
+                    GameScreen.clickSound.setPitch(id, 3);
                     clickDelay();
                 }
             }
