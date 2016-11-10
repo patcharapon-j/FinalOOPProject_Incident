@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 
 public class PrimitiveCircle extends Actor {
-
+    private  float thick;
     private ShapeRenderer sr;
     private int drawMode;
     public PrimitiveCircle(int d) {
@@ -19,6 +19,7 @@ public class PrimitiveCircle extends Actor {
         sr = new ShapeRenderer();
         drawMode = d;
         setBounds(getX(), getY(), getWidth(), getHeight());
+        thick = 3;
     }
 
     @Override
@@ -31,7 +32,7 @@ public class PrimitiveCircle extends Actor {
             sr.begin(ShapeRenderer.ShapeType.Filled);
         }
         else if(drawMode == 1){
-            Gdx.gl20.glLineWidth(10);
+            Gdx.gl20.glLineWidth(thick);
             sr.begin(ShapeRenderer.ShapeType.Line);
         }
         sr.setColor(getColor());
@@ -72,5 +73,8 @@ public class PrimitiveCircle extends Actor {
         this.drawMode = drawMode;
     }
 
+    public void setThick(float thick) {
+        this.thick = thick;
+    }
 }
 
