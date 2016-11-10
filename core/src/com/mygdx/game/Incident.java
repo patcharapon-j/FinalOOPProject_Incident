@@ -55,8 +55,8 @@ public class Incident extends Game {
 		super.render();
         while (manager.update() && isGameStart){
             isGameStart = false;
-            //this.setScreen(new GameScreen(this, 1, 1, 1));
-			this.setScreen(new MainMenuScreen(this));
+            this.setScreen(new GameScreen(this, 1, 1, 1));
+			//this.setScreen(new MainMenuScreen(this));
         }
 	}
 	
