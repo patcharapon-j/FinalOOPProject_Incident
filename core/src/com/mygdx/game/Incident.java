@@ -22,6 +22,9 @@ public class Incident extends Game {
 	    manager = new AssetManager();
 		manager.load("theme.mp3", Music.class);
 		manager.load("playing_scene.ogg", Music.class);
+
+		manager.load("clicked.mp3", Music.class);
+
 		manager.load("Sprite/correct.png", Texture.class);
 		manager.load("Sprite/GridBg.png", Texture.class);
 		manager.load("Sprite/blank.png", Texture.class);
