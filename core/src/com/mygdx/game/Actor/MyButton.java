@@ -23,6 +23,7 @@ public class MyButton extends Group {
     private Timer timer;
 
     private final Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicked.mp3"));
+    private final Sound mOverSound = Gdx.audio.newSound(Gdx.files.internal("mouseOver.mp3"));
 
     public MyButton(String path, int size) {
         super();
@@ -47,6 +48,8 @@ public class MyButton extends Group {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 if(active) {
+                    long id = mOverSound.play(1.0f);
+                    mOverSound.setPitch(id, 3);
                     changeColor(new Color(0.2f, 0.6f, 1, 0.5f), 0.5f, Interpolation.pow3Out);
                     changeSize(550, 100, Interpolation.pow3Out, 0.5f);
                 }
