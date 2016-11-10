@@ -261,11 +261,20 @@ public class NodeActor extends Actor{
     public void damage(float amount, int t, Color c){
         hp -= amount;
         lastHealTime = TimeUtils.millis();
-        allData.get(team).setNodeCount(allData.get(team).getNodeCount()-1);
         if(hp <= 0){
+            allData.get(team).setNodeCount(allData.get(team).getNodeCount()-1);
             if(type == 1){
-                allData.get(team).setDestroyed(true);
+                gameScreen.playerDeath(team);
+                Iterator<NodeActor> iter = allNode.iterator();
+                while (iter.hasNext()){
+                    NodeActor node = iter.next();
+                    if(node.getTeam() == team && node != this){
+                        node.changeTeam(0, Color.WHITE);
+                        node.changeType(0);
+                    }
+                }
                 changeType(0);
+                allData.get(team).setDestroyed(true);
             }
             else if(type != 5){
                 changeType(0);
