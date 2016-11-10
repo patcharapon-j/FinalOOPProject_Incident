@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
@@ -53,6 +54,8 @@ public class GameStageUI extends Stage {
     private MyTextDisplay txtmechUpInfo;
     private MyTextDisplay txtcreditUpInfo;
 
+    private MyTextDisplay adkSelectCost, mechSelectCost, creditSelectCost;
+
     private PrimitiveSqaure labelColorPy1;
     private PrimitiveSqaure labelColorPy2;
     private PrimitiveSqaure labelColorPy3;
@@ -71,6 +74,7 @@ public class GameStageUI extends Stage {
     private PrimitiveCircle cUpgradeBg;
     private PrimitiveCircle cUpgreadeIcon1, cUpgreadeIcon2, cUpgreadeIcon3;
     private PrimitiveCircle adkLvBg, mechLvBg, creditLvBg;
+    private PrimitiveCircle adkSelectBg, mechSelectBg, creditSelectBg;
 
     private MySpriteActor mainframeSp;
     private MySpriteActor creditIcon;
@@ -282,8 +286,10 @@ public class GameStageUI extends Stage {
             addActor(playerInfo3);
             addActor(playerInfo4);
         }
-
-//Player Upgrade Bar **[Botton-Left of Screen]
+//------------------------------------------------------------//
+//      Player Upgrade Bar **[Botton-Left of Screen]
+//------------------------------------------------------------//
+        //Create Object Zone...
         adkUp = new MySpriteActor("Sprite/adkUpgrade2.png", game);
         adkUp.addListener(new ClickListener(){
             @Override
@@ -293,19 +299,6 @@ public class GameStageUI extends Stage {
         });
         mechUp = new MySpriteActor("Sprite/mechineUpgrade.png", game);
         creditUp = new MySpriteActor("Sprite/creditUpgrade.png", game);
-
-        final float wUpgrade = 50;
-        final float hUpgrade = 50;
-
-        adkUp.setSize (wUpgrade, hUpgrade);
-        mechUp.setSize(wUpgrade, hUpgrade);
-        creditUp.setSize(wUpgrade, hUpgrade);
-
-        adkUp.setPosition(10, 130);
-        mechUp.setPosition(88, 97);
-        creditUp.setPosition(133, 25);
-
-        //cicle background on upgrade bar
         cUpgradeBg = new PrimitiveCircle(0);
         adkLvBg = new PrimitiveCircle(0);
         mechLvBg = new PrimitiveCircle(0);
@@ -313,16 +306,22 @@ public class GameStageUI extends Stage {
         cUpgreadeIcon1 = new PrimitiveCircle(1);
         cUpgreadeIcon2 = new PrimitiveCircle(1);
         cUpgreadeIcon3 = new PrimitiveCircle(1);
+        txtadkUpInfo = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 16, 0);
+        txtmechUpInfo = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 16, 0);
+        txtcreditUpInfo = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 16, 0);
+        mainframeSp = new MySpriteActor("Sprite/MainFrame.png", game);
 
-        cUpgradeBg.setColor(0.18f, 0.18f, 0.18f, 1f);
-        adkLvBg.setColor(0.18f, 0.18f, 0.18f, 1f);
-        mechLvBg.setColor(0.18f, 0.18f, 0.18f, 1f);
-        creditLvBg.setColor(0.18f, 0.18f, 0.18f, 1f);
-        cUpgreadeIcon1.setColor(1, 1, 1, 0.1f);
-        cUpgreadeIcon2.setColor(1, 1, 1, 0.1f);
-        cUpgreadeIcon3.setColor(1, 1, 1, 0.1f);
+        //Defind final variable Zone...
+        final float wUpgrade = 50;  //Upgrade Actor Size (Robot Head)
+        final float hUpgrade = 50;  //->-----------------------------
+        final float lvBgSize = 12;  //Lv Backgroung Size (Fill Circle on Ring)
+        final float xLvPad = 3;   // Align Lv Backgroung Size to center
+        final float yLvPad = 10;  //->--------------------------------
 
-        final float lvBgSize = 12;
+        //Set Actor Size zone....
+        adkUp.setSize (wUpgrade, hUpgrade);
+        mechUp.setSize(wUpgrade, hUpgrade);
+        creditUp.setSize(wUpgrade, hUpgrade);
         cUpgradeBg.setSize(130, 130);
         adkLvBg.setSize(lvBgSize, lvBgSize);
         mechLvBg.setSize(lvBgSize, lvBgSize);
@@ -330,9 +329,12 @@ public class GameStageUI extends Stage {
         cUpgreadeIcon1.setSize(30, 30);
         cUpgreadeIcon2.setSize(30, 30);
         cUpgreadeIcon3.setSize(30, 30);
+        mainframeSp.setSize(190, 190);
 
-        final float xLvPad = 3;
-        final float yLvPad = 10;
+        //Set Actor position zone .....
+        adkUp.setPosition(10, 130);
+        mechUp.setPosition(88, 97);
+        creditUp.setPosition(133, 25);
         cUpgradeBg.setPosition(30, 20);
         cUpgreadeIcon1.setPosition(adkUp.getX()+adkUp.getWidth()/2, adkUp.getY()+adkUp.getHeight()/2);
         cUpgreadeIcon2.setPosition(mechUp.getX()+mechUp.getWidth()/2, mechUp.getY()+mechUp.getHeight()/2);
@@ -340,48 +342,101 @@ public class GameStageUI extends Stage {
         adkLvBg.setPosition(cUpgreadeIcon1.getX()+cUpgreadeIcon1.getWidth()-xLvPad, cUpgreadeIcon1.getY()+cUpgreadeIcon1.getHeight()-yLvPad);
         mechLvBg.setPosition(cUpgreadeIcon2.getX()+cUpgreadeIcon2.getWidth()-xLvPad, cUpgreadeIcon2.getY()+cUpgreadeIcon2.getHeight()-yLvPad);
         creditLvBg.setPosition(cUpgreadeIcon3.getX()+cUpgreadeIcon3.getWidth()-xLvPad, cUpgreadeIcon3.getY()+cUpgreadeIcon3.getHeight()-yLvPad);
+        txtadkUpInfo.setPosition(adkLvBg.getX()-adkLvBg.getWidth()/2+1, adkLvBg.getY()+adkLvBg.getHeight()/2);
+        txtmechUpInfo.setPosition(mechLvBg.getX()-mechLvBg.getWidth()/2+1, mechLvBg.getY()+mechLvBg.getHeight()/2);
+        txtcreditUpInfo.setPosition(creditLvBg.getX()-creditLvBg.getWidth()/2+1, creditLvBg.getY()+creditLvBg.getHeight()/2);
+        mainframeSp.setPosition(cUpgradeBg.getX()-90, cUpgradeBg.getY()-80);
 
-        addActor(cUpgreadeIcon1);
-        addActor(cUpgreadeIcon2);
-        addActor(cUpgreadeIcon3);
-        addActor(cUpgradeBg);
-        //add upgradeicon on upgrade bar
-        addActor(adkUp);
-        addActor(mechUp);
-        addActor(creditUp);
+        //Set Actor Color Zone......
+        cUpgradeBg.setColor(0.18f, 0.18f, 0.18f, 1f);
+        adkLvBg.setColor(0.18f, 0.18f, 0.18f, 1f);
+        mechLvBg.setColor(0.18f, 0.18f, 0.18f, 1f);
+        creditLvBg.setColor(0.18f, 0.18f, 0.18f, 1f);
+        cUpgreadeIcon1.setColor(0.18f, 0.18f, 0.18f, 1f);
+        cUpgreadeIcon2.setColor(0.18f, 0.18f, 0.18f, 1f);
+        cUpgreadeIcon3.setColor(0.18f, 0.18f, 0.18f, 1f);
+        mainframeSp.setColor(GameScreen.mainColor[GameScreen.userColor.get(0)]);
 
-        addActor(adkLvBg);
-        addActor(mechLvBg);
-        addActor(creditLvBg);
+        //Add Actor Listener Zone.....
+        cUpgreadeIcon1.addListener(new ClickListener(){
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
 
-        //Upgrade Lv label Display
-        txtadkUpInfo = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 16, 0);
-        txtmechUpInfo = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 16, 0);
-        txtcreditUpInfo = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 16, 0);
+            }
 
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+            }
+        });
+        cUpgreadeIcon2.addListener(new ClickListener(){
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+            }
+        });
+        cUpgreadeIcon3.addListener(new ClickListener(){
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+            }
+        });
+
+        //Set Text for each Actor....
         txtadkUpInfo.setText("0");
         txtmechUpInfo.setText("0");
         txtcreditUpInfo.setText("0");
 
-        txtadkUpInfo.setPosition(adkLvBg.getX()-adkLvBg.getWidth()/2+1, adkLvBg.getY()+adkLvBg.getHeight()/2);
-        txtmechUpInfo.setPosition(mechLvBg.getX()-mechLvBg.getWidth()/2+1, mechLvBg.getY()+mechLvBg.getHeight()/2);
-        txtcreditUpInfo.setPosition(creditLvBg.getX()-creditLvBg.getWidth()/2+1, creditLvBg.getY()+creditLvBg.getHeight()/2);
+        //Set etc......
+        mainframeSp.setRotation(-45f);
 
+        //Add Actor Layer Zone for Upgrade bar Naja...
+
+        addActor(cUpgradeBg);
+        addActor(adkUp);
+        addActor(mechUp);
+        addActor(creditUp);
+        addActor(mainframeSp);
+        addActor(cUpgreadeIcon1);
+        addActor(cUpgreadeIcon2);
+        addActor(cUpgreadeIcon3);
+        addActor(adkLvBg);
+        addActor(mechLvBg);
+        addActor(creditLvBg);
         addActor(txtadkUpInfo);
         addActor(txtmechUpInfo);
         addActor(txtcreditUpInfo);
 
-        //Droid bobo pic
-        mainframeSp = new MySpriteActor("Sprite/MainFrame.png", game);
-        mainframeSp.setPosition(cUpgradeBg.getX()-90, cUpgradeBg.getY()-80);
-        mainframeSp.setRotation(-45f);
-        mainframeSp.setColor(GameScreen.mainColor[GameScreen.userColor.get(0)]);
-        mainframeSp.setSize(190, 190);
-
-        addActor(mainframeSp);
-
-//Download Data Center Progress **[Top-Right of Screen
-// ]
+//----------------------------------------------------------------------------//
+//Download Data Center Progress **[Top-Right of Screen]
+//----------------------------------------------------------------------------//
         digit1 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 55, 0);
         digit1.setText("99");
         digit2 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 55, 0);
