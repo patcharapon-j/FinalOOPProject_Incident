@@ -75,6 +75,7 @@ public class GameStageUI extends Stage {
     private PrimitiveCircle cUpgreadeIcon1, cUpgreadeIcon2, cUpgreadeIcon3;
     private PrimitiveCircle adkLvBg, mechLvBg, creditLvBg;
     private PrimitiveCircle adkSelectBg, mechSelectBg, creditSelectBg;
+    private PrimitiveCircle adkOnSelect, mechOnSelect, creditOnSelect;
 
     private MySpriteActor mainframeSp;
     private MySpriteActor creditIcon;
@@ -290,26 +291,30 @@ public class GameStageUI extends Stage {
 //      Player Upgrade Bar **[Botton-Left of Screen]
 //------------------------------------------------------------//
         //Create Object Zone...
-        adkUp = new MySpriteActor("Sprite/adkUpgrade2.png", game);
-        adkUp.addListener(new ClickListener(){
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                super.enter(event, x, y, pointer, fromActor);
-            }
-        });
-        mechUp = new MySpriteActor("Sprite/mechineUpgrade.png", game);
-        creditUp = new MySpriteActor("Sprite/creditUpgrade.png", game);
-        cUpgradeBg = new PrimitiveCircle(0);
-        adkLvBg = new PrimitiveCircle(0);
-        mechLvBg = new PrimitiveCircle(0);
-        creditLvBg = new PrimitiveCircle(0);
-        cUpgreadeIcon1 = new PrimitiveCircle(1);
-        cUpgreadeIcon2 = new PrimitiveCircle(1);
-        cUpgreadeIcon3 = new PrimitiveCircle(1);
-        txtadkUpInfo = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 16, 0);
-        txtmechUpInfo = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 16, 0);
-        txtcreditUpInfo = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 16, 0);
-        mainframeSp = new MySpriteActor("Sprite/MainFrame.png", game);
+        adkUp            = new MySpriteActor("Sprite/adkUpgrade2.png", game);
+        mechUp           = new MySpriteActor("Sprite/mechineUpgrade.png", game);
+        creditUp         = new MySpriteActor("Sprite/creditUpgrade.png", game);
+        cUpgradeBg       = new PrimitiveCircle(0);
+        adkLvBg          = new PrimitiveCircle(0);
+        mechLvBg         = new PrimitiveCircle(0);
+        creditLvBg       = new PrimitiveCircle(0);
+        cUpgreadeIcon1   = new PrimitiveCircle(1);
+        cUpgreadeIcon2   = new PrimitiveCircle(1);
+        cUpgreadeIcon3   = new PrimitiveCircle(1);
+        adkSelectBg      = new PrimitiveCircle(0);
+        mechSelectBg     = new PrimitiveCircle(0);
+        creditSelectBg   = new PrimitiveCircle(0);
+        adkOnSelect      = new PrimitiveCircle(0);
+        mechOnSelect     = new PrimitiveCircle(0);
+        creditOnSelect   = new PrimitiveCircle(0);
+        txtadkUpInfo     = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 16, 0);
+        txtmechUpInfo    = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 16, 0);
+        txtcreditUpInfo  = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 16, 0);
+        mainframeSp      = new MySpriteActor("Sprite/MainFrame.png", game);
+        adkSelectCost    = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 18, 1);
+        mechSelectCost   = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 18, 1);
+        creditSelectCost = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 18, 1);
+
 
         //Defind final variable Zone...
         final float wUpgrade = 50;  //Upgrade Actor Size (Robot Head)
@@ -317,6 +322,11 @@ public class GameStageUI extends Stage {
         final float lvBgSize = 12;  //Lv Backgroung Size (Fill Circle on Ring)
         final float xLvPad = 3;   // Align Lv Backgroung Size to center
         final float yLvPad = 10;  //->--------------------------------
+        final float onSelectTime = 0.05f;
+        final float onClickTime = 0.05f;
+        final float onClickFadeTime = 0.5f;
+        final float xTextpad = 0; //Fix Align text pad
+
 
         //Set Actor Size zone....
         adkUp.setSize (wUpgrade, hUpgrade);
@@ -330,6 +340,12 @@ public class GameStageUI extends Stage {
         cUpgreadeIcon2.setSize(30, 30);
         cUpgreadeIcon3.setSize(30, 30);
         mainframeSp.setSize(190, 190);
+        adkSelectBg.setSize(cUpgreadeIcon1.getWidth(), cUpgreadeIcon1.getHeight());
+        mechSelectBg.setSize(cUpgreadeIcon2.getWidth(), cUpgreadeIcon2.getHeight());
+        creditSelectBg.setSize(cUpgreadeIcon3.getWidth(), cUpgreadeIcon3.getHeight());
+        adkOnSelect.setSize(cUpgreadeIcon1.getWidth(), cUpgreadeIcon1.getHeight());
+        mechOnSelect.setSize(cUpgreadeIcon2.getWidth(), cUpgreadeIcon2.getHeight());
+        creditOnSelect.setSize(cUpgreadeIcon3.getWidth(), cUpgreadeIcon3.getHeight());
 
         //Set Actor position zone .....
         adkUp.setPosition(10, 130);
@@ -346,6 +362,15 @@ public class GameStageUI extends Stage {
         txtmechUpInfo.setPosition(mechLvBg.getX()-mechLvBg.getWidth()/2+1, mechLvBg.getY()+mechLvBg.getHeight()/2);
         txtcreditUpInfo.setPosition(creditLvBg.getX()-creditLvBg.getWidth()/2+1, creditLvBg.getY()+creditLvBg.getHeight()/2);
         mainframeSp.setPosition(cUpgradeBg.getX()-90, cUpgradeBg.getY()-80);
+        adkSelectBg.setPosition(cUpgreadeIcon1.getX(), cUpgreadeIcon1.getY());
+        mechSelectBg.setPosition(cUpgreadeIcon2.getX(),cUpgreadeIcon2.getY());
+        creditSelectBg.setPosition(cUpgreadeIcon3.getX(), cUpgreadeIcon3.getY());
+        adkOnSelect.setPosition(cUpgreadeIcon1.getX(), cUpgreadeIcon1.getY());
+        mechOnSelect.setPosition(cUpgreadeIcon2.getX(), cUpgreadeIcon2.getY());
+        creditOnSelect.setPosition(cUpgreadeIcon3.getX(), cUpgreadeIcon3.getY());
+        adkSelectCost.setPosition(adkOnSelect.getX()-xTextpad, adkOnSelect.getY());
+        mechSelectCost.setPosition(mechOnSelect.getX()-xTextpad, mechOnSelect.getY());
+        creditSelectCost.setPosition(creditOnSelect.getX()-xTextpad, creditOnSelect.getY());
 
         //Set Actor Color Zone......
         cUpgradeBg.setColor(0.18f, 0.18f, 0.18f, 1f);
@@ -356,56 +381,81 @@ public class GameStageUI extends Stage {
         cUpgreadeIcon2.setColor(0.18f, 0.18f, 0.18f, 1f);
         cUpgreadeIcon3.setColor(0.18f, 0.18f, 0.18f, 1f);
         mainframeSp.setColor(GameScreen.mainColor[GameScreen.userColor.get(0)]);
+        adkSelectBg.setColor(0.1f,0.1f,0.1f,1);
+        mechSelectBg.setColor(0.1f, 0.1f, 0.1f, 1f);
+        creditSelectBg.setColor(0.1f, 0.1f, 0.1f, 1f);
+        adkOnSelect.setColor(1, 1, 1, 0);
+        mechOnSelect.setColor(1, 1, 1, 0);
+        creditOnSelect.setColor(1, 1, 1, 0);
+        adkSelectCost.setColor(1, 1, 1, 0);
+        mechSelectCost.setColor(1, 1, 1, 0);
+        creditSelectCost.setColor(1, 1, 1, 0);
 
         //Add Actor Listener Zone.....
-        cUpgreadeIcon1.addListener(new ClickListener(){
+        adkUp.addListener(new ClickListener(){
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
-
+                adkOnSelect.changeColor(new Color(0,0,0, 0.9f), onSelectTime);
+                adkSelectCost.changeColor(new Color(1,1,1,1), onSelectTime);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 super.exit(event, x, y, pointer, toActor);
+                adkOnSelect.changeColor(new Color(0,0,0,0), onSelectTime);
+                adkSelectCost.changeColor(new Color(1,1,1,0), onSelectTime);
             }
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                adkOnSelect.setColor(Color.WHITE);
+                adkOnSelect.changeColor(new Color(1,1,1,0), onClickFadeTime);
+            }
+
+        });
+        mechUp.addListener(new ClickListener(){
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+                mechOnSelect.changeColor(new Color(0,0,0, 0.9f), onSelectTime);
+                mechSelectCost.changeColor(new Color(1,1,1,1), onSelectTime);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
+                mechOnSelect.changeColor(new Color(0,0,0,0), onSelectTime);
+                mechSelectCost.changeColor(new Color(1,1,1,0), onSelectTime);
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                mechOnSelect.setColor(Color.WHITE);
+                mechOnSelect.changeColor(new Color(1,1,1,0), onClickFadeTime);
             }
         });
-        cUpgreadeIcon2.addListener(new ClickListener(){
+        creditUp.addListener(new ClickListener(){
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
-
+                creditOnSelect.changeColor(new Color(0,0,0, 0.9f), onSelectTime);
+                creditSelectCost.changeColor(new Color(1,1,1,1), onSelectTime);
             }
-
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 super.exit(event, x, y, pointer, toActor);
+                creditOnSelect.changeColor(new Color(0,0,0,0), onSelectTime);
+                creditSelectCost.changeColor(new Color(1,1,1,0), onSelectTime);
             }
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-            }
-        });
-        cUpgreadeIcon3.addListener(new ClickListener(){
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                super.enter(event, x, y, pointer, fromActor);
-
-            }
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                super.exit(event, x, y, pointer, toActor);
-            }
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
+                creditOnSelect.setColor(Color.WHITE);
+                creditOnSelect.changeColor(new Color(1,1,1,0), onClickFadeTime);
             }
         });
 
@@ -414,15 +464,28 @@ public class GameStageUI extends Stage {
         txtmechUpInfo.setText("0");
         txtcreditUpInfo.setText("0");
 
+        adkSelectCost.setText("81");
+        mechSelectCost.setText("200");
+        creditSelectCost.setText("1");
+
+
         //Set etc......
         mainframeSp.setRotation(-45f);
 
         //Add Actor Layer Zone for Upgrade bar Naja...
-
         addActor(cUpgradeBg);
+        addActor(adkSelectBg);
+        addActor(mechSelectBg);
+        addActor(creditSelectBg);
         addActor(adkUp);
         addActor(mechUp);
         addActor(creditUp);
+        addActor(adkOnSelect);
+        addActor(mechOnSelect);
+        addActor(creditOnSelect);
+        addActor(adkSelectCost);
+        addActor(mechSelectCost);
+        addActor(creditSelectCost);
         addActor(mainframeSp);
         addActor(cUpgreadeIcon1);
         addActor(cUpgreadeIcon2);

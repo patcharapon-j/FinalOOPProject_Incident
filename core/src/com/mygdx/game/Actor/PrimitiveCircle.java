@@ -53,7 +53,7 @@ public class PrimitiveCircle extends Actor {
         return super.remove();
     }
 
-    public void changeColor(Color c, int d){
+    public void changeColor(Color c, float d){
         ColorAction ca = new ColorAction();
         ca.setEndColor(c);
         ca.setDuration(d);
