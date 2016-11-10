@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
 
 public class BuyNode extends Actor{
 
@@ -29,11 +30,12 @@ public class BuyNode extends Actor{
     private int cost;
     private float oriX;
     private float oriY;
-
+    private boolean isMoving;
     public BuyNode(AssetManager m, int ty, int c, float x, float y) {
         super();
         oriX = x;
         oriY = y;
+        isMoving = false;
         setPosition(x, y);
         manager = m;
         setTouchable(Touchable.disabled);
@@ -42,9 +44,9 @@ public class BuyNode extends Actor{
         oriHeight = sprite.getHeight();
         type = ty;
         cost = c;
-        textDisplay = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 18, 1);
-        textDescribe = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 18, 2);
-        textName = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Medium.ttf", 18, 2);
+        textDisplay = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 16, 1);
+        textDescribe = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 14, 2);
+        textName = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Medium.ttf", 14, 2);
         textDescribe.setColor(new Color(1, 1, 1, 1));
         textName.setColor(new Color(1, 1, 1, 1));
         back = new PrimitiveSqaure(0);
@@ -69,8 +71,8 @@ public class BuyNode extends Actor{
         sprite.setPosition(getX(), getY());
         sprite.setSize(getWidth(), getHeight());
         textDisplay.setPosition(getX() + getWidth()/2, getY() - 15);
-        //textDescribe.setPosition(getX() - 20, getY() + getHeight()/2 - 10);
-        //textName.setPosition(getX() - 20, getY() + getHeight()/2 + 10);
+        textDescribe.setPosition(getX() - 20, getY() + getHeight()/2 - 10);
+        textName.setPosition(getX() - 20, getY() + getHeight()/2 + 10);
         back.setPosition(getX() - 100, getY());
     }
 
@@ -119,13 +121,13 @@ public class BuyNode extends Actor{
             //virus
             case 3:
                 sprite.setTexture(manager.get("Sprite/virus.png", Texture.class));
-                textDescribe.setText("Light attack all nearby node");
+                textDescribe.setText("Light attack nearby node");
                 textName.setText("Virus");
                 break;
             //antivirus
             case 4:
                 sprite.setTexture(manager.get("Sprite/AntiVirus.png", Texture.class));
-                textDescribe.setText("Auto heal all friendly node");
+                textDescribe.setText("heal friendly node");
                 textName.setText("Antivirus");
                 break;
             //datacenter
@@ -148,6 +150,22 @@ public class BuyNode extends Actor{
     }
 
     public void resetPosition(){
-        setPosition(oriX, oriY);
+        changePosition(oriX, oriY, 0.25f);
+    }
+
+    public void pickup(){
+            textName.setAlpha(0);
+            textDescribe.setAlpha(0);
+    }
+
+    public void drop(){
+        Timer timer = new Timer();
+        timer.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                textName.setAlpha(1);
+                textDescribe.setAlpha(1);
+            }
+        }, 0.25f);
     }
 }

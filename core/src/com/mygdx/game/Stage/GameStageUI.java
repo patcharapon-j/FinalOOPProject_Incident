@@ -3,10 +3,13 @@ package com.mygdx.game.Stage;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.Actor.MyPauseBtn;
@@ -25,7 +28,7 @@ public class GameStageUI extends Stage {
     private Incident game;
     private MyPauseBtn myPauseBtn;
     private boolean isPause;
-    private int time = 600000;
+    private int time = 60000;
     private boolean isRed;
 
     private MyTextDisplay digit1;
@@ -295,6 +298,12 @@ public class GameStageUI extends Stage {
 
 
         adkUp = new MySpriteActor("Sprite/adkUpgrade2.png", game);
+        adkUp.addListener(new ClickListener(){
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+            }
+        });
         mechUp = new MySpriteActor("Sprite/mechineUpgrade.png", game);
         coinUp = new MySpriteActor("Sprite/creditUpgrade.png", game);
         final float wUpgrade = 50;
@@ -462,5 +471,9 @@ public class GameStageUI extends Stage {
         SequenceAction action = new SequenceAction(ca, ca2, ca3, ca4);
 
         moneyBack.addAction(action);
+    }
+
+    public int getTime() {
+        return time;
     }
 }

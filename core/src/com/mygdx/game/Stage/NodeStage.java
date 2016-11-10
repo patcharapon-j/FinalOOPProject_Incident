@@ -234,6 +234,7 @@ public class NodeStage extends Stage{
                     else if(temp.getClass() == BuyNode.class){
                         BuyNode node = (BuyNode) temp;
                         selectedBuy = node;
+                        selectedBuy.pickup();
                     }
                 }
             }
@@ -259,16 +260,19 @@ public class NodeStage extends Stage{
                if(temp != null){
                     if(temp.getClass() == NodeActor.class){
                         NodeActor node = (NodeActor)temp;
-                        if(allData.get(node.getTeam()).getMoney() >= selectedBuy.getCost()){
-                            allData.get(node.getTeam()).decreaseMoney(selectedBuy.getCost());
-                            node.changeType(selectedBuy.getType());
-                        }
-                        else{
-                            gameScreen.moneyFlash();
+                        if(node.getTeam() == 1 && node.getType()!=1){
+                            if(allData.get(node.getTeam()).getMoney() >= selectedBuy.getCost()){
+                                allData.get(node.getTeam()).decreaseMoney(selectedBuy.getCost());
+                                node.changeType(selectedBuy.getType());
+                            }
+                            else{
+                                gameScreen.moneyFlash();
+                            }
                         }
                     }
                }
                selectedBuy.resetPosition();
+               selectedBuy.drop();
            }
            selectedBuy = null;
            cir.contract();
