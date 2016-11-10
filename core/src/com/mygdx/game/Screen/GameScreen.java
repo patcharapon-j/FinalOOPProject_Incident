@@ -224,4 +224,8 @@ public class GameScreen implements Screen {
         isOver = true;
         gameOverStage.gameover(b);
     }
+
+    public void moneyFlash(){
+        gameStageUI.redFlash();
+    }
 }

@@ -23,7 +23,7 @@ public class PlayerData {
         hpMul = 1;
         range = 1;
         rangeLevel = 1;
-        money = 0;
+        money = 99999;
         progess = 0;
         attackPrice = 100;
         hpPrice = 100;

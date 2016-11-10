@@ -245,7 +245,6 @@ public class NodeStage extends Stage{
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
        if(button == Input.Buttons.LEFT){
            Actor temp = hit(screenX, Gdx.graphics.getHeight() - screenY, true);
-           System.out.print(temp);
            if(temp != null && selected != null){
                if(temp.getClass() == NodeActor.class){
                    if(calDistance(selected.getX() + selected.getWidth()/2,
@@ -260,7 +259,13 @@ public class NodeStage extends Stage{
                if(temp != null){
                     if(temp.getClass() == NodeActor.class){
                         NodeActor node = (NodeActor)temp;
-                        node.changeType(selectedBuy.getType());
+                        if(allData.get(node.getTeam()).getMoney() >= selectedBuy.getCost()){
+                            allData.get(node.getTeam()).decreaseMoney(selectedBuy.getCost());
+                            node.changeType(selectedBuy.getType());
+                        }
+                        else{
+                            gameScreen.moneyFlash();
+                        }
                     }
                }
                selectedBuy.resetPosition();

@@ -2,7 +2,12 @@ package com.mygdx.game.Stage;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
+import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.Actor.MyPauseBtn;
 import com.mygdx.game.Actor.MySpriteActor;
@@ -429,5 +434,33 @@ public class GameStageUI extends Stage {
 
     public void setPause(boolean pause) {
         isPause = pause;
+    }
+
+    public void redFlash(){
+
+        ColorAction ca = new ColorAction();
+        ca.setDuration(0.1f);
+        ca.setInterpolation(Interpolation.pow3In);
+        ca.setEndColor(Color.RED);
+
+        ColorAction ca2 = new ColorAction();
+        ca2.setDuration(0.1f);
+        ca2.setInterpolation(Interpolation.pow3Out);
+        ca2.setEndColor(new Color(1, 1, 1, 0.1f));
+
+        ColorAction ca3 = new ColorAction();
+        ca3.setDuration(0.1f);
+        ca3.setInterpolation(Interpolation.pow3In);
+        ca3.setEndColor(Color.RED);
+
+        ColorAction ca4 = new ColorAction();
+        ca4.setDuration(0.1f);
+        ca4.setInterpolation(Interpolation.pow3Out);
+        ca4.setEndColor(new Color(1, 1, 1, 0.1f));
+
+
+        SequenceAction action = new SequenceAction(ca, ca2, ca3, ca4);
+
+        moneyBack.addAction(action);
     }
 }
