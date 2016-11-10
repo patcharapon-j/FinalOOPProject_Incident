@@ -89,7 +89,7 @@ public class GameStageUI extends Stage {
     private ArrayList<PlayerData> allData;
     private int ai_c;
 
-    public GameStageUI(Incident g, int ai_count, ArrayList<PlayerData> d) {
+    public GameStageUI(Incident g, int ai_count, ArrayList<PlayerData> d, final GameScreen gameScreen) {
         super();
         game = g;
         ai_c = ai_count;
@@ -410,8 +410,15 @@ public class GameStageUI extends Stage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                adkOnSelect.setColor(Color.WHITE);
-                adkOnSelect.changeColor(new Color(1,1,1,0), onClickFadeTime);
+                if(allData.get(1).getMoney() >= allData.get(1).getAttackPrice()){
+                    adkOnSelect.setColor(Color.WHITE);
+                    adkOnSelect.changeColor(new Color(1,1,1,0), onClickFadeTime);
+                    allData.get(1).levelupAttack();
+                }
+                else{
+                    gameScreen.moneyFlash();
+                }
+
             }
 
         });
@@ -433,8 +440,14 @@ public class GameStageUI extends Stage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                mechOnSelect.setColor(Color.WHITE);
-                mechOnSelect.changeColor(new Color(1,1,1,0), onClickFadeTime);
+                if(allData.get(1).getMoney() >= allData.get(1).getHpPrice()){
+                    adkOnSelect.setColor(Color.WHITE);
+                    adkOnSelect.changeColor(new Color(1,1,1,0), onClickFadeTime);
+                    allData.get(1).levelupHp();
+                }
+                else{
+                    gameScreen.moneyFlash();
+                }
             }
         });
         creditUp.addListener(new ClickListener(){
@@ -454,8 +467,14 @@ public class GameStageUI extends Stage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                creditOnSelect.setColor(Color.WHITE);
-                creditOnSelect.changeColor(new Color(1,1,1,0), onClickFadeTime);
+                if(allData.get(1).getMoney() >= allData.get(1).getRangePrince()){
+                    adkOnSelect.setColor(Color.WHITE);
+                    adkOnSelect.changeColor(new Color(1,1,1,0), onClickFadeTime);
+                    allData.get(1).levelupRange();
+                }
+                else{
+                    gameScreen.moneyFlash();
+                }
             }
         });
 
@@ -464,9 +483,9 @@ public class GameStageUI extends Stage {
         txtmechUpInfo.setText("0");
         txtcreditUpInfo.setText("0");
 
-        adkSelectCost.setText("81");
-        mechSelectCost.setText("200");
-        creditSelectCost.setText("1");
+        adkSelectCost.setText("0");
+        mechSelectCost.setText("0");
+        creditSelectCost.setText("0");
 
 
         //Set etc......
@@ -582,6 +601,10 @@ public class GameStageUI extends Stage {
         digit1.setText(String.format("%02d", time/60000));
         digit2.setText(String.format("%02d", time%60000/1000));
         digit3.setText(String.format("%03d", time%1000));
+
+        adkSelectCost.setText(allData.get(1).getAttackPrice() + "");
+        mechSelectCost.setText(allData.get(1).getHpPrice() + "");
+        creditSelectCost.setText(allData.get(1).getRangePrince() + "");
 
         if(!allData.get(2).isDestroyed()){
             playerInfo2.setText(allData.get(2).getNodeCount()+"        "+

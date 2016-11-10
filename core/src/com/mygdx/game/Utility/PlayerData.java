@@ -19,12 +19,12 @@ public class PlayerData {
         super();
         destroyed = false;
         attackLevel = 1;
-        attackMul = 999;
+        attackMul = 1;
         hpLevel = 1;
         hpMul = 1;
         range = 1;
         rangeLevel = 1;
-        money = 99;
+        money = 0;
         progess = 0;
         attackPrice = 100;
         hpPrice = 100;

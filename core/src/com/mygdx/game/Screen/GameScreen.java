@@ -10,9 +10,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Timer;
+import com.mygdx.game.Actor.NodeActor;
 import com.mygdx.game.Actor.PrimitiveSqaure;
 import com.mygdx.game.Incident;
 import com.mygdx.game.Stage.*;
+import com.mygdx.game.Utility.Bot;
 import com.mygdx.game.Utility.PlayerData;
 
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ public class GameScreen implements Screen {
     private GameOverStage gameOverStage;
     private TransitionStage transitionStage;
     private ArrayList<PlayerData> alldata;
+    private ArrayList<NodeActor> allNode;
     private boolean isOver;
 
     static public Music playingSceneSong;
@@ -51,6 +54,11 @@ public class GameScreen implements Screen {
         ai_level = cl;
         isOver = false;
         alldata = new ArrayList<PlayerData>();
+
+        final Bot bot = new Bot(2, alldata, allNode);
+        Thread t = new Thread(bot);
+        t.start();
+
 
         playingSceneSong = game.manager.get("playing_scene.ogg", Music.class);
         playingSceneSong.setLooping(true);
@@ -80,10 +88,12 @@ public class GameScreen implements Screen {
         alldata.add(new PlayerData());
         alldata.add(new PlayerData());
 
+        allNode = new ArrayList<NodeActor>();
+
         gameStageBG = new GameStageBG(game);
-        gameStageUI = new GameStageUI(game, ai_count, alldata);
+        gameStageUI = new GameStageUI(game, ai_count, alldata, this);
         pelletStage = new Stage();
-        nodeStage = new NodeStage(game, alldata, this);
+        nodeStage = new NodeStage(game, alldata, this, allNode);
         gameOverStage = new GameOverStage(game, this);
         coverStage = new CoverStage(game, this);
         transitionStage = new TransitionStage();
@@ -98,7 +108,9 @@ public class GameScreen implements Screen {
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
+
                 Gdx.input.setInputProcessor(im);
+                bot.setActive(true);
             }
         }, 4);
     }
