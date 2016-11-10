@@ -84,13 +84,19 @@ public class GameScreen implements Screen {
         coverStage = new CoverStage(game, this);
         transitionStage = new TransitionStage();
 
-        InputMultiplexer im = new InputMultiplexer();
+        final InputMultiplexer im = new InputMultiplexer();
         im.addProcessor(nodeStage);
         im.addProcessor(gameStageUI);
         im.addProcessor(coverStage);
         im.addProcessor(gameOverStage);
 
-        Gdx.input.setInputProcessor(im);
+        Timer timer = new Timer();
+        timer.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                Gdx.input.setInputProcessor(im);
+            }
+        }, 4);
     }
 
     @Override
@@ -102,6 +108,9 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         Gdx.gl20.glClearColor(0.1f, 0.1f, 0.1f, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        System.out.println(alldata.get(1).getNodeCount() + " " + alldata.get(2).getNodeCount() +" "+
+                alldata.get(3).getNodeCount() + " " +alldata.get(4).getNodeCount());
 
         if(!gameStageUI.isPause() && !isOver){
             gameStageBG.act();
@@ -145,6 +154,41 @@ public class GameScreen implements Screen {
             }
             if(des == ai_count){
                 endGame(true);
+            }
+
+            if(gameStageUI.getTime() <= 0){
+                int maxTeam = 0;
+                float maxpercent = 0;
+                for(int i=1;i<5;i++){
+                    if(alldata.get(i).getProgess() > maxpercent){
+                        maxpercent = alldata.get(i).getProgess();
+                        maxTeam = i;
+                    }
+                }
+                if(maxTeam > 0){
+                    if(maxTeam == 1){
+                        endGame(true);
+                    }
+                    else{
+                        endGame(false);
+                    }
+                }
+                else{
+                    maxTeam = 0;
+                    maxpercent = 0;
+                    for(int i=1;i<5;i++){
+                        if(alldata.get(i).getNodeCount() > maxpercent){
+                            maxpercent = alldata.get(i).getNodeCount();
+                            maxTeam = i;
+                        }
+                    }
+                    if(maxTeam == 1){
+                        endGame(true);
+                    }
+                    else{
+                        endGame(false);
+                    }
+                }
             }
         }
 

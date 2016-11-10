@@ -166,10 +166,10 @@ public class NodeActor extends Actor{
         }
 
         if(type == 1){
-            allData.get(team).increaseMoney(1 * delta);
+            allData.get(team).increaseMoney(1 * delta * allData.get(team).getRange());
         }
         else{
-            allData.get(team).increaseMoney(0.3f * delta);
+            allData.get(team).increaseMoney(0.3f * delta * allData.get(team).getRange());
         }
     }
 
@@ -261,6 +261,7 @@ public class NodeActor extends Actor{
     public void damage(float amount, int t, Color c){
         hp -= amount;
         lastHealTime = TimeUtils.millis();
+        allData.get(team).setNodeCount(allData.get(team).getNodeCount()-1);
         if(hp <= 0){
             if(type == 1){
                 allData.get(team).setDestroyed(true);
@@ -271,6 +272,7 @@ public class NodeActor extends Actor{
             }
             hp = maxHp * allData.get(team).getHpMul();
             changeTeam(t, c);
+            allData.get(team).setNodeCount( allData.get(team).getNodeCount()+1);
         }
     }
 
