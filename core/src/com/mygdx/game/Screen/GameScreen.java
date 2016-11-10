@@ -36,6 +36,8 @@ public class GameScreen implements Screen {
 
     private Music playingSceneSong;
 
+    private final Sound invalidSound = Gdx.audio.newSound(Gdx.files.internal("invalid.mp3"));
+
     static public ArrayList<Integer> userColor;
     static public final Color[] mainColor = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW};
 
@@ -270,6 +272,8 @@ public class GameScreen implements Screen {
     }
 
     public void moneyFlash(){
+        long id = invalidSound.play(1.0f);
+        invalidSound.setPitch(id, 2);
         gameStageUI.redFlash();
     }
 }
