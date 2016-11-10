@@ -14,6 +14,7 @@ import com.mygdx.game.Actor.NodeActor;
 import com.mygdx.game.Actor.PrimitiveSqaure;
 import com.mygdx.game.Incident;
 import com.mygdx.game.Stage.*;
+import com.mygdx.game.Utility.Bot;
 import com.mygdx.game.Utility.PlayerData;
 
 import java.util.ArrayList;
@@ -53,6 +54,11 @@ public class GameScreen implements Screen {
         ai_level = cl;
         isOver = false;
         alldata = new ArrayList<PlayerData>();
+
+        final Bot bot = new Bot(2, alldata, allNode);
+        Thread t = new Thread(bot);
+        t.start();
+
 
         playingSceneSong = game.manager.get("playing_scene.ogg", Music.class);
         playingSceneSong.setLooping(true);
@@ -102,7 +108,9 @@ public class GameScreen implements Screen {
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
+
                 Gdx.input.setInputProcessor(im);
+                bot.setActive(true);
             }
         }, 4);
     }

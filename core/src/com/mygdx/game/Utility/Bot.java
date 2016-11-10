@@ -1,6 +1,7 @@
 package com.mygdx.game.Utility;
 
 
+import com.badlogic.gdx.scenes.scene2d.ui.Tree;
 import com.mygdx.game.Actor.NodeActor;
 
 import java.util.ArrayList;
@@ -22,8 +23,12 @@ public class Bot implements Runnable{
     
     @Override
     public void run() {
-        while (active){
+        while (true){
+            System.out.println(active);
+            if(active){
+                //Put logic here
 
+            }
         }
     }
 
@@ -31,9 +36,16 @@ public class Bot implements Runnable{
         return active;
     }
 
-    public void Attack(NodeActor node, NodeActor target){
+    public boolean Attack(NodeActor node, NodeActor target){
         //set "target" as an attack target of "node"
-        node.setTarget(target);
+        if(calDistance(node.getX() + node.getWidth()/2,
+                node.getY() + node.getHeight()/2,
+                target.getX() + target.getWidth()/2,
+                target.getY() + target.getHeight()/2) <= 150){
+            node.setTarget(target);
+            return  true;
+        }
+        return false;
     }
 
     public boolean upgrade(int type){
@@ -93,6 +105,21 @@ public class Bot implements Runnable{
                 break;
         }
         return false;
+    }
+
+
+    public boolean isAttackAble(NodeActor a, NodeActor b){
+            //set "target" as an attack target of "node"
+            if(calDistance(a.getX() + a.getWidth()/2,
+                    a.getY() + a.getHeight()/2,
+                    b.getX() + b.getWidth()/2,
+                    b.getY() + b.getHeight()/2) <= 150){
+                return  true;
+            }
+            return false;
+    }
+    public double calDistance(float x1, float y1, float x2, float y2){
+        return Math.pow(Math.pow(x1-x2, 2) +  Math.pow(y1-y2, 2), 0.5);
     }
 
     public void setActive(boolean active) {
