@@ -8,10 +8,10 @@ import java.util.ArrayList;
 
 public class Bot implements Runnable{
 
-    private int team;
-    private ArrayList<PlayerData> allData;
-    private ArrayList<NodeActor> allNode;
-    private boolean active;
+    protected int team;
+    protected ArrayList<PlayerData> allData;
+    protected ArrayList<NodeActor> allNode;
+    protected boolean active;
 
     public Bot(int team, ArrayList<PlayerData> allData, ArrayList<NodeActor> allNode) {
         super();
@@ -24,19 +24,21 @@ public class Bot implements Runnable{
     @Override
     public void run() {
         while (true){
-            System.out.println(active);
             if(active){
-                //Put logic here
-
+               calculation();
             }
         }
+    }
+
+    public void calculation(){
+
     }
 
     public boolean isActive() {
         return active;
     }
 
-    public boolean Attack(NodeActor node, NodeActor target){
+    public boolean attack(NodeActor node, NodeActor target){
         //set "target" as an attack target of "node"
         if(calDistance(node.getX() + node.getWidth()/2,
                 node.getY() + node.getHeight()/2,
@@ -81,28 +83,30 @@ public class Bot implements Runnable{
 
     public boolean build(NodeActor node, int type){
         // 2 - DDos, 3 - Virus, 4 - Antivirus
-        switch (type){
-            case 2:
-                if(allData.get(team).getMoney() >= 30){
-                    allData.get(team).decreaseMoney(30);
-                    node.changeType(type);
-                    return true;
-                }
-                break;
-            case 3:
-                if(allData.get(team).getMoney() >= 30){
-                    allData.get(team).decreaseMoney(30);
-                    node.changeType(type);
-                    return true;
-                }
-                break;
-            case 4:
-                if(allData.get(team).getMoney() >= 30){
-                    allData.get(team).decreaseMoney(30);
-                    node.changeType(type);
-                    return true;
-                }
-                break;
+        if(node.getTeam() == team && node.getType() != 5 && node.getType() != 1){
+            switch (type){
+                case 2:
+                    if(allData.get(team).getMoney() >= 30){
+                        allData.get(team).decreaseMoney(30);
+                        node.changeType(type);
+                        return true;
+                    }
+                    break;
+                case 3:
+                    if(allData.get(team).getMoney() >= 30){
+                        allData.get(team).decreaseMoney(30);
+                        node.changeType(type);
+                        return true;
+                    }
+                    break;
+                case 4:
+                    if(allData.get(team).getMoney() >= 30){
+                        allData.get(team).decreaseMoney(30);
+                        node.changeType(type);
+                        return true;
+                    }
+                    break;
+            }
         }
         return false;
     }

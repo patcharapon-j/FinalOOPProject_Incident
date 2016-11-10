@@ -55,10 +55,6 @@ public class GameScreen implements Screen {
         isOver = false;
         alldata = new ArrayList<PlayerData>();
 
-        final Bot bot = new Bot(2, alldata, allNode);
-        Thread t = new Thread(bot);
-        t.start();
-
 
         playingSceneSong = game.manager.get("playing_scene.ogg", Music.class);
         playingSceneSong.setLooping(true);
@@ -108,9 +104,7 @@ public class GameScreen implements Screen {
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
-
                 Gdx.input.setInputProcessor(im);
-                bot.setActive(true);
             }
         }, 4);
     }
