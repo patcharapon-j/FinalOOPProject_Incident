@@ -222,14 +222,17 @@ public class NodeStage extends Stage{
                 if(temp != null){
                     if(temp.getClass() == NodeActor.class){
                         NodeActor node = (NodeActor) temp;
-                        selected = node;
-                        selected.setTarget(null);
+                        if(node.getTeam() == 1){
+                            if(node.getType() == 1 || node.getType() == 2){
+                                selected = node;
+                                selected.setTarget(null);
 
-
-                        cir.setSize(0, 0);
-                        cir.setColor(new Color(0.4f, 0.4f, 0.4f, 0));
-                        cir.setPosition(selected.getX() + selected.getWidth()/2, selected.getY() + selected.getHeight()/2);
-                        cir.expand();
+                                cir.setSize(0, 0);
+                                cir.setColor(new Color(0.4f, 0.4f, 0.4f, 0));
+                                cir.setPosition(selected.getX() + selected.getWidth()/2, selected.getY() + selected.getHeight()/2);
+                                cir.expand();
+                            }
+                        }
                     }
                     else if(temp.getClass() == BuyNode.class){
                         BuyNode node = (BuyNode) temp;

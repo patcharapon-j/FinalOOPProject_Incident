@@ -113,8 +113,6 @@ public class GameScreen implements Screen {
         Gdx.gl20.glClearColor(0.1f, 0.1f, 0.1f, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        System.out.println(alldata.get(1).getNodeCount() + " " + alldata.get(2).getNodeCount() +" "+
-                alldata.get(3).getNodeCount() + " " +alldata.get(4).getNodeCount());
 
         if(!gameStageUI.isPause() && !isOver){
             gameStageBG.act();
@@ -279,5 +277,9 @@ public class GameScreen implements Screen {
         long id = invalidSound.play(1.0f);
         invalidSound.setPitch(id, 2);
         gameStageUI.redFlash();
+    }
+
+    public void playerDeath(int p){
+        gameStageUI.playerDeath(p);
     }
 }
