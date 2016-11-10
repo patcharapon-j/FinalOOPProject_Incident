@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -32,6 +34,8 @@ public class GameScreen implements Screen {
     private ArrayList<PlayerData> alldata;
     private boolean isOver;
 
+    private Music playingSceneSong;
+
     static public ArrayList<Integer> userColor;
     static public final Color[] mainColor = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW};
 
@@ -43,6 +47,11 @@ public class GameScreen implements Screen {
         ai_level = cl;
         isOver = false;
         alldata = new ArrayList<PlayerData>();
+
+        playingSceneSong = game.manager.get("playing_scene.ogg", Music.class);
+        playingSceneSong.setLooping(true);
+        playingSceneSong.setVolume(0.5f);
+        playingSceneSong.play();
 
         /*
         ## Set color player and random color to bot player
@@ -158,19 +167,13 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() { }
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() { }
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() { }
 
     @Override
     public void dispose() {
@@ -181,6 +184,8 @@ public class GameScreen implements Screen {
         nodeStage.dispose();
         gameOverStage.dispose();
 
+        playingSceneSong.stop();
+        playingSceneSong.dispose();
     }
 
     public GameStageBG getGameStageBG() {
@@ -218,5 +223,9 @@ public class GameScreen implements Screen {
     public void endGame(boolean b){
         isOver = true;
         gameOverStage.gameover(b);
+    }
+
+    public void moneyFlash(){
+        gameStageUI.redFlash();
     }
 }

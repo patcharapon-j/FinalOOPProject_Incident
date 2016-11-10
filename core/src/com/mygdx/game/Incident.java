@@ -21,6 +21,10 @@ public class Incident extends Game {
 		batch = new SpriteBatch();
 	    manager = new AssetManager();
 		manager.load("theme.mp3", Music.class);
+		manager.load("playing_scene.ogg", Music.class);
+
+		manager.load("clicked.mp3", Music.class);
+
 		manager.load("Sprite/correct.png", Texture.class);
 		manager.load("Sprite/GridBg.png", Texture.class);
 		manager.load("Sprite/blank.png", Texture.class);
@@ -51,8 +55,8 @@ public class Incident extends Game {
 		super.render();
         while (manager.update() && isGameStart){
             isGameStart = false;
-            this.setScreen(new GameScreen(this, 1, 1, 1));
-			//this.setScreen(new MainMenuScreen(this));
+            //this.setScreen(new GameScreen(this, 1, 1, 1));
+			this.setScreen(new MainMenuScreen(this));
         }
 	}
 	

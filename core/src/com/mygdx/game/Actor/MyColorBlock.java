@@ -1,6 +1,8 @@
 package com.mygdx.game.Actor;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -20,6 +22,8 @@ public class MyColorBlock extends Actor{
     private Boolean active;
     private Sprite sprite;
     private Color setOColor;
+
+    private final Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicked.mp3"));
 
     public MyColorBlock(AssetManager manager) {
         super();
@@ -51,6 +55,8 @@ public class MyColorBlock extends Actor{
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 if(active){
+                    long id = clickSound.play(1.0f);
+                    clickSound.setPitch(id, 5);
                     myClick();
                 }
 

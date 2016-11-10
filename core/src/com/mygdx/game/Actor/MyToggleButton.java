@@ -1,5 +1,7 @@
 package com.mygdx.game.Actor;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Interpolation;
@@ -15,6 +17,8 @@ public class MyToggleButton extends Actor{
     private MyTextDisplay text;
     private Boolean selected;
     private Boolean active;
+
+    private final Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicked.mp3"));
 
     public MyToggleButton(String path, int size) {
         super();
@@ -43,6 +47,8 @@ public class MyToggleButton extends Actor{
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 if(active){
+                    long id = clickSound.play(1.0f);
+                    clickSound.setPitch(id, 5);
                     myClick();
                 }
 

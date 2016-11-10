@@ -2,6 +2,8 @@ package com.mygdx.game.Actor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Interpolation;
@@ -19,6 +21,8 @@ public class MyButton extends Group {
     private MyTextDisplay text;
     private Boolean active;
     private Timer timer;
+
+    private final Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicked.mp3"));
 
     public MyButton(String path, int size) {
         super();
@@ -60,6 +64,8 @@ public class MyButton extends Group {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 if(active) {
+                    long id = clickSound.play(1.0f);
+                    clickSound.setPitch(id, 3);
                     clickDelay();
                 }
             }
