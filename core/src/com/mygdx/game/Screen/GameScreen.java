@@ -109,6 +109,9 @@ public class GameScreen implements Screen {
         Gdx.gl20.glClearColor(0.1f, 0.1f, 0.1f, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        System.out.println(alldata.get(1).getNodeCount() + " " + alldata.get(2).getNodeCount() +" "+
+                alldata.get(3).getNodeCount() + " " +alldata.get(4).getNodeCount());
+
         if(!gameStageUI.isPause() && !isOver){
             gameStageBG.act();
             nodeStage.act();
@@ -162,7 +165,6 @@ public class GameScreen implements Screen {
                         maxTeam = i;
                     }
                 }
-
                 if(maxTeam > 0){
                     if(maxTeam == 1){
                         endGame(true);
@@ -172,8 +174,10 @@ public class GameScreen implements Screen {
                     }
                 }
                 else{
+                    maxTeam = 0;
+                    maxpercent = 0;
                     for(int i=1;i<5;i++){
-                        if(alldata.get(i).getProgess() > maxpercent){
+                        if(alldata.get(i).getNodeCount() > maxpercent){
                             maxpercent = alldata.get(i).getNodeCount();
                             maxTeam = i;
                         }

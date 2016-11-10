@@ -28,7 +28,7 @@ public class GameStageUI extends Stage {
     private Incident game;
     private MyPauseBtn myPauseBtn;
     private boolean isPause;
-    private int time = 60000;
+    private int time = 600000;
     private boolean isRed;
 
     private MyTextDisplay digit1;
