@@ -36,6 +36,8 @@ public class GameStageBG extends Stage{
 
     @Override
     public void dispose() {
+
         super.dispose();
+        clear();
     }
 }

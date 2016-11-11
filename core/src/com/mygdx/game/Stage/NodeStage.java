@@ -211,7 +211,9 @@ public class NodeStage extends Stage{
 
     @Override
     public void dispose() {
+
         super.dispose();
+        clear();
     }
 
     @Override

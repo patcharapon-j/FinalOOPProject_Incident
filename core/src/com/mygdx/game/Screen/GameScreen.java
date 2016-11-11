@@ -55,6 +55,7 @@ public class GameScreen implements Screen {
         isOver = false;
         alldata = new ArrayList<PlayerData>();
 
+
         playingSceneSong = game.manager.get("playing_scene.ogg", Music.class);
         playingSceneSong.setLooping(true);
         playingSceneSong.setVolume(0.5f);
@@ -140,7 +141,12 @@ public class GameScreen implements Screen {
         if(isOver){
             if(Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)){
                 game.setScreen(new MainMenuScreen(game));
-                dispose();
+                try{
+                    dispose();
+                }
+                catch (Exception e){
+
+                }
             }
         }
         else{

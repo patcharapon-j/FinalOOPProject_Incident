@@ -324,7 +324,7 @@ public class GameStageUI extends Stage {
         final float yLvPad = 10;  //->--------------------------------
         final float onSelectTime = 0.05f;
         final float onClickTime = 0.05f;
-        final float onClickFadeTime = 0.5f;
+        final float onClickFadeTime = 1;
         final float xTextpad = 0; //Fix Align text pad
 
 
@@ -441,8 +441,8 @@ public class GameStageUI extends Stage {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 if(allData.get(1).getMoney() >= allData.get(1).getHpPrice()){
-                    adkOnSelect.setColor(Color.WHITE);
-                    adkOnSelect.changeColor(new Color(1,1,1,0), onClickFadeTime);
+                    mechOnSelect.setColor(Color.WHITE);
+                    mechOnSelect.changeColor(new Color(1,1,1,0), onClickFadeTime);
                     allData.get(1).levelupHp();
                 }
                 else{
@@ -468,8 +468,8 @@ public class GameStageUI extends Stage {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 if(allData.get(1).getMoney() >= allData.get(1).getRangePrince()){
-                    adkOnSelect.setColor(Color.WHITE);
-                    adkOnSelect.changeColor(new Color(1,1,1,0), onClickFadeTime);
+                    creditOnSelect.setColor(Color.WHITE);
+                    creditOnSelect.changeColor(new Color(1,1,1,0), onClickFadeTime);
                     allData.get(1).levelupRange();
                 }
                 else{
@@ -670,6 +670,7 @@ public class GameStageUI extends Stage {
     @Override
     public void dispose() {
         super.dispose();
+        clear();
     }
 
     public boolean isPause() {

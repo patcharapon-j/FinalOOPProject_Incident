@@ -13,6 +13,6 @@ public class FeemBot extends Bot{
 
     @Override
     public void calculation() {
-        super.calculation();
+
     }
 }

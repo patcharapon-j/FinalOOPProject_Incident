@@ -1,7 +1,6 @@
 package com.mygdx.game.Actor;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,7 +16,6 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.Screen.GameScreen;
 import com.mygdx.game.Utility.PlayerData;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -35,7 +33,6 @@ public class NodeActor extends Actor{
     private AssetManager manager;
     private long lastHealTime;
     private GameScreen gameScreen;
-    private long lastPelletTime;
     private ShapeRenderer sr;
     ArrayList<PlayerData> allData;
     ArrayList<NodeActor> allNode;
@@ -55,7 +52,6 @@ public class NodeActor extends Actor{
         target = null;
         allData = data;
         lastHealTime = 0;
-        lastPelletTime = 0;
         sr = new ShapeRenderer();
         oriHeight = sprite.getHeight();
         oriWidth = sprite.getWidth();

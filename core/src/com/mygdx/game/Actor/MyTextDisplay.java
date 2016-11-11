@@ -2,7 +2,6 @@ package com.mygdx.game.Actor;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -19,7 +18,6 @@ public class MyTextDisplay extends Actor{
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     private BitmapFont font;
-    private AssetManager manager;
     private int center;
     private String text;
 

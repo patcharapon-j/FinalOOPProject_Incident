@@ -6,9 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.mygdx.game.Actor.PrimitiveSqaure;
 
-/**
- * Created by FrostNoxia on 8/11/2559.
- */
 public class TransitionStage extends Stage{
 
     PrimitiveSqaure cover = new PrimitiveSqaure(0);
@@ -26,6 +23,11 @@ public class TransitionStage extends Stage{
         action.setDuration(1);
         action.setInterpolation(Interpolation.pow3Out);
         cover.addAction(action);
+    }
 
+    @Override
+    public void dispose() {
+        super.dispose();
+        clear();
     }
 }

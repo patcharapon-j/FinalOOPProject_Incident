@@ -224,16 +224,9 @@ public class MainMenuStage extends Stage{
                             game.player_color = player_team[0];
                             game.ai_count = number_ai[0];
                             game.ai_diff = ai_level[0];
-                            try{
-                                videoPlayer.pause();
-                                videoPlayer.dispose();
-                                themeSong.stop();
-                                themeSong.dispose();
-                                screen.dispose();
-                            }
-                            catch (Exception e){
-
-                            }
+                            videoPlayer.pause();
+                            themeSong.stop();
+                            dispose();
                         }
                     }, 2);
                 }
@@ -441,7 +434,6 @@ public class MainMenuStage extends Stage{
             }
             videoPlayer.resize(1366, 768);
         }
-
         super.draw();
 
     }
@@ -554,5 +546,11 @@ public class MainMenuStage extends Stage{
         yellowBlock.changePosition(330-500, 225, 1);
     }
 
-
+    @Override
+    public void dispose() {
+        super.dispose();
+        videoPlayer.dispose();
+        themeSong.dispose();
+        clear();
+    }
 }

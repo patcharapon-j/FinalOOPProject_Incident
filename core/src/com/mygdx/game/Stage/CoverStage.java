@@ -116,6 +116,7 @@ public class CoverStage extends Stage{
     @Override
     public void dispose() {
         super.dispose();
+
     }
 
     public void pauseMenu(){

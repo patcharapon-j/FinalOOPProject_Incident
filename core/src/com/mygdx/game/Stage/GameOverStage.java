@@ -65,6 +65,7 @@ public class GameOverStage extends Stage {
         super.dispose();
         text.remove();
         screenFlash.remove();
+        clear();
     }
 
     public void gameover(boolean victory){
