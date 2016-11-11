@@ -13,21 +13,15 @@ public class ChinBot extends Bot{
 
     public ChinBot(int team, ArrayList<PlayerData> allData, ArrayList<NodeActor> allNode) {
         super(team, allData, allNode);
-        System.out.println("SuccessCon");
     }
 
     @Override
     public void calculation() {
-        System.out.println("SuccessCal");
         for(NodeActor node: allNode){
-            if(node.getTeam() == team){
-                if(node.getType() == 1 || node.getType() == 2){
-                    for(NodeActor n2: allNode){
-                        if(n2.getTeam() == team && isAttackAble(node, n2)){
-                            if(node.getTarget() == null){
-                                attack(node, n2);
-                            }
-                        }
+            if(node.getTeam() == team && (node.getType() == 1 || node.getType() == 2)){
+                for(NodeActor n2: allNode){
+                    if(isAttackAble(node, n2) && node.getTarget() == null){
+                        attack(node, n2);
                     }
                 }
             }
