@@ -23,10 +23,8 @@ abstract public class Bot implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("SuccessRUN" + this.active);
         while (true) {
             if (active) {
-                System.out.println("SuccessActive");
                 calculation();
             }
         }
@@ -40,7 +38,6 @@ abstract public class Bot implements Runnable {
 
     public void setActive(boolean active) {
         this.active = active;
-        System.out.println("SuccessSet" + this.active);
     }
 
     protected boolean attack(NodeActor node, NodeActor target) {
