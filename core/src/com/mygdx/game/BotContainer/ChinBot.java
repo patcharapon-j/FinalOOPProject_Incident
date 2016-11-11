@@ -11,17 +11,14 @@ import java.util.ArrayList;
  */
 public class ChinBot extends Bot{
 
-    public ChinBot() {
-
-    }
-
     public ChinBot(int team, ArrayList<PlayerData> allData, ArrayList<NodeActor> allNode) {
         super(team, allData, allNode);
+        System.out.println("SuccessCon");
     }
 
     @Override
     public void calculation() {
-
+        System.out.println("SuccessCal");
         for(NodeActor node: allNode){
             if(node.getTeam() == team){
                 if(node.getType() == 1 || node.getType() == 2){

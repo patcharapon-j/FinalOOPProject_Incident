@@ -7,14 +7,10 @@ import java.util.ArrayList;
 
 abstract public class Bot implements Runnable {
 
-    protected int team;
-    protected ArrayList<PlayerData> allData;
-    protected ArrayList<NodeActor> allNode;
+    protected final int team;
+    protected final ArrayList<PlayerData> allData;
+    protected final ArrayList<NodeActor> allNode;
     private boolean active;
-
-    public Bot() {
-
-    }
 
     public Bot(int team, ArrayList<PlayerData> allData, ArrayList<NodeActor> allNode) {
         super();
@@ -27,8 +23,10 @@ abstract public class Bot implements Runnable {
 
     @Override
     public void run() {
+        System.out.println("SuccessRUN" + this.active);
         while (true) {
             if (active) {
+                System.out.println("SuccessActive");
                 calculation();
             }
         }
@@ -42,6 +40,7 @@ abstract public class Bot implements Runnable {
 
     public void setActive(boolean active) {
         this.active = active;
+        System.out.println("SuccessSet" + this.active);
     }
 
     protected boolean attack(NodeActor node, NodeActor target) {

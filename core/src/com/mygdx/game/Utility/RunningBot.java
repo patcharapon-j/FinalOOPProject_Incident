@@ -28,22 +28,17 @@ public class RunningBot {
             ClassLoader cl = new URLClassLoader(urls);
             Class cls = cl.loadClass("com.mygdx.game.BotContainer.ChinBot");
 
-            Constructor cons = cls.getConstructor(Integer.TYPE, ArrayList.class, ArrayList.class);
-            cons.newInstance(team, allData, allNode);
-
-            Method mtSetActive = cls.getMethod("setActive", Boolean.TYPE);
-            mtSetActive.invoke(cls.newInstance(), true);
-
-            Bot running = (Bot) cls.newInstance();
-            new Thread(running).start();
+            Bot bot = (Bot) cls.getConstructor(Integer.TYPE, ArrayList.class, ArrayList.class).newInstance(team, allData, allNode);
+            bot.setActive(true);
+            new Thread(bot).start();
 
         } catch (MalformedURLException e) {
         } catch (ClassNotFoundException e) {
         } catch (NullPointerException e) {
-        } catch (NoSuchMethodException e) {
-        } catch (InvocationTargetException e) {
         } catch (IllegalAccessException e) {
         } catch (InstantiationException e) {
+        } catch (NoSuchMethodException e) {
+        } catch (InvocationTargetException e) {
         }
 
     }
