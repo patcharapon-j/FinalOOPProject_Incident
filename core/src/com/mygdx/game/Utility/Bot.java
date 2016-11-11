@@ -23,7 +23,6 @@ abstract public class Bot implements Runnable {
         this.allData = allData;
         this.allNode = allNode;
         ArrayList<NodeActor> allNode1 = allNode;
-        System.out.println("Success");
     }
 
     @Override
