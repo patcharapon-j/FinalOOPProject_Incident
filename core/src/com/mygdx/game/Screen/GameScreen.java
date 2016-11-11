@@ -104,7 +104,9 @@ public class GameScreen implements Screen {
         }, 4);
 
         RunningBot rn = new RunningBot();
-        rn.startBot(2, alldata, allNode);
+        for(int i=2; i<=ai_count+1;i++){
+            rn.startBot(i, alldata, allNode);
+        }
     }
 
     @Override
