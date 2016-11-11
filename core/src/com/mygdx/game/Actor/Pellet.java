@@ -8,10 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
-public class Pellet extends Actor {
+class Pellet extends Actor {
 
-    private ShapeRenderer sr;
-    private int radius = 4;
+    private final ShapeRenderer sr;
 
     public Pellet(float x, float y) {
         super();
@@ -42,6 +41,7 @@ public class Pellet extends Actor {
         batch.end();
         sr.begin(ShapeRenderer.ShapeType.Filled);
         sr.setColor(getColor());
+        int radius = 4;
         sr.circle(getX() - radius, getY() - radius, radius);
         sr.end();
         batch.begin();

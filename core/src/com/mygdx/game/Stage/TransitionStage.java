@@ -6,13 +6,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.mygdx.game.Actor.PrimitiveSqaure;
 
-public class TransitionStage extends Stage{
+public class TransitionStage extends Stage {
 
-    PrimitiveSqaure cover = new PrimitiveSqaure(0);
     public TransitionStage() {
         super();
 
-        cover = new PrimitiveSqaure(0);
+        PrimitiveSqaure cover = new PrimitiveSqaure(0);
         cover.setSize(1366, 768);
         cover.setColor(Color.BLACK);
         cover.setPosition(0, 0);

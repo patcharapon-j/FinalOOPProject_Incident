@@ -14,22 +14,22 @@ import com.mygdx.game.Screen.GameScreen;
 
 public class MyButton extends Group {
 
-    private PrimitiveSqaure shape;
-    private MyTextDisplay text;
+    private final PrimitiveSqaure shape;
+    private final MyTextDisplay text;
     private Boolean active;
     private Timer timer;
 
-    public MyButton(String path, int size) {
+    public MyButton() {
         super();
         active = false;
         shape = new PrimitiveSqaure(0);
-        text = new MyTextDisplay(path, size, 1);
-        addListener(new ClickListener(){
+        text = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 35, 1);
+        addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(active){
-                    changeColor(new Color(0.2f, 0.6f, 1, 0.5f), 0.2f, Interpolation.pow3Out);
-                    changeSize(525, 75, Interpolation.pow3Out, 0.2f);
+                if (active) {
+                    changeColor(new Color(0.2f, 0.6f, 1, 0.5f), 0.2f);
+                    changeSize(525, 75, 0.2f);
                 }
                 return super.touchDown(event, x, y, pointer, button);
             }
@@ -41,26 +41,27 @@ public class MyButton extends Group {
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                if(active) {
+                if (active) {
                     long id = GameScreen.mOverSound.play(1.0f);
                     GameScreen.mOverSound.setPitch(id, 3);
-                    changeColor(new Color(0.2f, 0.6f, 1, 0.5f), 0.5f, Interpolation.pow3Out);
-                    changeSize(550, 100, Interpolation.pow3Out, 0.5f);
+                    changeColor(new Color(0.2f, 0.6f, 1, 0.5f), 0.5f);
+                    changeSize(550, 100, 0.5f);
                 }
 
             }
+
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                if(active) {
-                    changeColor(new Color(0, 0, 0, 0), 0.5f, Interpolation.pow3Out);
-                    changeSize(500, 50, Interpolation.pow3Out, 0.5f);
+                if (active) {
+                    changeColor(new Color(0, 0, 0, 0), 0.5f);
+                    changeSize(500, 50, 0.5f);
                 }
             }
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                if(active) {
+                if (active) {
                     long id = GameScreen.clickSound.play(1.0f);
                     GameScreen.clickSound.setPitch(id, 3);
                     clickDelay();
@@ -84,7 +85,7 @@ public class MyButton extends Group {
         shape.setPosition(getX(), getY());
         shape.setSize(getWidth(), getHeight());
         shape.setColor(getColor());
-        text.setPosition(getX() + getWidth()/2, getY()+getHeight()/2);
+        text.setPosition(getX() + getWidth() / 2, getY() + getHeight() / 2);
     }
 
     @Override
@@ -102,29 +103,23 @@ public class MyButton extends Group {
         return text;
     }
 
-    public void changeColor(Color c, float d){
+    private void changeColor(Color c, float d) {
         ColorAction ca = new ColorAction();
         ca.setEndColor(c);
         ca.setDuration(d);
         ca.setInterpolation(Interpolation.pow3);
         addAction(ca);
     }
-    public void changeColor(Color c, float d, Interpolation t){
-        ColorAction ca = new ColorAction();
-        ca.setEndColor(c);
-        ca.setDuration(d);
-        ca.setInterpolation(t);
-        addAction(ca);
-    }
-    public void changeSize(float w, float h, Interpolation i, float t){
+
+    private void changeSize(float w, float h, float t) {
         SizeToAction sa = new SizeToAction();
         sa.setSize(w, h);
-        sa.setInterpolation(i);
+        sa.setInterpolation(Interpolation.pow3Out);
         sa.setDuration(t);
 
         MoveToAction ma = new MoveToAction();
-        ma.setPosition(getX(), getY()-((h-getHeight())/2));
-        ma.setInterpolation(i);
+        ma.setPosition(getX(), getY() - ((h - getHeight()) / 2));
+        ma.setInterpolation(Interpolation.pow3Out);
         ma.setDuration(t);
 
         ParallelAction action = new ParallelAction();
@@ -134,7 +129,7 @@ public class MyButton extends Group {
         addAction(action);
     }
 
-    public void clickDelay(){
+    private void clickDelay() {
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
@@ -142,15 +137,16 @@ public class MyButton extends Group {
             }
         }, 0.3f);
     }
-    public void myClick(){
+
+    public void myClick() {
         clearActions();
     }
 
-    public void changePosition(float x, float y, float d){
+    public void changePosition(float x, float y, float d) {
         active = false;
 
-        changeColor(new Color(0, 0, 0, 0), 0.3f, Interpolation.pow3Out);
-        changeSize(500, 50, Interpolation.pow3Out, 0.3f);
+        changeColor(new Color(0, 0, 0, 0), 0.3f);
+        changeSize(500, 50, 0.3f);
 
         MoveToAction ma = new MoveToAction();
         ma.setPosition(x, y);
@@ -178,11 +174,11 @@ public class MyButton extends Group {
         }, 0.3f);
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
     public Boolean getActive() {
         return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

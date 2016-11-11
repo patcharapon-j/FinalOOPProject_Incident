@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.*;
-import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
+import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.mygdx.game.Actor.MyButton;
 import com.mygdx.game.Actor.MyTextDisplay;
 import com.mygdx.game.Actor.PrimitiveSqaure;
@@ -13,15 +15,15 @@ import com.mygdx.game.Incident;
 import com.mygdx.game.Screen.GameScreen;
 import com.mygdx.game.Screen.MainMenuScreen;
 
-public class CoverStage extends Stage{
+public class CoverStage extends Stage {
 
     private boolean isResume;
-    private PrimitiveSqaure titleBack;
-    private PrimitiveSqaure gameCover;
-    private MyButton resumeButton;
-    private MyButton backButton;
-    private MyButton restartButton;
-    private MyTextDisplay title;
+    private final PrimitiveSqaure titleBack;
+    private final PrimitiveSqaure gameCover;
+    private final MyButton resumeButton;
+    private final MyButton backButton;
+    private final MyButton restartButton;
+    private final MyTextDisplay title;
 
     public CoverStage(final Incident g, final GameScreen screen) {
         super();
@@ -29,13 +31,13 @@ public class CoverStage extends Stage{
 
         gameCover = new PrimitiveSqaure(0);
         gameCover.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        gameCover.setPosition(0 , 0);
+        gameCover.setPosition(0, 0);
         gameCover.setColor(new Color(0.16f, 0.16f, 0.16f, 0));
         addActor(gameCover);
 
         titleBack = new PrimitiveSqaure(0);
         titleBack.setSize(500, Gdx.graphics.getHeight());
-        titleBack.setPosition(-500 , 0);
+        titleBack.setPosition(-500, 0);
         titleBack.setColor(Color.BLACK);
         addActor(titleBack);
 
@@ -44,12 +46,12 @@ public class CoverStage extends Stage{
         title.setPosition(-500, 650);
         addActor(title);
         title.setAlpha(0);
-        title.fadeIn(Interpolation.linear, 3);
+        title.fadeIn();
 
-        resumeButton = new MyButton("fonts/helveticaneue/HelveticaNeue Light.ttf", 35){
+        resumeButton = new MyButton() {
             @Override
             public void myClick() {
-                screen.getGameStageUI().setPause(false);
+                screen.getGameStageUI().setPause();
                 resumeMenu();
 
             }
@@ -62,15 +64,14 @@ public class CoverStage extends Stage{
         resumeButton.setColor(new Color(0, 0, 0, 0));
         addActor(resumeButton);
 
-        restartButton = new MyButton("fonts/helveticaneue/HelveticaNeue Light.ttf", 35){
+        restartButton = new MyButton() {
             @Override
             public void myClick() {
                 super.myClick();
                 g.setScreen(new GameScreen(g, g.player_color, g.ai_count, g.ai_diff));
-                try{
+                try {
                     screen.dispose();
-                }
-                catch (Exception e){
+                } catch (Exception ignored) {
 
                 }
             }
@@ -82,15 +83,14 @@ public class CoverStage extends Stage{
         restartButton.setColor(new Color(0, 0, 0, 0));
         addActor(restartButton);
 
-        backButton = new MyButton("fonts/helveticaneue/HelveticaNeue Light.ttf", 35){
+        backButton = new MyButton() {
             @Override
             public void myClick() {
                 super.myClick();
                 g.setScreen(new MainMenuScreen(g));
-                try{
+                try {
                     screen.dispose();
-                }
-                catch (Exception e){
+                } catch (Exception ignored) {
 
                 }
             }
@@ -119,8 +119,8 @@ public class CoverStage extends Stage{
 
     }
 
-    public void pauseMenu(){
-        if(isResume){
+    public void pauseMenu() {
+        if (isResume) {
             isResume = false;
 
             MoveToAction ma = new MoveToAction();
@@ -155,38 +155,38 @@ public class CoverStage extends Stage{
         }
     }
 
-    public void resumeMenu(){
+    private void resumeMenu() {
 
         isResume = true;
-            MoveToAction ma = new MoveToAction();
-            ma.setDuration(2);
-            ma.setInterpolation(Interpolation.pow3);
-            ma.setPosition(-500, 0);
+        MoveToAction ma = new MoveToAction();
+        ma.setDuration(2);
+        ma.setInterpolation(Interpolation.pow3);
+        ma.setPosition(-500, 0);
 
-            ColorAction col = new ColorAction();
-            col.setDuration(2);
-            col.setInterpolation(Interpolation.pow3);
-            col.setEndColor(new Color(0, 0, 0, 0));
+        ColorAction col = new ColorAction();
+        col.setDuration(2);
+        col.setInterpolation(Interpolation.pow3);
+        col.setEndColor(new Color(0, 0, 0, 0));
 
-            ParallelAction action = new ParallelAction();
-            action.addAction(ma);
-            action.addAction(col);
+        ParallelAction action = new ParallelAction();
+        action.addAction(ma);
+        action.addAction(col);
 
-            titleBack.addAction(action);
+        titleBack.addAction(action);
 
-            AlphaAction aa = new AlphaAction();
-            aa.setDuration(1f);
-            aa.setInterpolation(Interpolation.pow3);
-            aa.setAlpha(0);
-            gameCover.addAction(aa);
+        AlphaAction aa = new AlphaAction();
+        aa.setDuration(1f);
+        aa.setInterpolation(Interpolation.pow3);
+        aa.setAlpha(0);
+        gameCover.addAction(aa);
 
-            resumeButton.setActive(false);
-            backButton.setActive(false);
-            restartButton.setActive(false);
-            title.changePosition(-250, 650, 1);
-            resumeButton.changePosition(-500, 450, 1.2f);
-            backButton.changePosition(-500, 50, 2f);
-            restartButton.changePosition(-500, 325, 1.5f);
+        resumeButton.setActive(false);
+        backButton.setActive(false);
+        restartButton.setActive(false);
+        title.changePosition(-250, 650, 1);
+        resumeButton.changePosition(-500, 450, 1.2f);
+        backButton.changePosition(-500, 50, 2f);
+        restartButton.changePosition(-500, 325, 1.5f);
     }
 
     public boolean isResume() {

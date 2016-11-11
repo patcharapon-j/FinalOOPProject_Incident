@@ -11,21 +11,21 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.Screen.GameScreen;
 
-public class MyToggleButton extends Actor{
+public class MyToggleButton extends Actor {
 
-    private PrimitiveSqaure shape;
-    private MyTextDisplay text;
+    private final PrimitiveSqaure shape;
+    private final MyTextDisplay text;
     private Boolean selected;
     private Boolean active;
 
-    public MyToggleButton(String path, int size) {
+    public MyToggleButton() {
         super();
         active = false;
         selected = false;
         shape = new PrimitiveSqaure(0);
-        text = new MyTextDisplay(path, size, 1);
+        text = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 28, 1);
 
-        addListener(new ClickListener(){
+        addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 return super.touchDown(event, x, y, pointer, button);
@@ -44,7 +44,7 @@ public class MyToggleButton extends Actor{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                if(active){
+                if (active) {
                     long id = GameScreen.clickSound.play(1.0f);
                     GameScreen.clickSound.setPitch(id, 5);
                     myClick();
@@ -68,12 +68,11 @@ public class MyToggleButton extends Actor{
         shape.setPosition(getX(), getY());
         shape.setSize(getWidth(), getHeight());
         shape.setColor(getColor());
-        text.setPosition(getX() + getWidth()/2, getY()+getHeight()/2);
+        text.setPosition(getX() + getWidth() / 2, getY() + getHeight() / 2);
 
-        if(selected){
+        if (selected) {
             shape.setDrawMode(0);
-        }
-        else{
+        } else {
             shape.setDrawMode(1);
         }
     }
@@ -84,6 +83,7 @@ public class MyToggleButton extends Actor{
         text.remove();
         return super.remove();
     }
+
     public PrimitiveSqaure getShape() {
         return shape;
     }
@@ -98,15 +98,14 @@ public class MyToggleButton extends Actor{
 
     public void setSelected(Boolean selected) {
         this.selected = selected;
-        if(selected){
-            changeColor(new Color(0.2f, 0.6f, 1, 1), 0.5f, Interpolation.pow3Out);
-        }
-        else{
-            changeColor(Color.WHITE, 0.5f, Interpolation.pow3Out);
+        if (selected) {
+            changeColor(new Color(0.2f, 0.6f, 1, 1));
+        } else {
+            changeColor(Color.WHITE);
         }
     }
 
-    public void changePosition(float x, float y, float d){
+    public void changePosition(float x, float y, float d) {
         active = false;
 
         MoveToAction ma = new MoveToAction();
@@ -129,21 +128,22 @@ public class MyToggleButton extends Actor{
         addAction(action);
     }
 
-    public void changeColor(Color c, float d, Interpolation t){
+    private void changeColor(Color c) {
         ColorAction ca = new ColorAction();
         ca.setEndColor(c);
-        ca.setDuration(d);
-        ca.setInterpolation(t);
+        ca.setDuration(0.5f);
+        ca.setInterpolation(Interpolation.pow3Out);
         addAction(ca);
     }
-    public void changeSize(float w, float h, Interpolation i, float t){
+
+    public void changeSize(float w, float h, Interpolation i, float t) {
         SizeToAction sa = new SizeToAction();
         sa.setSize(w, h);
         sa.setInterpolation(i);
         sa.setDuration(t);
 
         MoveToAction ma = new MoveToAction();
-        ma.setPosition(getX(), getY()-((h-getHeight())/2));
+        ma.setPosition(getX(), getY() - ((h - getHeight()) / 2));
         ma.setInterpolation(i);
         ma.setDuration(t);
 
@@ -154,7 +154,7 @@ public class MyToggleButton extends Actor{
         addAction(action);
     }
 
-    public void myClick(){
+    public void myClick() {
 
     }
 

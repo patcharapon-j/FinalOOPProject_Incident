@@ -13,8 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.actions.SizeToAction;
 
 public class PrimitiveSqaure extends Actor {
 
-    private ShapeRenderer sr;
+    private final ShapeRenderer sr;
     private int drawMode;
+
     public PrimitiveSqaure(int d) {
         super();
         sr = new ShapeRenderer();
@@ -27,11 +28,10 @@ public class PrimitiveSqaure extends Actor {
         super.draw(batch, parentAlpha);
         batch.end();
         Gdx.gl.glEnable(GL20.GL_BLEND);
-        if(drawMode == 0){
+        if (drawMode == 0) {
             Gdx.gl20.glLineWidth(1);
             sr.begin(ShapeRenderer.ShapeType.Filled);
-        }
-        else if(drawMode == 1){
+        } else if (drawMode == 1) {
             Gdx.gl20.glLineWidth(2);
             sr.begin(ShapeRenderer.ShapeType.Line);
         }
@@ -53,7 +53,7 @@ public class PrimitiveSqaure extends Actor {
         return super.remove();
     }
 
-    public void changeColor(Color c, float d){
+    public void changeColor(Color c, float d) {
         ColorAction ca = new ColorAction();
         ca.setEndColor(c);
         ca.setDuration(d);
@@ -61,19 +61,19 @@ public class PrimitiveSqaure extends Actor {
         addAction(ca);
     }
 
-    public void changePosition(float x, float y, float d){
+    public void changePosition() {
         MoveToAction ma = new MoveToAction();
-        ma.setPosition(x, y);
+        ma.setPosition((float) 0, (float) 0);
         ma.setInterpolation(Interpolation.pow3);
-        ma.setDuration(d);
+        ma.setDuration((float) 1);
         addAction(ma);
     }
 
-    public void changeSize(float w, float h, float d){
+    public void changeSize() {
         SizeToAction sa = new SizeToAction();
-        sa.setSize(w, h);
+        sa.setSize((float) 180, (float) 40);
         sa.setInterpolation(Interpolation.pow3);
-        sa.setDuration(d);
+        sa.setDuration((float) 1);
         addAction(sa);
     }
 

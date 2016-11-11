@@ -12,9 +12,9 @@ import com.mygdx.game.Incident;
 
 public class MySpriteActor extends Actor {
 
-    private Sprite sprite;
-    private float width;
-    private float height;
+    private final Sprite sprite;
+    private final float width;
+    private final float height;
 
     public MySpriteActor(String path, Incident game) {
         super();
@@ -43,7 +43,7 @@ public class MySpriteActor extends Actor {
         return super.remove();
     }
 
-    public void changePosition(float x, float y, float d){
+    public void changePosition(float x, float y, float d) {
         MoveToAction ma = new MoveToAction();
         ma.setPosition(x, y);
         ma.setInterpolation(Interpolation.pow3);
@@ -51,8 +51,8 @@ public class MySpriteActor extends Actor {
         addAction(ma);
     }
 
-    public void setScale(float s){
-        setSize(width*s, height*s);
+    public void setScale(float s) {
+        setSize(width * s, height * s);
     }
 
     public void changeColor(Color c, int d) {
@@ -63,7 +63,7 @@ public class MySpriteActor extends Actor {
         addAction(ca);
     }
 
-    public void setalpha(float a){
-        setColor(getColor().r, getColor().g, getColor().b, a);
+    public void setalpha() {
+        setColor(getColor().r, getColor().g, getColor().b, 0.15f);
     }
 }

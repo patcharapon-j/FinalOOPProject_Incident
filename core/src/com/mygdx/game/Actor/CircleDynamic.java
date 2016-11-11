@@ -11,11 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SizeToAction;
 
-public class CircleDynamic extends Actor{
+public class CircleDynamic extends Actor {
 
-    private ShapeRenderer sr;
-    private float oriX;
-    private float oriY;
+    private final ShapeRenderer sr;
+
     public CircleDynamic() {
         super();
         sr = new ShapeRenderer();
@@ -46,7 +45,7 @@ public class CircleDynamic extends Actor{
         return super.remove();
     }
 
-    public void changeColor(Color c, int d){
+    public void changeColor(Color c, int d) {
         ColorAction ca = new ColorAction();
         ca.setEndColor(c);
         ca.setDuration(d);
@@ -54,7 +53,7 @@ public class CircleDynamic extends Actor{
         addAction(ca);
     }
 
-    public void expand(){
+    public void expand() {
         SizeToAction sa = new SizeToAction();
         sa.setSize(150, 150);
         sa.setDuration(0.5f);
@@ -72,7 +71,7 @@ public class CircleDynamic extends Actor{
         addAction(pa);
     }
 
-    public void contract(){
+    public void contract() {
         SizeToAction sa = new SizeToAction();
         sa.setSize(0, 0);
         sa.setDuration(0.5f);
@@ -93,7 +92,5 @@ public class CircleDynamic extends Actor{
     @Override
     public void setPosition(float x, float y) {
         super.setPosition(x, y);
-        oriX = x;
-        oriY = y;
     }
 }

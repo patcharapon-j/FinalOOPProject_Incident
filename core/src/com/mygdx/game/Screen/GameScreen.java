@@ -11,10 +11,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.Actor.NodeActor;
-import com.mygdx.game.Actor.PrimitiveSqaure;
 import com.mygdx.game.Incident;
 import com.mygdx.game.Stage.*;
-import com.mygdx.game.Utility.Bot;
 import com.mygdx.game.Utility.PlayerData;
 
 import java.util.ArrayList;
@@ -22,29 +20,25 @@ import java.util.Random;
 
 public class GameScreen implements Screen {
 
-    private Incident game;
-    private int player_color;
-    private int ai_count;
-    private int ai_level;
-    private GameStageBG gameStageBG;
-    private CoverStage coverStage;
-    private GameStageUI gameStageUI;
-    private NodeStage nodeStage;
-    private Stage pelletStage;
-    private GameOverStage gameOverStage;
-    private TransitionStage transitionStage;
-    private ArrayList<PlayerData> alldata;
-    private ArrayList<NodeActor> allNode;
-    private boolean isOver;
-
-    static public Music playingSceneSong;
-
-    static public final Sound invalidSound = Gdx.audio.newSound(Gdx.files.internal("invalid.mp3"));
+    private static final Sound invalidSound = Gdx.audio.newSound(Gdx.files.internal("invalid.mp3"));
     static public final Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicked.mp3"));
     static public final Sound mOverSound = Gdx.audio.newSound(Gdx.files.internal("mouseOver.mp3"));
-
-    static public ArrayList<Integer> userColor;
     static public final Color[] mainColor = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW};
+    private static Music playingSceneSong;
+    static public ArrayList<Integer> userColor;
+    private final Incident game;
+    private final int player_color;
+    private final int ai_count;
+    private final int ai_level;
+    private final GameStageBG gameStageBG;
+    private final CoverStage coverStage;
+    private final GameStageUI gameStageUI;
+    private final NodeStage nodeStage;
+    private final Stage pelletStage;
+    private final GameOverStage gameOverStage;
+    private final TransitionStage transitionStage;
+    private final ArrayList<PlayerData> alldata;
+    private boolean isOver;
 
     public GameScreen(Incident g, int c, int cnt, int cl) {
         super();
@@ -69,12 +63,12 @@ public class GameScreen implements Screen {
         userColor = new ArrayList<Integer>();
         userColor.add(gameScreen.getPlayer_color() - 1);
 
-        for(int i=0; i<3; i++) {
+        for (int i = 0; i < 3; i++) {
             int tempRandom = -1;
-            do{
+            do {
                 Random rd = new Random();
                 tempRandom = rd.nextInt(4);
-            }while(userColor.contains(tempRandom));
+            } while (userColor.contains(tempRandom));
             userColor.add(tempRandom);
         }
 
@@ -84,13 +78,13 @@ public class GameScreen implements Screen {
         alldata.add(new PlayerData());
         alldata.add(new PlayerData());
 
-        allNode = new ArrayList<NodeActor>();
+        ArrayList<NodeActor> allNode = new ArrayList<NodeActor>();
 
         gameStageBG = new GameStageBG(game);
         gameStageUI = new GameStageUI(game, ai_count, alldata, this);
         pelletStage = new Stage();
         nodeStage = new NodeStage(game, alldata, this, allNode);
-        gameOverStage = new GameOverStage(game, this);
+        gameOverStage = new GameOverStage();
         coverStage = new CoverStage(game, this);
         transitionStage = new TransitionStage();
 
@@ -120,42 +114,38 @@ public class GameScreen implements Screen {
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.O)){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.O)) {
             alldata.get(1).increaseMoney(100);
         }
 
-        if(!gameStageUI.isPause() && !isOver){
+        if (!gameStageUI.isPause() && !isOver) {
             gameStageBG.act();
             nodeStage.act();
             gameStageUI.act();
             pelletStage.act();
             playingSceneSong.play();
-        }
-        else{
-            if(!isOver){
+        } else {
+            if (!isOver) {
                 playingSceneSong.pause();
                 coverStage.pauseMenu();
             }
         }
 
-        if(isOver){
-            if(Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)){
+        if (isOver) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
                 game.setScreen(new MainMenuScreen(game));
-                try{
+                try {
                     dispose();
-                }
-                catch (Exception e){
+                } catch (Exception e) {
 
                 }
             }
-        }
-        else{
-            for(int i=1;i <= ai_count + 1;i++){
-                if(alldata.get(i).getProgess()>=100){
-                    if(i==1){
+        } else {
+            for (int i = 1; i <= ai_count + 1; i++) {
+                if (alldata.get(i).getProgess() >= 100) {
+                    if (i == 1) {
                         endGame(true);
-                    }
-                    else{
+                    } else {
                         endGame(false);
                     }
                 }
@@ -163,48 +153,44 @@ public class GameScreen implements Screen {
 
             int des = 0;
 
-            for(int i=1;i <= ai_count + 1;i++){
-                if(i==1 && alldata.get(i).isDestroyed()){
+            for (int i = 1; i <= ai_count + 1; i++) {
+                if (i == 1 && alldata.get(i).isDestroyed()) {
                     endGame(false);
-                }
-                else if(alldata.get(i).isDestroyed()){
-                    des ++;
+                } else if (alldata.get(i).isDestroyed()) {
+                    des++;
                 }
             }
-            if(des == ai_count){
+            if (des == ai_count) {
                 endGame(true);
             }
 
-            if(gameStageUI.getTime() <= 0){
+            if (gameStageUI.getTime() <= 0) {
                 int maxTeam = 0;
                 float maxpercent = 0;
-                for(int i=1;i<5;i++){
-                    if(alldata.get(i).getProgess() > maxpercent){
+                for (int i = 1; i < 5; i++) {
+                    if (alldata.get(i).getProgess() > maxpercent) {
                         maxpercent = alldata.get(i).getProgess();
                         maxTeam = i;
                     }
                 }
-                if(maxTeam > 0){
-                    if(maxTeam == 1){
+                if (maxTeam > 0) {
+                    if (maxTeam == 1) {
                         endGame(true);
-                    }
-                    else{
+                    } else {
                         endGame(false);
                     }
-                }
-                else{
+                } else {
                     maxTeam = 0;
                     maxpercent = 0;
-                    for(int i=1;i<5;i++){
-                        if(alldata.get(i).getNodeCount() > maxpercent){
+                    for (int i = 1; i < 5; i++) {
+                        if (alldata.get(i).getNodeCount() > maxpercent) {
                             maxpercent = alldata.get(i).getNodeCount();
                             maxTeam = i;
                         }
                     }
-                    if(maxTeam == 1){
+                    if (maxTeam == 1) {
                         endGame(true);
-                    }
-                    else{
+                    } else {
                         endGame(false);
                     }
                 }
@@ -230,13 +216,16 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void pause() { }
+    public void pause() {
+    }
 
     @Override
-    public void resume() { }
+    public void resume() {
+    }
 
     @Override
-    public void hide() { }
+    public void hide() {
+    }
 
     @Override
     public void dispose() {
@@ -271,7 +260,7 @@ public class GameScreen implements Screen {
         return pelletStage;
     }
 
-    public int getPlayer_color() {
+    private int getPlayer_color() {
         return player_color;
     }
 
@@ -283,18 +272,18 @@ public class GameScreen implements Screen {
         return ai_level;
     }
 
-    public void endGame(boolean b){
+    private void endGame(boolean b) {
         isOver = true;
         gameOverStage.gameover(b);
     }
 
-    public void moneyFlash(){
+    public void moneyFlash() {
         long id = invalidSound.play(1.0f);
         invalidSound.setPitch(id, 2);
         gameStageUI.redFlash();
     }
 
-    public void playerDeath(int p){
+    public void playerDeath(int p) {
         gameStageUI.playerDeath(p);
     }
 }

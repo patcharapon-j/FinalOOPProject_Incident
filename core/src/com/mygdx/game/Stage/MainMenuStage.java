@@ -1,26 +1,25 @@
 package com.mygdx.game.Stage;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.actions.*;
+import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SizeToAction;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.video.VideoPlayer;
 import com.badlogic.gdx.video.VideoPlayerCreator;
 import com.mygdx.game.Actor.*;
 import com.mygdx.game.Incident;
 import com.mygdx.game.Screen.GameScreen;
-import com.mygdx.game.Screen.MainMenuScreen;
 
 import java.io.FileNotFoundException;
 
-public class MainMenuStage extends Stage{
+public class MainMenuStage extends Stage {
 
-    private VideoPlayer videoPlayer;
     private final PrimitiveSqaure titleBack;
     private final MyTextDisplay title;
     private final MyButton startButton;
@@ -48,10 +47,12 @@ public class MainMenuStage extends Stage{
     private final MyColorBlock blueBlock;
     private final MyColorBlock yellowBlock;
     private final PrimitiveSqaure cover;
-    private Music themeSong;
+    private VideoPlayer videoPlayer;
+    private final Music themeSong;
     private Timer timer;
-    private Incident game;
-    public MainMenuStage(Incident g, final MainMenuScreen screen) {
+    private final Incident game;
+
+    public MainMenuStage(Incident g) {
         super();
 
         final int[] player_team = {1};
@@ -73,10 +74,10 @@ public class MainMenuStage extends Stage{
 
         title = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Medium.ttf", 60, 1);
         title.setText("INCIDENT");
-        title.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+        title.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         addActor(title);
         title.setAlpha(0);
-        title.fadeIn(Interpolation.linear, 3);
+        title.fadeIn();
 
         creditText = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Medium.ttf", 60, 1);
         creditText.setText("Credit");
@@ -123,7 +124,7 @@ public class MainMenuStage extends Stage{
         school.setPosition(-250, 250);
         addActor(school);
 
-        startButton = new MyButton("fonts/helveticaneue/HelveticaNeue Light.ttf", 35){
+        startButton = new MyButton() {
             @Override
             public void myClick() {
                 toStart();
@@ -136,7 +137,7 @@ public class MainMenuStage extends Stage{
         startButton.setColor(new Color(0, 0, 0, 0));
         addActor(startButton);
 
-        creditButton = new MyButton("fonts/helveticaneue/HelveticaNeue Light.ttf", 35){
+        creditButton = new MyButton() {
             @Override
             public void myClick() {
                 super.myClick();
@@ -150,7 +151,7 @@ public class MainMenuStage extends Stage{
         creditButton.setColor(new Color(0, 0, 0, 0));
         addActor(creditButton);
 
-        exitButton = new MyButton("fonts/helveticaneue/HelveticaNeue Light.ttf", 35){
+        exitButton = new MyButton() {
             @Override
             public void myClick() {
                 super.myClick();
@@ -164,7 +165,7 @@ public class MainMenuStage extends Stage{
         exitButton.setColor(new Color(0, 0, 0, 0));
         addActor(exitButton);
 
-        creditBackButton = new MyButton("fonts/helveticaneue/HelveticaNeue Light.ttf", 35){
+        creditBackButton = new MyButton() {
             @Override
             public void myClick() {
                 super.myClick();
@@ -186,7 +187,7 @@ public class MainMenuStage extends Stage{
         creditBackButton.setColor(new Color(0, 0, 0, 0));
         addActor(creditBackButton);
 
-        gameBack = new MyButton("fonts/helveticaneue/HelveticaNeue Light.ttf", 35){
+        gameBack = new MyButton() {
             @Override
             public void myClick() {
                 super.myClick();
@@ -208,13 +209,13 @@ public class MainMenuStage extends Stage{
         gameBack.setColor(new Color(0, 0, 0, 0));
         addActor(gameBack);
 
-        gameStart = new MyButton("fonts/helveticaneue/HelveticaNeue Light.ttf", 35){
+        gameStart = new MyButton() {
             @Override
             public void myClick() {
                 super.myClick();
-                if(gameStart.getActive()){
+                if (gameStart.getActive()) {
                     gameStart.setActive(false);
-                    cover.changePosition(0, 0, 1);
+                    cover.changePosition();
 
                     timer.scheduleTask(new Timer.Task() {
                         @Override
@@ -247,7 +248,7 @@ public class MainMenuStage extends Stage{
             }
         }, 3);
 
-        ai_1 = new MyToggleButton("fonts/helveticaneue/HelveticaNeue Light.ttf", 28){
+        ai_1 = new MyToggleButton() {
             @Override
             public void myClick() {
                 super.myClick();
@@ -262,10 +263,10 @@ public class MainMenuStage extends Stage{
         ai_1.getText().setText("1");
         ai_1.getText().setColor(Color.WHITE);
         ai_1.setColor(Color.WHITE);
-        ai_1.setPosition(120-500, 480);
+        ai_1.setPosition(120 - 500, 480);
         addActor(ai_1);
 
-        ai_2 = new MyToggleButton("fonts/helveticaneue/HelveticaNeue Light.ttf", 28){
+        ai_2 = new MyToggleButton() {
             @Override
             public void myClick() {
                 super.myClick();
@@ -280,10 +281,10 @@ public class MainMenuStage extends Stage{
         ai_2.getText().setText("2");
         ai_2.getText().setColor(Color.WHITE);
         ai_2.setColor(Color.WHITE);
-        ai_2.setPosition(220-500, 480);
+        ai_2.setPosition(220 - 500, 480);
         addActor(ai_2);
 
-        ai_3 = new MyToggleButton("fonts/helveticaneue/HelveticaNeue Light.ttf", 28){
+        ai_3 = new MyToggleButton() {
             @Override
             public void myClick() {
                 super.myClick();
@@ -298,10 +299,10 @@ public class MainMenuStage extends Stage{
         ai_3.getText().setText("3");
         ai_3.getText().setColor(Color.WHITE);
         ai_3.setColor(Color.WHITE);
-        ai_3.setPosition(320-500, 480);
+        ai_3.setPosition(320 - 500, 480);
         addActor(ai_3);
 
-        ai_easy = new MyToggleButton("fonts/helveticaneue/HelveticaNeue Light.ttf", 28){
+        ai_easy = new MyToggleButton() {
             @Override
             public void myClick() {
                 super.myClick();
@@ -315,10 +316,10 @@ public class MainMenuStage extends Stage{
         ai_easy.getText().setText("easy");
         ai_easy.getText().setColor(Color.WHITE);
         ai_easy.setColor(Color.WHITE);
-        ai_easy.setPosition(115-500, 355);
+        ai_easy.setPosition(115 - 500, 355);
         addActor(ai_easy);
 
-        ai_hard = new MyToggleButton("fonts/helveticaneue/HelveticaNeue Light.ttf", 28){
+        ai_hard = new MyToggleButton() {
             @Override
             public void myClick() {
                 super.myClick();
@@ -332,10 +333,10 @@ public class MainMenuStage extends Stage{
         ai_hard.getText().setText("hard");
         ai_hard.getText().setColor(Color.WHITE);
         ai_hard.setColor(Color.WHITE);
-        ai_hard.setPosition(265-500, 355);
+        ai_hard.setPosition(265 - 500, 355);
         addActor(ai_hard);
 
-        redBlock = new MyColorBlock(game.manager){
+        redBlock = new MyColorBlock(game.manager) {
             @Override
             public void myClick() {
                 super.myClick();
@@ -347,12 +348,12 @@ public class MainMenuStage extends Stage{
             }
         };
         redBlock.setSize(65, 65);
-        redBlock.setPosition(105-500, 225);
+        redBlock.setPosition(105 - 500, 225);
         redBlock.setColor(new Color(0.8f, 0, 0, 1));
         redBlock.setSelected(true);
         addActor(redBlock);
 
-        greenBlock = new MyColorBlock(game.manager){
+        greenBlock = new MyColorBlock(game.manager) {
             @Override
             public void myClick() {
                 super.myClick();
@@ -364,12 +365,12 @@ public class MainMenuStage extends Stage{
             }
         };
         greenBlock.setSize(65, 65);
-        greenBlock.setPosition(180-500, 225);
+        greenBlock.setPosition(180 - 500, 225);
         greenBlock.setColor(new Color(0, 0.8f, 0, 1));
         greenBlock.setSelected(false);
         addActor(greenBlock);
 
-        blueBlock = new MyColorBlock(game.manager){
+        blueBlock = new MyColorBlock(game.manager) {
             @Override
             public void myClick() {
                 super.myClick();
@@ -381,12 +382,12 @@ public class MainMenuStage extends Stage{
             }
         };
         blueBlock.setSize(65, 65);
-        blueBlock.setPosition(255-500, 225);
+        blueBlock.setPosition(255 - 500, 225);
         blueBlock.setColor(new Color(0, 0, 0.8f, 1));
         blueBlock.setSelected(false);
         addActor(blueBlock);
 
-        yellowBlock = new MyColorBlock(game.manager){
+        yellowBlock = new MyColorBlock(game.manager) {
             @Override
             public void myClick() {
                 super.myClick();
@@ -398,7 +399,7 @@ public class MainMenuStage extends Stage{
             }
         };
         yellowBlock.setSize(65, 65);
-        yellowBlock.setPosition(330-500, 225);
+        yellowBlock.setPosition(330 - 500, 225);
         yellowBlock.setColor(new Color(0.8f, 0.8f, 0, 1));
         yellowBlock.setSelected(false);
         addActor(yellowBlock);
@@ -411,10 +412,9 @@ public class MainMenuStage extends Stage{
 
 
         videoPlayer = VideoPlayerCreator.createVideoPlayer();
-        try{
+        try {
             videoPlayer.play(Gdx.files.internal("video.ogv"));
-        }
-        catch (FileNotFoundException e){
+        } catch (FileNotFoundException ignored) {
 
         }
         videoPlayer.resize(1366, 768);
@@ -424,12 +424,11 @@ public class MainMenuStage extends Stage{
 
     @Override
     public void draw() {
-        if(!videoPlayer.render()){
+        if (!videoPlayer.render()) {
             videoPlayer = VideoPlayerCreator.createVideoPlayer();
-            try{
+            try {
                 videoPlayer.play(Gdx.files.internal("video.ogv"));
-            }
-            catch (FileNotFoundException e){
+            } catch (FileNotFoundException ignored) {
 
             }
             videoPlayer.resize(1366, 768);
@@ -438,7 +437,7 @@ public class MainMenuStage extends Stage{
 
     }
 
-    public void inital(){
+    private void inital() {
 
         startClear();
         clearCredit();
@@ -472,12 +471,12 @@ public class MainMenuStage extends Stage{
 
     }
 
-    public void toCredit(){
+    private void toCredit() {
         clearMainMenu();
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
-                creditBackButton.changePosition(0,50, 2);
+                creditBackButton.changePosition(0, 50, 2);
                 creditText.changePosition(250, 650, 1);
                 name1.changePosition(100, 550, 1.25f);
                 name2.changePosition(100, 450, 1.5f);
@@ -487,15 +486,15 @@ public class MainMenuStage extends Stage{
         }, 1);
     }
 
-    public void clearMainMenu(){
+    private void clearMainMenu() {
         title.changePosition(-250, 650, 1);
         startButton.changePosition(-750, 450, 1);
         creditButton.changePosition(-750, 325, 1);
         exitButton.changePosition(-750, 50, 1);
     }
 
-    public void clearCredit(){
-        creditBackButton.changePosition(-750 ,50, 1);
+    private void clearCredit() {
+        creditBackButton.changePosition(-750, 50, 1);
         creditText.changePosition(-250, 650, 1);
         name1.changePosition(-400, 550, 1);
         name2.changePosition(-400, 450, 1);
@@ -503,7 +502,7 @@ public class MainMenuStage extends Stage{
         school.changePosition(-250, 250, 1);
     }
 
-    public void toStart(){
+    private void toStart() {
         clearMainMenu();
         timer.scheduleTask(new Timer.Task() {
             @Override
@@ -517,33 +516,33 @@ public class MainMenuStage extends Stage{
                 ai_easy.changePosition(115, 355, 1.5f);
                 ai_hard.changePosition(265, 355, 1.5f);
                 colorText.changePosition(250, 325, 1.6f);
-                redBlock.changePosition(105, 225, 1.7f);
-                greenBlock.changePosition(180, 225, 1.7f);
-                blueBlock.changePosition(255, 225, 1.7f);
-                yellowBlock.changePosition(330, 225, 1.7f);
+                redBlock.changePosition(105, 1.7f);
+                greenBlock.changePosition(180, 1.7f);
+                blueBlock.changePosition(255, 1.7f);
+                yellowBlock.changePosition(330, 1.7f);
                 gameStart.changePosition(0, 130, 1.8f);
-                gameBack.changePosition(0 ,50, 2);
+                gameBack.changePosition(0, 50, 2);
 
             }
         }, 1);
     }
 
-    public void startClear(){
+    private void startClear() {
         gameText.changePosition(-250, 650, 1);
         oppoentText.changePosition(-250, 575, 1);
         diffiText.changePosition(-250, 450, 1);
         colorText.changePosition(-250, 325, 1);
-        gameBack.changePosition(-750 ,50, 1);
+        gameBack.changePosition(-750, 50, 1);
         gameStart.changePosition(-750, 130, 1);
-        ai_1.changePosition(120-500, 480, 1);
-        ai_2.changePosition(220-500, 480, 1);
-        ai_3.changePosition(320-500, 480, 1);
-        ai_easy.changePosition(115-500, 355, 1);
-        ai_hard.changePosition(265-500, 355, 1);
-        redBlock.changePosition(105-500, 225, 1);
-        greenBlock.changePosition(180-500, 225, 1);
-        blueBlock.changePosition(255-500, 225, 1);
-        yellowBlock.changePosition(330-500, 225, 1);
+        ai_1.changePosition(120 - 500, 480, 1);
+        ai_2.changePosition(220 - 500, 480, 1);
+        ai_3.changePosition(320 - 500, 480, 1);
+        ai_easy.changePosition(115 - 500, 355, 1);
+        ai_hard.changePosition(265 - 500, 355, 1);
+        redBlock.changePosition(105 - 500, 1);
+        greenBlock.changePosition(180 - 500, 1);
+        blueBlock.changePosition(255 - 500, 1);
+        yellowBlock.changePosition(330 - 500, 1);
     }
 
     @Override

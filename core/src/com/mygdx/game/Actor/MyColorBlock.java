@@ -14,16 +14,15 @@ import com.badlogic.gdx.scenes.scene2d.actions.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 
-public class MyColorBlock extends Actor{
-
-    private PrimitiveSqaure shape;
-    private PrimitiveSqaure shape2;
-    private Boolean selected;
-    private Boolean active;
-    private Sprite sprite;
-    private Color setOColor;
+public class MyColorBlock extends Actor {
 
     private final Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicked.mp3"));
+    private final PrimitiveSqaure shape;
+    private final PrimitiveSqaure shape2;
+    private Boolean selected;
+    private Boolean active;
+    private final Sprite sprite;
+    private Color setOColor;
 
     public MyColorBlock(AssetManager manager) {
         super();
@@ -35,7 +34,7 @@ public class MyColorBlock extends Actor{
         sprite.setScale(0.1f);
         setOColor = null;
 
-        addListener(new ClickListener(){
+        addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 return super.touchDown(event, x, y, pointer, button);
@@ -54,7 +53,7 @@ public class MyColorBlock extends Actor{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                if(active){
+                if (active) {
                     long id = clickSound.play(1.0f);
                     clickSound.setPitch(id, 5);
                     myClick();
@@ -70,7 +69,7 @@ public class MyColorBlock extends Actor{
         super.draw(batch, parentAlpha);
         shape.draw(batch, parentAlpha);
         shape2.draw(batch, parentAlpha);
-        if(selected){
+        if (selected) {
             sprite.draw(batch, parentAlpha);
         }
     }
@@ -80,10 +79,10 @@ public class MyColorBlock extends Actor{
         super.act(delta);
         shape.setPosition(getX(), getY());
         shape.setSize(getWidth(), getHeight());
-        shape2.setPosition(getX()+1, getY()+1);
-        shape2.setSize(getWidth()-2, getHeight()-2);
+        shape2.setPosition(getX() + 1, getY() + 1);
+        shape2.setSize(getWidth() - 2, getHeight() - 2);
         shape2.setColor(getColor());
-        sprite.setPosition(getX() - sprite.getWidth()/2 + getWidth()/2, getY() - sprite.getHeight()/2 + getHeight()/2);
+        sprite.setPosition(getX() - sprite.getWidth() / 2 + getWidth() / 2, getY() - sprite.getHeight() / 2 + getHeight() / 2);
     }
 
     @Override
@@ -92,6 +91,7 @@ public class MyColorBlock extends Actor{
         shape2.remove();
         return super.remove();
     }
+
     public PrimitiveSqaure getShape() {
         return shape;
     }
@@ -102,17 +102,17 @@ public class MyColorBlock extends Actor{
 
     public void setSelected(Boolean selected) {
         this.selected = selected;
-        if(selected){
+        if (selected) {
             setColor(Color.WHITE);
-            changeColor(setOColor, 0.5f, Interpolation.pow3);
+            changeColor(setOColor);
         }
     }
 
-    public void changePosition(float x, float y, float d){
+    public void changePosition(float x, float d) {
         active = false;
 
         MoveToAction ma = new MoveToAction();
-        ma.setPosition(x, y);
+        ma.setPosition(x, (float) 225);
         ma.setInterpolation(Interpolation.pow3);
         ma.setDuration(d);
 
@@ -131,21 +131,22 @@ public class MyColorBlock extends Actor{
         addAction(action);
     }
 
-    public void changeColor(Color c, float d, Interpolation t){
+    private void changeColor(Color c) {
         ColorAction ca = new ColorAction();
         ca.setEndColor(c);
-        ca.setDuration(d);
-        ca.setInterpolation(t);
+        ca.setDuration(0.5f);
+        ca.setInterpolation(Interpolation.pow3);
         addAction(ca);
     }
-    public void changeSize(float w, float h, Interpolation i, float t){
+
+    public void changeSize(float w, float h, Interpolation i, float t) {
         SizeToAction sa = new SizeToAction();
         sa.setSize(w, h);
         sa.setInterpolation(i);
         sa.setDuration(t);
 
         MoveToAction ma = new MoveToAction();
-        ma.setPosition(getX(), getY()-((h-getHeight())/2));
+        ma.setPosition(getX(), getY() - ((h - getHeight()) / 2));
         ma.setInterpolation(i);
         ma.setDuration(t);
 
@@ -156,14 +157,14 @@ public class MyColorBlock extends Actor{
         addAction(action);
     }
 
-    public void myClick(){
+    public void myClick() {
 
     }
 
     @Override
     public void setColor(Color color) {
         super.setColor(color);
-        if(setOColor == null){
+        if (setOColor == null) {
             setOColor = color;
         }
     }

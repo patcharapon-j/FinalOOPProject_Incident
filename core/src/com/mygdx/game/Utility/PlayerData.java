@@ -15,6 +15,7 @@ public class PlayerData {
     private int rangePrince;
     private int nodeCount;
     private boolean destroyed;
+
     public PlayerData() {
         super();
         destroyed = false;
@@ -32,33 +33,39 @@ public class PlayerData {
         nodeCount = 1;
     }
 
-    public void decreaseMoney(float m){
+    public void decreaseMoney(float m) {
         money -= m;
     }
-    public void increaseMoney(float m){
+
+    public void increaseMoney(float m) {
         money += m;
     }
-    public void advanceProgess(float m){
+
+    public void advanceProgess(float m) {
         progess += m;
     }
-    public void levelupAttack(){
+
+    public void levelupAttack() {
         decreaseMoney(attackPrice);
         attackPrice *= 2;
         attackLevel += 1;
         attackMul *= 1.5;
     }
-    public void levelupHp(){
+
+    public void levelupHp() {
         decreaseMoney(hpPrice);
         hpPrice *= 2;
         hpLevel += 1;
         hpMul *= 1.5;
     }
-    public void levelupRange(){
+
+    public void levelupRange() {
         decreaseMoney(rangePrince);
         rangePrince *= 2;
         rangeLevel += 1;
         range *= 1.5;
     }
+
     public int getAttackLevel() {
         return attackLevel;
     }
@@ -95,8 +102,8 @@ public class PlayerData {
         return money;
     }
 
-    public void setMoney(float money) {
-        this.money = money;
+    public void setMoney() {
+        this.money = (float) 0;
     }
 
     public float getProgess() {
@@ -111,8 +118,8 @@ public class PlayerData {
         return destroyed;
     }
 
-    public void setDestroyed(boolean destroyed) {
-        this.destroyed = destroyed;
+    public void setDestroyed() {
+        this.destroyed = true;
     }
 
     public int getRangeLevel() {

@@ -13,42 +13,40 @@ import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.utils.Timer;
 
-public class BuyNode extends Actor{
+public class BuyNode extends Actor {
 
-    private Sprite sprite;
-    private int team;
+    private final Sprite sprite;
     private int type;
-    private float oriWidth;
-    private float oriHeight;
-    private AssetManager manager;
-    private MyTextDisplay textDisplay;
-    private MyTextDisplay textDescribe;
-    private MyTextDisplay textName;
-    private PrimitiveSqaure back;
-    private int cost;
-    private float oriX;
-    private float oriY;
-    private boolean isMoving;
-    public BuyNode(AssetManager m, int ty, int c, float x, float y) {
+    private final float oriWidth;
+    private final float oriHeight;
+    private final AssetManager manager;
+    private final MyTextDisplay textDisplay;
+    private final MyTextDisplay textDescribe;
+    private final MyTextDisplay textName;
+    private final PrimitiveSqaure back;
+    private final int cost;
+    private final float oriX;
+    private final float oriY;
+
+    public BuyNode(AssetManager m, int ty, float y) {
         super();
-        oriX = x;
+        oriX = (float) 1280;
         oriY = y;
-        isMoving = false;
-        setPosition(x, y);
+        setPosition((float) 1280, y);
         manager = m;
         setTouchable(Touchable.disabled);
         sprite = new Sprite(manager.get("Sprite/blank.png", Texture.class));
         oriWidth = sprite.getWidth();
         oriHeight = sprite.getHeight();
         type = ty;
-        cost = c;
+        cost = 30;
         textDisplay = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 16, 1);
         textDescribe = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 14, 2);
         textName = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Medium.ttf", 14, 2);
         textDescribe.setColor(new Color(1, 1, 1, 1));
         textName.setColor(new Color(1, 1, 1, 1));
         back = new PrimitiveSqaure(0);
-        textDisplay.setText(cost+"");
+        textDisplay.setText(cost + "");
         changeType(ty);
 
     }
@@ -68,9 +66,9 @@ public class BuyNode extends Actor{
         sprite.setColor(getColor());
         sprite.setPosition(getX(), getY());
         sprite.setSize(getWidth(), getHeight());
-        textDisplay.setPosition(getX() + getWidth()/2, getY() - 15);
-        textDescribe.setPosition(getX() - 20, getY() + getHeight()/2 - 10);
-        textName.setPosition(getX() - 20, getY() + getHeight()/2 + 10);
+        textDisplay.setPosition(getX() + getWidth() / 2, getY() - 15);
+        textDescribe.setPosition(getX() - 20, getY() + getHeight() / 2 - 10);
+        textName.setPosition(getX() - 20, getY() + getHeight() / 2 + 10);
         back.setPosition(getX() - 100, getY());
     }
 
@@ -82,11 +80,11 @@ public class BuyNode extends Actor{
         return super.remove();
     }
 
-    public void setScale(float s){
-        setSize(s * oriWidth, s*oriHeight);
+    public void setScale(float s) {
+        setSize(s * oriWidth, s * oriHeight);
     }
 
-    public void changeColor(Color c, int d){
+    public void changeColor(Color c, int d) {
         ColorAction ca = new ColorAction();
         ca.setEndColor(c);
         ca.setDuration(d);
@@ -94,17 +92,17 @@ public class BuyNode extends Actor{
         addAction(ca);
     }
 
-    public void changePosition(float x, float y, float d){
+    private void changePosition(float x, float y) {
         MoveToAction ma = new MoveToAction();
         ma.setPosition(x, y);
         ma.setInterpolation(Interpolation.pow3);
-        ma.setDuration(d);
+        ma.setDuration(0.25f);
         addAction(ma);
     }
 
-    public void changeType(int t){
+    private void changeType(int t) {
         type = t;
-        switch (type){
+        switch (type) {
             //blank
             case 0:
                 sprite.setTexture(manager.get("Sprite/blank.png", Texture.class));
@@ -150,16 +148,16 @@ public class BuyNode extends Actor{
         return cost;
     }
 
-    public void resetPosition(){
-        changePosition(oriX, oriY, 0.25f);
+    public void resetPosition() {
+        changePosition(oriX, oriY);
     }
 
-    public void pickup(){
-            textName.setAlpha(0);
-            textDescribe.setAlpha(0);
+    public void pickup() {
+        textName.setAlpha(0);
+        textDescribe.setAlpha(0);
     }
 
-    public void drop(){
+    public void drop() {
         Timer timer = new Timer();
         timer.scheduleTask(new Timer.Task() {
             @Override

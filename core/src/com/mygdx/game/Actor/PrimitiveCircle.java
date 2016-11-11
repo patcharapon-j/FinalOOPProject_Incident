@@ -11,9 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 
 public class PrimitiveCircle extends Actor {
-    private  float thick;
-    private ShapeRenderer sr;
+    private float thick;
+    private final ShapeRenderer sr;
     private int drawMode;
+
     public PrimitiveCircle(int d) {
         super();
         sr = new ShapeRenderer();
@@ -27,11 +28,10 @@ public class PrimitiveCircle extends Actor {
         super.draw(batch, parentAlpha);
         batch.end();
         Gdx.gl.glEnable(GL20.GL_BLEND);
-        if(drawMode == 0){
+        if (drawMode == 0) {
             Gdx.gl20.glLineWidth(1);
             sr.begin(ShapeRenderer.ShapeType.Filled);
-        }
-        else if(drawMode == 1){
+        } else if (drawMode == 1) {
             Gdx.gl20.glLineWidth(thick);
             sr.begin(ShapeRenderer.ShapeType.Line);
         }
@@ -53,7 +53,7 @@ public class PrimitiveCircle extends Actor {
         return super.remove();
     }
 
-    public void changeColor(Color c, float d){
+    public void changeColor(Color c, float d) {
         ColorAction ca = new ColorAction();
         ca.setEndColor(c);
         ca.setDuration(d);
@@ -61,7 +61,7 @@ public class PrimitiveCircle extends Actor {
         addAction(ca);
     }
 
-    public void changePosition(float x, float y, float d){
+    public void changePosition(float x, float y, float d) {
         MoveToAction ma = new MoveToAction();
         ma.setPosition(x, y);
         ma.setInterpolation(Interpolation.pow3);

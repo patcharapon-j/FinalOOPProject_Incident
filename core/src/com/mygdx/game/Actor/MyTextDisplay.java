@@ -13,11 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 
-public class MyTextDisplay extends Actor{
+public class MyTextDisplay extends Actor {
 
-    private FreeTypeFontGenerator generator;
-    private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
-    private BitmapFont font;
+    private final FreeTypeFontGenerator generator;
+    private final BitmapFont font;
     private int center;
     private String text;
 
@@ -26,7 +25,7 @@ public class MyTextDisplay extends Actor{
         center = c;
         text = "";
         generator = new FreeTypeFontGenerator(Gdx.files.internal(path));
-        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = size;
         parameter.color = Color.WHITE;
         font = generator.generateFont(parameter);
@@ -35,17 +34,15 @@ public class MyTextDisplay extends Actor{
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        if(center == 1){
+        if (center == 1) {
             GlyphLayout layout = new GlyphLayout(font, text);
             font.setColor(getColor());
-            font.draw(batch, text, getX() - layout.width/2, getY() + layout.height/2);
-        }
-        else if(center == 2){
+            font.draw(batch, text, getX() - layout.width / 2, getY() + layout.height / 2);
+        } else if (center == 2) {
             GlyphLayout layout = new GlyphLayout(font, text);
             font.setColor(getColor());
             font.draw(batch, text, getX() - layout.width, getY());
-        }
-        else{
+        } else {
             font.setColor(getColor());
             font.draw(batch, text, getX(), getY());
         }
@@ -65,24 +62,23 @@ public class MyTextDisplay extends Actor{
     }
 
 
-
     public void setText(String text) {
         this.text = text;
     }
 
-    public void setAlpha(float alpha){
+    public void setAlpha(float alpha) {
         setColor(getColor().r, getColor().g, getColor().b, alpha);
     }
 
-    public void fadeIn(Interpolation inter, int duration){
+    public void fadeIn() {
         AlphaAction action = new AlphaAction();
         action.setAlpha(1);
-        action.setInterpolation(inter);
-        action.setDuration(duration);
+        action.setInterpolation(Interpolation.linear);
+        action.setDuration(3);
         addAction(action);
     }
 
-    public void fadeOut(Interpolation inter, int duration){
+    public void fadeOut(Interpolation inter, int duration) {
         AlphaAction action = new AlphaAction();
         action.setAlpha(0);
         action.setInterpolation(inter);
@@ -90,14 +86,15 @@ public class MyTextDisplay extends Actor{
         addAction(action);
     }
 
-    public void changeColor(Color c, float d){
+    public void changeColor(Color c, float d) {
         ColorAction ca = new ColorAction();
         ca.setEndColor(c);
         ca.setDuration(d);
         ca.setInterpolation(Interpolation.pow3);
         addAction(ca);
     }
-    public void changePosition(float x, float y, float d){
+
+    public void changePosition(float x, float y, float d) {
         MoveToAction ma = new MoveToAction();
         ma.setPosition(x, y);
         ma.setInterpolation(Interpolation.pow3);

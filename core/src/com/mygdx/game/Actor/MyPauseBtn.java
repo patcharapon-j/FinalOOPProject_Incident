@@ -1,20 +1,22 @@
 package com.mygdx.game.Actor;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Color;;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.actions.*;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SizeToAction;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.Screen.GameScreen;
 
 public class MyPauseBtn extends Actor {
 
-    private Sprite sprite;
+    private final Sprite sprite;
     private float oriX;
     private float oriY;
 
@@ -23,7 +25,7 @@ public class MyPauseBtn extends Actor {
 
         sprite = new Sprite(manager.get("Sprite/pauseBtn.png", Texture.class));
         sprite.setOriginCenter();
-        addListener(new ClickListener(){
+        addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
@@ -101,7 +103,7 @@ public class MyPauseBtn extends Actor {
         oriY = y;
     }
 
-    public void Myclick(){
+    public void Myclick() {
 
     }
 }
