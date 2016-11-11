@@ -5,17 +5,19 @@ import com.mygdx.game.Actor.NodeActor;
 
 import java.util.ArrayList;
 
-abstract class Bot implements Runnable {
+abstract public class Bot implements Runnable {
 
-    private final int team;
-    private final ArrayList<PlayerData> allData;
+    protected final int team;
+    protected final ArrayList<PlayerData> allData;
+    protected final ArrayList<NodeActor> allNode;
     private boolean active;
 
-    Bot(int team, ArrayList<PlayerData> allData, ArrayList<NodeActor> allNode) {
+    public Bot(int team, ArrayList<PlayerData> allData, ArrayList<NodeActor> allNode) {
         super();
         active = false;
         this.team = team;
         this.allData = allData;
+        this.allNode = allNode;
         ArrayList<NodeActor> allNode1 = allNode;
     }
 

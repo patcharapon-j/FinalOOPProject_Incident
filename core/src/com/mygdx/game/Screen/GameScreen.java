@@ -14,6 +14,7 @@ import com.mygdx.game.Actor.NodeActor;
 import com.mygdx.game.Incident;
 import com.mygdx.game.Stage.*;
 import com.mygdx.game.Utility.PlayerData;
+import com.mygdx.game.Utility.RunningBot;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -101,6 +102,11 @@ public class GameScreen implements Screen {
                 Gdx.input.setInputProcessor(im);
             }
         }, 4);
+
+        RunningBot rn = new RunningBot();
+        for(int i=2; i<=ai_count+1;i++){
+            rn.startBot(i, alldata, allNode);
+        }
     }
 
     @Override
