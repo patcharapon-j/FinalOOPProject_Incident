@@ -55,7 +55,6 @@ public class GameScreen implements Screen {
         isOver = false;
         alldata = new ArrayList<PlayerData>();
 
-
         playingSceneSong = game.manager.get("playing_scene.ogg", Music.class);
         playingSceneSong.setLooping(true);
         playingSceneSong.setVolume(0.5f);

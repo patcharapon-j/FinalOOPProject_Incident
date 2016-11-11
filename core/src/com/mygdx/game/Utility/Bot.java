@@ -6,7 +6,7 @@ import com.mygdx.game.Actor.NodeActor;
 
 import java.util.ArrayList;
 
-public class Bot implements Runnable{
+public abstract class Bot implements Runnable{
 
     protected int team;
     protected ArrayList<PlayerData> allData;
@@ -30,15 +30,13 @@ public class Bot implements Runnable{
         }
     }
 
-    public void calculation(){
+    public abstract void calculation();
 
-    }
-
-    public boolean isActive() {
+    protected boolean isActive() {
         return active;
     }
 
-    public boolean attack(NodeActor node, NodeActor target){
+    protected boolean attack(NodeActor node, NodeActor target){
         //set "target" as an attack target of "node"
         if(calDistance(node.getX() + node.getWidth()/2,
                 node.getY() + node.getHeight()/2,
@@ -50,7 +48,7 @@ public class Bot implements Runnable{
         return false;
     }
 
-    public boolean upgrade(int type){
+    protected boolean upgrade(int type){
         // 1 - attack, 2 - defense, 3 - money
        switch (type){
            case 1:
@@ -81,7 +79,7 @@ public class Bot implements Runnable{
        return false;
     }
 
-    public boolean build(NodeActor node, int type){
+    protected boolean build(NodeActor node, int type){
         // 2 - DDos, 3 - Virus, 4 - Antivirus
         if(node.getTeam() == team && node.getType() != 5 && node.getType() != 1){
             switch (type){
@@ -112,7 +110,7 @@ public class Bot implements Runnable{
     }
 
 
-    public boolean isAttackAble(NodeActor a, NodeActor b){
+    protected boolean isAttackAble(NodeActor a, NodeActor b){
             //set "target" as an attack target of "node"
             if(calDistance(a.getX() + a.getWidth()/2,
                     a.getY() + a.getHeight()/2,
@@ -122,7 +120,7 @@ public class Bot implements Runnable{
             }
             return false;
     }
-    public double calDistance(float x1, float y1, float x2, float y2){
+    protected double calDistance(float x1, float y1, float x2, float y2){
         return Math.pow(Math.pow(x1-x2, 2) +  Math.pow(y1-y2, 2), 0.5);
     }
 
