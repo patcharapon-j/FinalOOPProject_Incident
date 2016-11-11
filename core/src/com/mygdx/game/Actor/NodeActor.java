@@ -112,13 +112,13 @@ public class NodeActor extends Actor {
             //MainFrame
             case 1:
                 if (target != null) {
-                    attack(target);
+                    attack(target, 0);
                 }
                 break;
             //ddos
             case 2:
                 if (target != null) {
-                    attack(target);
+                    attack(target, 0);
                 }
                 break;
             //virus
@@ -126,16 +126,16 @@ public class NodeActor extends Actor {
                 for (NodeActor node : allNode) {
                     if (calDistance(getX() + getWidth() / 2, getY() + getHeight() / 2,
                             node.getX() + node.getWidth() / 2, node.getY() + node.getHeight() / 2) <= 150) {
-                        attack(node);
+                        attack(node, 0);
                     }
                 }
                 break;
-            //antivirus
+            //antiviruss
             case 4:
                 for (NodeActor node : allNode) {
                     if (calDistance(getX() + getWidth() / 2, getY() + getHeight() / 2,
                             node.getX() + node.getWidth() / 2, node.getY() + node.getHeight() / 2) <= 150 && node.getTeam() == team) {
-                        attack(node);
+                        attack(node, 1);
                     }
                 }
                 break;
@@ -193,7 +193,7 @@ public class NodeActor extends Actor {
             //blank
             case 0:
                 sprite.setTexture(manager.get("Sprite/blank.png", Texture.class));
-                hp = hp / maxHp * 1024;
+                hp = hp / maxHp * 1024 * allData.get(team).getHpMul();
                 maxHp = 1024;
                 attack = 0;
                 break;
@@ -207,21 +207,21 @@ public class NodeActor extends Actor {
             //ddos
             case 2:
                 sprite.setTexture(manager.get("Sprite/DDos.png", Texture.class));
-                hp = hp / maxHp * 1024;
+                hp = hp / maxHp * 1024 * allData.get(team).getHpMul();
                 maxHp = 1024;
                 attack = 64;
                 break;
             //virus
             case 3:
                 sprite.setTexture(manager.get("Sprite/virus.png", Texture.class));
-                hp = hp / maxHp * 512;
+                hp = hp / maxHp * 512 * allData.get(team).getHpMul();
                 maxHp = 512;
                 attack = 32;
                 break;
             //antivirus
             case 4:
                 sprite.setTexture(manager.get("Sprite/AntiVirus.png", Texture.class));
-                hp = hp / maxHp * 2048;
+                hp = hp / maxHp * 2048 * allData.get(team).getHpMul();
                 maxHp = 2048;
                 attack = -24;
                 break;
@@ -265,23 +265,39 @@ public class NodeActor extends Actor {
             } else if (type != 5) {
                 changeType(0);
             }
-            hp = maxHp * allData.get(team).getHpMul();
             changeTeam(t, c);
+            hp = maxHp * allData.get(team).getHpMul();
             allData.get(team).setNodeCount(allData.get(team).getNodeCount() + 1);
         }
     }
 
-    private void attack(NodeActor node) {
-        if (node.getTeam() == team) {
-            target = null;
-        } else {
-            node.damage(attack * Gdx.graphics.getDeltaTime() * allData.get(team).getAttackMul(), team, getColor());
-            if (TimeUtils.millis() % 200 > 150) {
-                Pellet temp = new Pellet(node.getX() + node.getWidth() / 2, node.getY() + node.getHeight() / 2);
-                temp.setPosition(getX() + getWidth() / 2, getY() + getHeight() / 2);
-                temp.setColor(getColor());
-                gameScreen.getPelletStage().addActor(temp);
-            }
+    private void attack(NodeActor node,  int mode) {
+        switch (mode){
+            case  0:
+                if (node.getTeam() == team) {
+                    target = null;
+                } else {
+                    node.damage(attack * Gdx.graphics.getDeltaTime() * allData.get(team).getAttackMul(), team, getColor());
+                    if (TimeUtils.millis() % 200 > 150) {
+                        Pellet temp = new Pellet(node.getX() + node.getWidth() / 2, node.getY() + node.getHeight() / 2);
+                        temp.setPosition(getX() + getWidth() / 2, getY() + getHeight() / 2);
+                        temp.setColor(getColor());
+                        gameScreen.getPelletStage().addActor(temp);
+                    }
+                }
+                break;
+            case 1:
+                if(node.getHp() >= node.maxHp * allData.get(team).getHpMul() && node == this){
+                    target = null;
+                } else {
+                    node.damage(attack * Gdx.graphics.getDeltaTime() * allData.get(team).getAttackMul(), team, getColor());
+                    if (TimeUtils.millis() % 200 > 150) {
+                        Pellet temp = new Pellet(node.getX() + node.getWidth() / 2, node.getY() + node.getHeight() / 2);
+                        temp.setPosition(getX() + getWidth() / 2, getY() + getHeight() / 2);
+                        temp.setColor(getColor());
+                        gameScreen.getPelletStage().addActor(temp);
+                    }
+                }
         }
     }
 
