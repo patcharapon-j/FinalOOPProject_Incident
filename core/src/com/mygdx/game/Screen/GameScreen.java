@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.Actor.NodeActor;
 import com.mygdx.game.Incident;
 import com.mygdx.game.Stage.*;
+import com.mygdx.game.Utility.Bot;
 import com.mygdx.game.Utility.PlayerData;
 import com.mygdx.game.Utility.RunningBot;
 
@@ -40,6 +41,7 @@ public class GameScreen implements Screen {
     private final TransitionStage transitionStage;
     private final ArrayList<PlayerData> alldata;
     private boolean isOver;
+    private ArrayList<Bot> controlBot = new ArrayList<Bot>();
 
     public GameScreen(Incident g, int c, int cnt, int cl) {
         super();
@@ -95,18 +97,22 @@ public class GameScreen implements Screen {
         im.addProcessor(coverStage);
         im.addProcessor(gameOverStage);
 
+        RunningBot rn = new RunningBot();
+        Bot a;
+        for(int i=2; i<=ai_count+1;i++){
+            controlBot.add(rn.startBot(i, alldata, allNode));
+        }
+
         Timer timer = new Timer();
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
                 Gdx.input.setInputProcessor(im);
+                for(int i=0; i<ai_count;i++){
+                    controlBot.get(i).setActive(true);
+                }
             }
         }, 4);
-
-        RunningBot rn = new RunningBot();
-        for(int i=2; i<=ai_count+1;i++){
-            rn.startBot(i, alldata, allNode);
-        }
     }
 
     @Override
