@@ -10,7 +10,7 @@ abstract public class Bot implements Runnable {
     protected final int team;
     protected final ArrayList<PlayerData> allData;
     protected final ArrayList<NodeActor> allNode;
-    private boolean active;
+    volatile private boolean active;
 
     public Bot(int team, ArrayList<PlayerData> allData, ArrayList<NodeActor> allNode) {
         super();
