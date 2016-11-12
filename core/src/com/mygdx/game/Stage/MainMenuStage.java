@@ -16,7 +16,16 @@ import com.mygdx.game.Actor.*;
 import com.mygdx.game.Incident;
 import com.mygdx.game.Screen.GameScreen;
 
+import javax.swing.*;
+import java.util.List;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.util.Map;
 
 public class MainMenuStage extends Stage {
 
@@ -47,6 +56,8 @@ public class MainMenuStage extends Stage {
     private final MyColorBlock blueBlock;
     private final MyColorBlock yellowBlock;
     private final PrimitiveSqaure cover;
+
+    private String botid;
     private VideoPlayer videoPlayer;
     private final Music themeSong;
     private Timer timer;
@@ -58,7 +69,7 @@ public class MainMenuStage extends Stage {
         final int[] player_team = {1};
         final int[] number_ai = {1};
         final int[] ai_level = {1};
-
+        botid = null;
         game = g;
 
         themeSong = game.manager.get("theme.mp3", Music.class);
@@ -313,7 +324,7 @@ public class MainMenuStage extends Stage {
         };
         ai_easy.setSelected(true);
         ai_easy.setSize(125, 65);
-        ai_easy.getText().setText("easy");
+        ai_easy.getText().setText("default");
         ai_easy.getText().setColor(Color.WHITE);
         ai_easy.setColor(Color.WHITE);
         ai_easy.setPosition(115 - 500, 355);
@@ -326,11 +337,54 @@ public class MainMenuStage extends Stage {
                 ai_easy.setSelected(false);
                 ai_hard.setSelected(true);
                 ai_level[0] = 2;
+
+                JFrame frame = new JFrame("Add Custom Bot");
+                botid = JOptionPane.showInputDialog(frame, "Please Insert Bot ID:");
+                System.out.println(botid);
+
+                try {
+
+                    URL url = new URL("http://cloudian.in.th/incident/download.php?id=" + botid);
+                    URLConnection conn = url.openConnection();
+                    Map<String, List<String>> map = conn.getHeaderFields();
+                    String filename = map.get("Content-Disposition").get(0).substring(22, map.get("Content-Disposition").get(0).length()-1);
+
+                    ReadableByteChannel rbc = Channels.newChannel(url.openStream());
+
+                    File file = new File("BotContainer\\"+filename);
+                    FileOutputStream fos = new FileOutputStream(file);
+                    fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+
+                    if(file.length() <= 0){
+                        throw new FileNotFoundException();
+                    }
+
+                    fos.close();
+                    rbc.close();
+                }
+                catch (FileNotFoundException e){
+                    System.err.println("This Bot is not existed.");
+                    System.err.println(e);
+                    JOptionPane.showMessageDialog(frame, "This Bot is not existed.", "Error", JOptionPane.ERROR_MESSAGE);
+                    ai_easy.setSelected(true);
+                    ai_hard.setSelected(false);
+                    ai_level[0] = 1;
+                }
+                catch (Exception e){
+                    System.err.println("Load Bot failed");
+                    System.err.println(e);
+                    JOptionPane.showMessageDialog(frame, "Error loading Bot.", "Error", JOptionPane.ERROR_MESSAGE);
+                    ai_easy.setSelected(true);
+                    ai_hard.setSelected(false);
+                    ai_level[0] = 1;
+                }
+
+
             }
         };
         ai_hard.setSelected(false);
         ai_hard.setSize(125, 65);
-        ai_hard.getText().setText("hard");
+        ai_hard.getText().setText("custom");
         ai_hard.getText().setColor(Color.WHITE);
         ai_hard.setColor(Color.WHITE);
         ai_hard.setPosition(265 - 500, 355);
