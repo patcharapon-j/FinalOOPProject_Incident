@@ -1,5 +1,6 @@
 package com.mygdx.game.Utility;
 
+import com.badlogic.gdx.Gdx;
 import com.mygdx.game.Actor.NodeActor;
 
 import java.io.*;
@@ -17,10 +18,27 @@ import java.util.ArrayList;
 public class RunningBot {
 
     private Bot bot;
+    private int ai_level;
+    static public String filename;
+
+    public RunningBot(int ai_level) {
+        this.ai_level = ai_level;
+    }
 
     public Bot startBot(int team, ArrayList<PlayerData> allData, ArrayList<NodeActor> allNode) {
 
-        File file = new File("../src/com/mygdx/game/BotContainer");
+
+        String path = Gdx.files.getLocalStoragePath() + "BotContainer";
+        String packageName = null;
+        String classname = filename.split("\\.")[0];
+
+        if (this.ai_level == 1) {
+            packageName = "com.mygdx.game.BotContainer.Default";
+        } else {
+            packageName = "com.mygdx.game.BotContainer." + classname;
+        }
+
+        File file = new File(path);
 
         try {
 
@@ -28,7 +46,7 @@ public class RunningBot {
             URL[] urls = new URL[]{url};
 
             ClassLoader cl = new URLClassLoader(urls);
-            Class cls = cl.loadClass("com.mygdx.game.BotContainer.ChinBot");
+            Class cls = cl.loadClass(packageName);
 
             bot = (Bot) cls.getConstructor(Integer.TYPE, ArrayList.class, ArrayList.class).newInstance(team, allData, allNode);
             new Thread(bot).start();
