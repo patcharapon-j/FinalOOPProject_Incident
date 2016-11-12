@@ -3,11 +3,9 @@ package com.mygdx.game.Stage;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
-import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
-import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
+import com.badlogic.gdx.scenes.scene2d.actions.*;
 import com.mygdx.game.Actor.MyButton;
 import com.mygdx.game.Actor.MyTextDisplay;
 import com.mygdx.game.Actor.PrimitiveSqaure;
@@ -116,6 +114,9 @@ public class CoverStage extends Stage {
     @Override
     public void dispose() {
         super.dispose();
+        for(Actor a:getActors()){
+            a.addAction(new RemoveAction());
+        }
 
     }
 

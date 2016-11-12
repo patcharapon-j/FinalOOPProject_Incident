@@ -4,11 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
-import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
-import com.badlogic.gdx.scenes.scene2d.actions.SizeToAction;
+import com.badlogic.gdx.scenes.scene2d.actions.*;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.video.VideoPlayer;
 import com.badlogic.gdx.video.VideoPlayerCreator;
@@ -607,6 +605,9 @@ public class MainMenuStage extends Stage {
         super.dispose();
         videoPlayer.dispose();
         themeSong.dispose();
+        for(Actor a:getActors()){
+            a.addAction(new RemoveAction());
+        }
         clear();
     }
 }

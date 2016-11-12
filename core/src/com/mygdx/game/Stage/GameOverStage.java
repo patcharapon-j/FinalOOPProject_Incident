@@ -3,8 +3,10 @@ package com.mygdx.game.Stage;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
+import com.badlogic.gdx.scenes.scene2d.actions.RemoveAction;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.Actor.MyTextDisplay;
 import com.mygdx.game.Actor.PrimitiveSqaure;
@@ -65,6 +67,9 @@ public class GameOverStage extends Stage {
         screenFlash.remove();
         playingSceneSong.stop();
         playingSceneSong.dispose();
+        for(Actor a:getActors()){
+            a.addAction(new RemoveAction());
+        }
         clear();
     }
 

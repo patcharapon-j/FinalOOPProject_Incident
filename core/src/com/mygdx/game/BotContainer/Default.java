@@ -6,9 +6,6 @@ package com.mygdx.game.BotContainer;
 
         import java.util.ArrayList;
 
-/**
- * Created by boon8 on 11/11/2559.
- */
 public class Default extends Bot{
 
     public Default(int team, ArrayList<PlayerData> allData, ArrayList<NodeActor> allNode) {

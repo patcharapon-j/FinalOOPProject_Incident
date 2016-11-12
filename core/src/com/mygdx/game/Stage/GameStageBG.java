@@ -2,7 +2,9 @@ package com.mygdx.game.Stage;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.RemoveAction;
 import com.mygdx.game.Actor.MySpriteActor;
 import com.mygdx.game.Incident;
 
@@ -32,6 +34,9 @@ public class GameStageBG extends Stage {
     public void dispose() {
 
         super.dispose();
+        for(Actor a:getActors()){
+            a.addAction(new RemoveAction());
+        }
         clear();
     }
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.RemoveAction;
 import com.mygdx.game.Actor.BuyNode;
 import com.mygdx.game.Actor.CircleDynamic;
 import com.mygdx.game.Actor.NodeActor;
@@ -200,6 +201,9 @@ public class NodeStage extends Stage {
     public void dispose() {
 
         super.dispose();
+        for(Actor a:getActors()){
+            a.addAction(new RemoveAction());
+        }
         clear();
     }
 

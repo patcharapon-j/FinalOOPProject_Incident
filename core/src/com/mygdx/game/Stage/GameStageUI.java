@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
+import com.badlogic.gdx.scenes.scene2d.actions.RemoveAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
@@ -642,6 +643,9 @@ public class GameStageUI extends Stage {
     @Override
     public void dispose() {
         super.dispose();
+        for(Actor a:getActors()){
+            a.addAction(new RemoveAction());
+        }
         clear();
     }
 

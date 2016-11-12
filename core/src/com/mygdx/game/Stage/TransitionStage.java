@@ -2,8 +2,10 @@ package com.mygdx.game.Stage;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
+import com.badlogic.gdx.scenes.scene2d.actions.RemoveAction;
 import com.mygdx.game.Actor.PrimitiveSqaure;
 
 public class TransitionStage extends Stage {
@@ -27,6 +29,9 @@ public class TransitionStage extends Stage {
     @Override
     public void dispose() {
         super.dispose();
+        for(Actor a:getActors()){
+            a.addAction(new RemoveAction());
+        }
         clear();
     }
 }
