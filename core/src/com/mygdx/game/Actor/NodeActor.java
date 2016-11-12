@@ -203,7 +203,7 @@ public class NodeActor extends Actor {
                 sprite.setTexture(manager.get("Sprite/android.png", Texture.class));
                 hp = 4096;
                 maxHp = 4096;
-                attack = 128;
+                attack = 96;
                 break;
             //ddos
             case 2:
@@ -251,6 +251,9 @@ public class NodeActor extends Actor {
     private void damage(float amount, int t, Color c) {
         hp -= amount;
         lastHealTime = TimeUtils.millis();
+        if(hp > allData.get(team).getHpMul()*maxHp){
+            hp = allData.get(team).getHpMul()*maxHp;
+        }
         if (hp <= 0) {
             if(type == 5){
                 gameScreen.switchVideo(t);
@@ -282,7 +285,7 @@ public class NodeActor extends Actor {
                     target = null;
                 } else {
                     node.damage(attack * Gdx.graphics.getDeltaTime() * allData.get(team).getAttackMul(), team, getColor());
-                    if (TimeUtils.millis() % 200 > 150) {
+                    if (TimeUtils.millis() % 500 > 450) {
                         Pellet temp = new Pellet(node.getX() + node.getWidth() / 2, node.getY() + node.getHeight() / 2);
                         temp.setPosition(getX() + getWidth() / 2, getY() + getHeight() / 2);
                         temp.setColor(getColor());
@@ -291,11 +294,11 @@ public class NodeActor extends Actor {
                 }
                 break;
             case 1:
-                if(node.getHp() >= node.maxHp * allData.get(team).getHpMul() && node == this){
+                if(node.getHp() >= node.maxHp * allData.get(team).getHpMul() || node == this){
                     target = null;
                 } else {
                     node.damage(attack * Gdx.graphics.getDeltaTime() * allData.get(team).getAttackMul(), team, getColor());
-                    if (TimeUtils.millis() % 200 > 150) {
+                    if (TimeUtils.millis() % 500 > 450) {
                         Pellet temp = new Pellet(node.getX() + node.getWidth() / 2, node.getY() + node.getHeight() / 2);
                         temp.setPosition(getX() + getWidth() / 2, getY() + getHeight() / 2);
                         temp.setColor(getColor());
