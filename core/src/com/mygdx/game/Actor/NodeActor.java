@@ -89,9 +89,17 @@ public class NodeActor extends Actor {
         sprite.setSize(getWidth(), getHeight());
 
         if (type != 5) {
-            if (lastHealTime + 10000 < TimeUtils.millis()) {
-                hp += maxHp * allData.get(team).getHpMul() / 60 * Gdx.graphics.getDeltaTime();
-                hp = Math.min(hp, maxHp * allData.get(team).getHpMul());
+            if(type == 1){
+                if (lastHealTime + 10000 < TimeUtils.millis()) {
+                    hp += maxHp * allData.get(team).getHpMul() / 100 * Gdx.graphics.getDeltaTime();
+                    hp = Math.min(hp, maxHp * allData.get(team).getHpMul());
+                }
+            }
+            else{
+                if (lastHealTime + 10000 < TimeUtils.millis()) {
+                    hp += maxHp * allData.get(team).getHpMul() / 60 * Gdx.graphics.getDeltaTime();
+                    hp = Math.min(hp, maxHp * allData.get(team).getHpMul());
+                }
             }
         } else {
             if (team == 0) {
