@@ -40,6 +40,7 @@ public class GameScreen implements Screen {
     private final GameOverStage gameOverStage;
     private final TransitionStage transitionStage;
     private final ArrayList<PlayerData> alldata;
+    private boolean isSwitch;
     private boolean isOver;
     private ArrayList<Bot> controlBot = new ArrayList<Bot>();
 
@@ -50,6 +51,7 @@ public class GameScreen implements Screen {
         ai_count = cnt;
         ai_level = cl;
         isOver = false;
+        isSwitch = false;
         alldata = new ArrayList<PlayerData>();
 
 
@@ -87,7 +89,7 @@ public class GameScreen implements Screen {
         gameStageUI = new GameStageUI(game, ai_count, alldata, this);
         pelletStage = new Stage();
         nodeStage = new NodeStage(game, alldata, this, allNode);
-        gameOverStage = new GameOverStage();
+        gameOverStage = new GameOverStage(game);
         coverStage = new CoverStage(game, this);
         transitionStage = new TransitionStage();
 
@@ -286,6 +288,7 @@ public class GameScreen implements Screen {
 
     private void endGame(boolean b) {
         isOver = true;
+        playingSceneSong.stop();
         gameOverStage.gameover(b);
     }
 
@@ -297,5 +300,16 @@ public class GameScreen implements Screen {
 
     public void playerDeath(int p) {
         gameStageUI.playerDeath(p);
+    }
+
+    public void switchMusic(){
+        if(!isSwitch){
+            playingSceneSong.stop();
+            playingSceneSong = game.manager.get("240remain.mp3", Music.class);
+            playingSceneSong.setLooping(false);
+            playingSceneSong.setVolume(0.5f);
+            playingSceneSong.play();
+            isSwitch = true;
+        }
     }
 }
