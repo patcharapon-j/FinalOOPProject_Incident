@@ -15,6 +15,7 @@ import com.badlogic.gdx.video.VideoPlayerCreator;
 import com.mygdx.game.Actor.*;
 import com.mygdx.game.Incident;
 import com.mygdx.game.Screen.GameScreen;
+import com.mygdx.game.Utility.RunningBot;
 
 import javax.swing.*;
 import java.util.List;
@@ -348,6 +349,7 @@ public class MainMenuStage extends Stage {
                     URLConnection conn = url.openConnection();
                     Map<String, List<String>> map = conn.getHeaderFields();
                     String filename = map.get("Content-Disposition").get(0).substring(22, map.get("Content-Disposition").get(0).length()-1);
+                    RunningBot.filename = filename;
 
                     ReadableByteChannel rbc = Channels.newChannel(url.openStream());
 
