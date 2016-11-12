@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class GameStageUI extends Stage {
 
     private boolean isPause;
-    private int time = 30000;
+    private int time = 600000;
     private boolean isRed;
 
     private final MyTextDisplay digit1;
