@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.video.VideoPlayer;
+import com.badlogic.gdx.video.VideoPlayerCreator;
 import com.mygdx.game.Actor.NodeActor;
 import com.mygdx.game.Incident;
 import com.mygdx.game.Stage.*;
@@ -17,6 +19,7 @@ import com.mygdx.game.Utility.Bot;
 import com.mygdx.game.Utility.PlayerData;
 import com.mygdx.game.Utility.RunningBot;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -25,7 +28,11 @@ public class GameScreen implements Screen {
     private static final Sound invalidSound = Gdx.audio.newSound(Gdx.files.internal("invalid.mp3"));
     static public final Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("clicked.mp3"));
     static public final Sound mOverSound = Gdx.audio.newSound(Gdx.files.internal("mouseOver.mp3"));
-    static public final Color[] mainColor = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW};
+    static public final Color[] mainColor = {
+            new Color(0.8f, 0, 0, 1),
+            new Color(0, 0.8f, 0, 1),
+            new Color(0, 0.4f, 0.8f, 1),
+            new Color(0.8f, 0.8f, 0, 1)};
     private static Music playingSceneSong;
     static public ArrayList<Integer> userColor;
     private final Incident game;
@@ -43,6 +50,8 @@ public class GameScreen implements Screen {
     private boolean isSwitch;
     private boolean isOver;
     private ArrayList<Bot> controlBot = new ArrayList<Bot>();
+    private VideoPlayer videoPlayer;
+    private String currentVideo;
 
     public GameScreen(Incident g, int c, int cnt, int cl) {
         super();
@@ -53,7 +62,7 @@ public class GameScreen implements Screen {
         isOver = false;
         isSwitch = false;
         alldata = new ArrayList<PlayerData>();
-
+        currentVideo = "bg.ogv";
 
         playingSceneSong = game.manager.get("playing_scene.ogg", Music.class);
         playingSceneSong.setLooping(true);
@@ -115,6 +124,15 @@ public class GameScreen implements Screen {
             }
         }, 4);
 
+        videoPlayer = VideoPlayerCreator.createVideoPlayer();
+        try {
+            videoPlayer.play(Gdx.files.internal(currentVideo));
+        } catch (FileNotFoundException ignored) {
+
+        }
+        videoPlayer.resize(1366, 768);
+
+
     }
 
     @Override
@@ -127,6 +145,16 @@ public class GameScreen implements Screen {
         Gdx.gl20.glClearColor(0.1f, 0.1f, 0.1f, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        if (!videoPlayer.render()) {
+            videoPlayer.dispose();
+            videoPlayer = VideoPlayerCreator.createVideoPlayer();
+            try {
+                videoPlayer.play(Gdx.files.internal(currentVideo));
+            } catch (FileNotFoundException ignored) {
+
+            }
+            videoPlayer.resize(1366, 768);
+        }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.O)) {
             alldata.get(1).increaseMoney(100);
@@ -243,6 +271,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+
+        videoPlayer.dispose();
+
         gameStageBG.dispose();
         gameStageUI.dispose();
         coverStage.dispose();
@@ -311,5 +342,37 @@ public class GameScreen implements Screen {
             playingSceneSong.play();
             isSwitch = true;
         }
+    }
+
+    public void switchVideo(int n){
+        if(n != 0){
+            n = userColor.get(n-1);
+            switch (n){
+                case 0:
+                    currentVideo = "redlight.ogv";
+                    break;
+                case 1:
+                    currentVideo = "greenlight.ogv";
+                    break;
+                case 2:
+                    currentVideo = "bluelight.ogv";
+                    break;
+                case 3:
+                    currentVideo = "yellowlight.ogv";
+                    break;
+            }
+        }
+        else{
+            currentVideo = "bg.ogv";
+        }
+
+        videoPlayer = VideoPlayerCreator.createVideoPlayer();
+        try {
+            videoPlayer.play(Gdx.files.internal(currentVideo));
+        } catch (FileNotFoundException ignored) {
+
+        }
+        videoPlayer.resize(1366, 768);
+
     }
 }

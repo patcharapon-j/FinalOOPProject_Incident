@@ -12,9 +12,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 
-/**
- * Created by boon8 on 11/11/2559.
- */
 public class RunningBot {
 
     private Bot bot;

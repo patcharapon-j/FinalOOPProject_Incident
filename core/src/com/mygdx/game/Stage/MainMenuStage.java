@@ -439,7 +439,7 @@ public class MainMenuStage extends Stage {
         };
         blueBlock.setSize(65, 65);
         blueBlock.setPosition(255 - 500, 225);
-        blueBlock.setColor(new Color(0, 0, 0.8f, 1));
+        blueBlock.setColor(new Color(0, 0.4f, 0.8f, 1));
         blueBlock.setSelected(false);
         addActor(blueBlock);
 
@@ -481,6 +481,7 @@ public class MainMenuStage extends Stage {
     @Override
     public void draw() {
         if (!videoPlayer.render()) {
+            videoPlayer.dispose();
             videoPlayer = VideoPlayerCreator.createVideoPlayer();
             try {
                 videoPlayer.play(Gdx.files.internal("video.ogv"));
