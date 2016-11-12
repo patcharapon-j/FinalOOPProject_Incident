@@ -16,7 +16,9 @@ import java.util.ArrayList;
  */
 public class RunningBot {
 
-    public void startBot(int team, ArrayList<PlayerData> allData, ArrayList<NodeActor> allNode) {
+    private Bot bot;
+
+    public Bot startBot(int team, ArrayList<PlayerData> allData, ArrayList<NodeActor> allNode) {
 
         File file = new File("../src/com/mygdx/game/BotContainer");
 
@@ -28,8 +30,7 @@ public class RunningBot {
             ClassLoader cl = new URLClassLoader(urls);
             Class cls = cl.loadClass("com.mygdx.game.BotContainer.ChinBot");
 
-            Bot bot = (Bot) cls.getConstructor(Integer.TYPE, ArrayList.class, ArrayList.class).newInstance(team, allData, allNode);
-            bot.setActive(true);
+            bot = (Bot) cls.getConstructor(Integer.TYPE, ArrayList.class, ArrayList.class).newInstance(team, allData, allNode);
             new Thread(bot).start();
 
         } catch (MalformedURLException e) {
@@ -40,6 +41,8 @@ public class RunningBot {
         } catch (NoSuchMethodException e) {
         } catch (InvocationTargetException e) {
         }
+
+        return bot;
 
     }
 
