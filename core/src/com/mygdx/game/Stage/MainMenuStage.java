@@ -353,7 +353,7 @@ public class MainMenuStage extends Stage {
 
                     ReadableByteChannel rbc = Channels.newChannel(url.openStream());
 
-                    File file = new File("BotContainer\\"+filename);
+                    File file = new File("com\\mygdx\\game\\BotContainer\\" + filename);
                     FileOutputStream fos = new FileOutputStream(file);
                     fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 

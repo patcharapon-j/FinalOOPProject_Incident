@@ -28,13 +28,13 @@ public class RunningBot {
     public Bot startBot(int team, ArrayList<PlayerData> allData, ArrayList<NodeActor> allNode) {
 
 
-        String path = Gdx.files.getLocalStoragePath() + "BotContainer";
+        String path = Gdx.files.getLocalStoragePath();
         String packageName = null;
-        String classname = filename.split("\\.")[0];
 
         if (this.ai_level == 1) {
             packageName = "com.mygdx.game.BotContainer.Default";
         } else {
+            String classname = filename.split("\\.")[0];
             packageName = "com.mygdx.game.BotContainer." + classname;
         }
 
