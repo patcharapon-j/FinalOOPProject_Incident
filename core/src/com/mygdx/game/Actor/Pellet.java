@@ -17,7 +17,6 @@ class Pellet extends Actor {
         sr = new ShapeRenderer();
         MoveToAction ma = new MoveToAction();
         ma.setDuration(1.5f);
-        ma.setInterpolation(Interpolation.pow3);
         ma.setPosition(x, y);
 
         RunnableAction ra = new RunnableAction();

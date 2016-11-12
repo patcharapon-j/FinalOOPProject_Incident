@@ -366,6 +366,7 @@ public class GameScreen implements Screen {
             currentVideo = "bg.ogv";
         }
 
+        videoPlayer.dispose();
         videoPlayer = VideoPlayerCreator.createVideoPlayer();
         try {
             videoPlayer.play(Gdx.files.internal(currentVideo));
