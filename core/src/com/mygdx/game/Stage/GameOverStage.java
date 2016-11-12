@@ -1,12 +1,14 @@
 package com.mygdx.game.Stage;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.Actor.MyTextDisplay;
 import com.mygdx.game.Actor.PrimitiveSqaure;
+import com.mygdx.game.Incident;
 
 public class GameOverStage extends Stage {
 
@@ -14,10 +16,11 @@ public class GameOverStage extends Stage {
     private final MyTextDisplay text2;
     private final PrimitiveSqaure screenFlash;
     private final PrimitiveSqaure screenBlack;
-
-    public GameOverStage() {
+    private Music playingSceneSong;
+    private Incident game;
+    public GameOverStage(Incident game) {
         super();
-
+        this.game = game;
         screenBlack = new PrimitiveSqaure(0);
         screenBlack.setColor(new Color(0, 0, 0, 0));
         screenBlack.setPosition(0, 0);
@@ -60,15 +63,25 @@ public class GameOverStage extends Stage {
         super.dispose();
         text.remove();
         screenFlash.remove();
+        playingSceneSong.stop();
+        playingSceneSong.dispose();
         clear();
     }
 
     public void gameover(boolean victory) {
         if (victory) {
             text.setText("VICTORY");
+            playingSceneSong = game.manager.get("victory.mp3", Music.class);
+            playingSceneSong.setLooping(true);
+            playingSceneSong.setVolume(0.5f);
+            playingSceneSong.play();
         } else {
             text.setText("DEFEAT");
             text.setColor(new Color(0.8f, 0, 0, 0));
+            playingSceneSong = game.manager.get("Defeat.mp3", Music.class);
+            playingSceneSong.setLooping(true);
+            playingSceneSong.setVolume(0.5f);
+            playingSceneSong.play();
         }
 
         screenBlack.setColor(new Color(0, 0, 0, 0.9f));

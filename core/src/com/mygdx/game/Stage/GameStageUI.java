@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class GameStageUI extends Stage {
 
     private boolean isPause;
-    private int time = 600000;
+    private int time = 30000;
     private boolean isRed;
 
     private final MyTextDisplay digit1;
@@ -63,6 +63,7 @@ public class GameStageUI extends Stage {
     private final PrimitiveSqaure beginBack;
     private final ArrayList<PlayerData> allData;
     private final int ai_c;
+    private GameScreen screen;
 
     public GameStageUI(Incident g, int ai_count, ArrayList<PlayerData> d, final GameScreen gameScreen) {
         super();
@@ -72,6 +73,7 @@ public class GameStageUI extends Stage {
         isActive = false;
         timer = new Timer();
         allData = d;
+        screen = gameScreen;
 
         MyPauseBtn myPauseBtn = new MyPauseBtn(g.manager) {
             @Override
@@ -568,6 +570,10 @@ public class GameStageUI extends Stage {
     @Override
     public void act() {
         super.act();
+
+        if(time <= 160000){
+            screen.switchMusic();
+        }
         digit1.setText(String.format("%02d", time / 60000));
         digit2.setText(String.format("%02d", time % 60000 / 1000));
         digit3.setText(String.format("%03d", time % 1000));

@@ -26,6 +26,9 @@ public class Incident extends Game {
         manager.load("clicked.mp3", Music.class);
         manager.load("mouseOver.mp3", Music.class);
         manager.load("invalid.mp3", Music.class);
+        manager.load("240remain.mp3", Music.class);
+        manager.load("Defeat.mp3", Music.class);
+        manager.load("victory.mp3", Music.class);
 
         manager.load("Sprite/correct.png", Texture.class);
         manager.load("Sprite/GridBg.png", Texture.class);
