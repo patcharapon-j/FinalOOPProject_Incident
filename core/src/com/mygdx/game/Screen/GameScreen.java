@@ -97,8 +97,7 @@ public class GameScreen implements Screen {
         im.addProcessor(coverStage);
         im.addProcessor(gameOverStage);
 
-        RunningBot rn = new RunningBot();
-        Bot a;
+        RunningBot rn = new RunningBot(ai_level);
         for(int i=2; i<=ai_count+1;i++){
             controlBot.add(rn.startBot(i, alldata, allNode));
         }
