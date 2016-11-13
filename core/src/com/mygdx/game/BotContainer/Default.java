@@ -67,7 +67,7 @@ public class Default extends Bot{
                     if((node.getType() == 1 || node.getType() == 2)){
                         for(NodeActor n2: allNode){
                             if(isAttackAble(node, n2) && node.getTarget() == null){
-                                if(n2.getType() == 4 && n2.getType() == 1){
+                                if(n2.getType() == 4 || n2.getType() == 1){
                                     build(node, 2);
                                 }
                                 attack(node, n2);
@@ -110,12 +110,5 @@ public class Default extends Bot{
                 }
             }
         }
-
-        try {
-            Thread.sleep((long)(Math.random()*500));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
     }
 }

@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.Screen.GameScreen;
 import com.mygdx.game.Utility.PlayerData;
 
@@ -36,7 +37,8 @@ public class NodeActor extends Actor {
     private long lastHealTime;
     private final GameScreen gameScreen;
     private ShapeRenderer sr;
-
+    private int state;
+    private float point[] = {0, 0, 0, 0, 0};
     public NodeActor(AssetManager m, int i, int ty, ArrayList<PlayerData> data, GameScreen s, ArrayList<NodeActor> n) {
         super();
         gameScreen = s;
@@ -55,6 +57,7 @@ public class NodeActor extends Actor {
         sr = new ShapeRenderer();
         oriHeight = sprite.getHeight();
         oriWidth = sprite.getWidth();
+        state= 1;
         setTouchable(Touchable.enabled);
         changeType(ty);
     }
@@ -62,113 +65,126 @@ public class NodeActor extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        batch.end();
-        sr.begin(ShapeRenderer.ShapeType.Filled);
-        sr.setColor(Color.BLACK);
-        sr.circle(getX() + getWidth() / 2, getY() + getHeight() / 2, 10);
-        sr.end();
-        if (hp < maxHp * allData.get(team).getHpMul()) {
+        if(state == 0){
+            batch.end();
             sr.begin(ShapeRenderer.ShapeType.Filled);
-            sr.setColor(new Color(0.2f, 0.2f, 0.2f, 1));
-            sr.rect(getX() + getWidth() - getWidth(), getY() - 6, getWidth(), 3);
-            sr.setColor(Color.WHITE);
-            sr.rect(getX() + getWidth() - getWidth(), getY() - 6, getWidth() * hp / (maxHp * allData.get(team).getHpMul()), 3);
+            sr.setColor(new Color(0.1f, 0.1f, 0.1f, 1));
+            sr.circle(getX() + getWidth() / 2, getY() + getHeight() / 2, 10);
             sr.end();
+            batch.begin();
+            if(TimeUtils.millis() % 500 > 250){
+                sprite.draw(batch);
+            }
         }
-        batch.begin();
-        sprite.draw(batch);
-
+        else if(state == 1){
+            batch.end();
+            sr.begin(ShapeRenderer.ShapeType.Filled);
+            sr.setColor(new Color(0.1f, 0.1f, 0.1f, 1));
+            sr.circle(getX() + getWidth() / 2, getY() + getHeight() / 2, 10);
+            sr.end();
+            if (hp < maxHp * allData.get(team).getHpMul()) {
+                sr.begin(ShapeRenderer.ShapeType.Filled);
+                sr.setColor(new Color(0.2f, 0.2f, 0.2f, 1));
+                sr.rect(getX() + getWidth() - getWidth(), getY() - 6, getWidth(), 3);
+                sr.setColor(Color.WHITE);
+                sr.rect(getX() + getWidth() - getWidth(), getY() - 6, getWidth() * hp / (maxHp * allData.get(team).getHpMul()), 3);
+                sr.end();
+            }
+            batch.begin();
+            sprite.draw(batch);
+        }
 
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
+        if(state == 1){
+            if (type != 5) {
+                if(type == 1){
+                    if (lastHealTime + 10000 < TimeUtils.millis()) {
+                        hp += maxHp * allData.get(team).getHpMul() / 100 * Gdx.graphics.getDeltaTime();
+                        hp = Math.min(hp, maxHp * allData.get(team).getHpMul());
+                    }
+                }
+                else{
+                    if (lastHealTime + 10000 < TimeUtils.millis()) {
+                        hp += maxHp * allData.get(team).getHpMul() / 60 * Gdx.graphics.getDeltaTime();
+                        hp = Math.min(hp, maxHp * allData.get(team).getHpMul());
+                    }
+                }
+            } else {
+                if (team == 0) {
+                    if (lastHealTime + 10000 < TimeUtils.millis()) {
+                        hp += maxHp * allData.get(team).getHpMul() / 60 * Gdx.graphics.getDeltaTime();
+                        hp = Math.min(hp, maxHp * allData.get(team).getHpMul());
+                    }
+                } else {
+                    hp -= maxHp * allData.get(team).getHpMul() / 30 * Gdx.graphics.getDeltaTime();
+                    hp = Math.min(hp, maxHp * allData.get(team).getHpMul());
+                }
+            }
+
+            switch (type) {
+                //blank
+                case 0:
+                    break;
+                //MainFrame
+                case 1:
+                    if (target != null) {
+                        attack(target, 0);
+                    }
+                    break;
+                //ddos
+                case 2:
+                    if (target != null) {
+                        attack(target, 0);
+                    }
+                    break;
+                //virus
+                case 3:
+                    for (NodeActor node : allNode) {
+                        if (calDistance(getX() + getWidth() / 2, getY() + getHeight() / 2,
+                                node.getX() + node.getWidth() / 2, node.getY() + node.getHeight() / 2) <= 150) {
+                            attack(node, 0);
+                        }
+                    }
+                    break;
+                //antiviruss
+                case 4:
+                    for (NodeActor node : allNode) {
+                        if (calDistance(getX() + getWidth() / 2, getY() + getHeight() / 2,
+                                node.getX() + node.getWidth() / 2, node.getY() + node.getHeight() / 2) <= 150 && node.getTeam() == team) {
+                            attack(node, 1);
+                        }
+                    }
+                    break;
+                //datacenter
+                case 5:
+                    if (team != 0) {
+                        allData.get(team).advanceProgess(1 * Gdx.graphics.getDeltaTime());
+                    }
+                    if (hp <= 0) {
+                        changeTeam(0, Color.WHITE);
+                        changeType(5);
+                        gameScreen.switchVideo(0);
+
+                    }
+                    break;
+                //defender
+                case 6:
+                    break;
+            }
+
+            if (type == 1) {
+                allData.get(team).increaseMoney(1 * delta * allData.get(team).getRange());
+            } else {
+                allData.get(team).increaseMoney(0.2f * delta * allData.get(team).getRange());
+            }
+        }
         sprite.setColor(getColor());
         sprite.setPosition(getX(), getY());
         sprite.setSize(getWidth(), getHeight());
-
-        if (type != 5) {
-            if(type == 1){
-                if (lastHealTime + 10000 < TimeUtils.millis()) {
-                    hp += maxHp * allData.get(team).getHpMul() / 100 * Gdx.graphics.getDeltaTime();
-                    hp = Math.min(hp, maxHp * allData.get(team).getHpMul());
-                }
-            }
-            else{
-                if (lastHealTime + 10000 < TimeUtils.millis()) {
-                    hp += maxHp * allData.get(team).getHpMul() / 60 * Gdx.graphics.getDeltaTime();
-                    hp = Math.min(hp, maxHp * allData.get(team).getHpMul());
-                }
-            }
-        } else {
-            if (team == 0) {
-                if (lastHealTime + 10000 < TimeUtils.millis()) {
-                    hp += maxHp * allData.get(team).getHpMul() / 60 * Gdx.graphics.getDeltaTime();
-                    hp = Math.min(hp, maxHp * allData.get(team).getHpMul());
-                }
-            } else {
-                hp -= maxHp * allData.get(team).getHpMul() / 30 * Gdx.graphics.getDeltaTime();
-                hp = Math.min(hp, maxHp * allData.get(team).getHpMul());
-            }
-        }
-
-        switch (type) {
-            //blank
-            case 0:
-                break;
-            //MainFrame
-            case 1:
-                if (target != null) {
-                    attack(target, 0);
-                }
-                break;
-            //ddos
-            case 2:
-                if (target != null) {
-                    attack(target, 0);
-                }
-                break;
-            //virus
-            case 3:
-                for (NodeActor node : allNode) {
-                    if (calDistance(getX() + getWidth() / 2, getY() + getHeight() / 2,
-                            node.getX() + node.getWidth() / 2, node.getY() + node.getHeight() / 2) <= 150) {
-                        attack(node, 0);
-                    }
-                }
-                break;
-            //antiviruss
-            case 4:
-                for (NodeActor node : allNode) {
-                    if (calDistance(getX() + getWidth() / 2, getY() + getHeight() / 2,
-                            node.getX() + node.getWidth() / 2, node.getY() + node.getHeight() / 2) <= 150 && node.getTeam() == team) {
-                        attack(node, 1);
-                    }
-                }
-                break;
-            //datacenter
-            case 5:
-                if (team != 0) {
-                    allData.get(team).advanceProgess(1 * Gdx.graphics.getDeltaTime());
-                }
-                if (hp <= 0) {
-                    changeTeam(0, Color.WHITE);
-                    changeType(5);
-                    gameScreen.switchVideo(0);
-
-                }
-                break;
-            //defender
-            case 6:
-                break;
-        }
-
-        if (type == 1) {
-            allData.get(team).increaseMoney(1 * delta * allData.get(team).getRange());
-        } else {
-            allData.get(team).increaseMoney(0.2f * delta * allData.get(team).getRange());
-        }
     }
 
     @Override
@@ -257,32 +273,68 @@ public class NodeActor extends Actor {
     }
 
     private void damage(float amount, int t, Color c) {
-        hp -= amount;
-        lastHealTime = TimeUtils.millis();
-        if(hp > allData.get(team).getHpMul()*maxHp){
-            hp = allData.get(team).getHpMul()*maxHp;
+        if(state == 0){
+            point[t] += amount;
         }
-        if (hp <= 0) {
-            if(type == 5){
-                gameScreen.switchVideo(t);
+        else{
+
+            hp -= amount;
+            lastHealTime = TimeUtils.millis();
+            if(hp > allData.get(team).getHpMul()*maxHp){
+                hp = allData.get(team).getHpMul()*maxHp;
             }
-            allData.get(team).setNodeCount(allData.get(team).getNodeCount() - 1);
-            if (type == 1) {
-                gameScreen.playerDeath(team);
-                for (NodeActor node : allNode) {
-                    if (node.getTeam() == team && node != this) {
-                        node.changeTeam(0, Color.WHITE);
-                        node.changeType(0);
-                    }
+            if (hp <= 0) {
+                if(type == 5){
+                    gameScreen.switchVideo(0);
                 }
-                changeType(0);
-                allData.get(team).setDestroyed();
-            } else if (type != 5) {
-                changeType(0);
+                allData.get(team).setNodeCount(allData.get(team).getNodeCount() - 1);
+                if (type == 1) {
+                    gameScreen.playerDeath(team);
+                    for (NodeActor node : allNode) {
+                        if (node.getTeam() == team && node != this) {
+                            node.changeTeam(0, Color.WHITE);
+                            node.changeType(0);
+                        }
+                    }
+                    changeType(0);
+                    allData.get(team).setDestroyed();
+                } else if (type != 5) {
+                    changeType(0);
+                }
+
+                state = 0;
+                point[0] = 0;
+                point[1] = 0;
+                point[2] = 0;
+                point[3] = 0;
+                point[4] = 0;
+
+                Timer timer = new Timer();
+                timer.scheduleTask(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        state = 1;
+                        int winner = 0;
+                        float maxp = 0;
+                        for(int k=1;k<5;k++){
+                            if(point[k] > maxp){
+                                maxp = point[k];
+                                winner = k;
+                            }
+                        }
+                        if(winner == 0){
+                            changeTeam(0, Color.WHITE);
+                            hp = maxHp * allData.get(team).getHpMul();
+                            allData.get(team).setNodeCount(allData.get(team).getNodeCount() + 1);
+                        }
+                        else{
+                            changeTeam(winner, GameScreen.mainColor[GameScreen.userColor.get(winner-1)]);
+                            hp = maxHp * allData.get(team).getHpMul();
+                            allData.get(team).setNodeCount(allData.get(team).getNodeCount() + 1);
+                        }
+                    }
+                }, 5);
             }
-            changeTeam(t, c);
-            hp = maxHp * allData.get(team).getHpMul();
-            allData.get(team).setNodeCount(allData.get(team).getNodeCount() + 1);
         }
     }
 
