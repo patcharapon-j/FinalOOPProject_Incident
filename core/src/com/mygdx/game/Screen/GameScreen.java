@@ -90,7 +90,7 @@ public class GameScreen implements Screen {
         for(int k=0;k<5;k++){
             alldata.add(new PlayerData());
             if(k!=1){
-                alldata.get(k).setRange(1.15f);
+                alldata.get(k).setRange(1.05f);
             }
         }
 
