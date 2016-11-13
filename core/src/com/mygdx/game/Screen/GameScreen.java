@@ -67,7 +67,7 @@ public class GameScreen implements Screen {
 
         playingSceneSong = game.manager.get("playing_scene.ogg", Music.class);
         playingSceneSong.setLooping(true);
-        playingSceneSong.setVolume(0.5f);
+        playingSceneSong.setVolume(0.4f);
         playingSceneSong.play();
 
         /*
@@ -342,7 +342,7 @@ public class GameScreen implements Screen {
             playingSceneSong.stop();
             playingSceneSong = game.manager.get("240remain.mp3", Music.class);
             playingSceneSong.setLooping(false);
-            playingSceneSong.setVolume(0.5f);
+            playingSceneSong.setVolume(0.7f);
             playingSceneSong.play();
             isSwitch = true;
         }
