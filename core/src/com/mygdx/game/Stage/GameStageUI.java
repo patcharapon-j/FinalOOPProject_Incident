@@ -188,11 +188,11 @@ public class GameStageUI extends Stage {
         playerInfo4 = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 16, 0);
 
         final float paddingB = 16;
-        final float paddingL = 48;
+        final float paddingL = 44;
 
-        playerInfo2.setText("0        0       0        0");
-        playerInfo3.setText("0        0       0        0");
-        playerInfo4.setText("0        0       0        0");
+        playerInfo2.setText(String.format("%02d", 0) + "       0       0        0");
+        playerInfo3.setText(String.format("%02d", 0) + "       0       0        0");
+        playerInfo4.setText(String.format("%02d", 0) + "       0       0        0");
 
 //Player Info Icon **[Left side of Screen (icon)]
 
@@ -578,13 +578,12 @@ public class GameStageUI extends Stage {
         digit1.setText(String.format("%02d", time / 60000));
         digit2.setText(String.format("%02d", time % 60000 / 1000));
         digit3.setText(String.format("%03d", time % 1000));
-
         adkSelectCost.setText(allData.get(1).getAttackPrice() + "");
         mechSelectCost.setText(allData.get(1).getHpPrice() + "");
         creditSelectCost.setText(allData.get(1).getRangePrince() + "");
 
         if (!allData.get(2).isDestroyed()) {
-            playerInfo2.setText(allData.get(2).getNodeCount() + "        " +
+            playerInfo2.setText(String.format("%02d", allData.get(2).getNodeCount()) + "       " +
                     allData.get(2).getAttackLevel() + "       "
                     + allData.get(2).getHpLevel() + "        "
                     + allData.get(2).getRangeLevel());
@@ -592,7 +591,7 @@ public class GameStageUI extends Stage {
             playerInfo2.setText("");
         }
         if (!allData.get(3).isDestroyed()) {
-            playerInfo3.setText(allData.get(3).getNodeCount() + "        " +
+            playerInfo3.setText(String.format("%02d", allData.get(3).getNodeCount()) + "       " +
                     allData.get(3).getAttackLevel() + "       "
                     + allData.get(3).getHpLevel() + "        "
                     + allData.get(3).getRangeLevel());
@@ -600,7 +599,7 @@ public class GameStageUI extends Stage {
             playerInfo3.setText("");
         }
         if (!allData.get(4).isDestroyed()) {
-            playerInfo4.setText(allData.get(4).getNodeCount() + "        " +
+            playerInfo4.setText(String.format("%02d", allData.get(4).getNodeCount()) + "       " +
                     allData.get(4).getAttackLevel() + "       "
                     + allData.get(4).getHpLevel() + "        "
                     + allData.get(4).getRangeLevel());
