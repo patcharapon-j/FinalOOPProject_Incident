@@ -3,6 +3,7 @@ package com.mygdx.game.Stage;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -23,6 +24,9 @@ public class NodeStage extends Stage {
     private BuyNode selectedBuy;
     private final GameScreen gameScreen;
     private final CircleDynamic cir;
+    private Sound c1;
+    private Sound c2;
+    private Sound cr;
 
     public NodeStage(Incident g, ArrayList<PlayerData> datas, GameScreen ga, ArrayList<NodeActor> an) {
         super();
@@ -33,6 +37,9 @@ public class NodeStage extends Stage {
         gameScreen.getGameStageBG().addActor(cir);
         int count = gameScreen.getAi_count();
         //count = 3;
+        c1 = g.manager.get("Effect/sfx_buynode_click.ogg", Sound.class);
+        c2 = g.manager.get("Effect/sfx_buynode_release.ogg", Sound.class);
+        cr = g.manager.get("Effect/sfx_node_release.ogg", Sound.class);
 
         int[] number_node = {4, 5, 6, 7, 6, 5, 4};
         int[] space_ratio = {3, 2, 1, 0, 1, 2, 3};
@@ -229,6 +236,7 @@ public class NodeStage extends Stage {
                     } else if (temp.getClass() == BuyNode.class) {
                         selectedBuy = (BuyNode) temp;
                         selectedBuy.pickup();
+                        c1.play(0.7f);
                     }
                 }
             }
@@ -247,6 +255,7 @@ public class NodeStage extends Stage {
                             temp.getX() + temp.getWidth() / 2,
                             temp.getY() + temp.getHeight() / 2) <= 150) {
                         selected.setTarget((NodeActor) temp);
+                        cr.play(0.6f);
                     }
                 }
             }
@@ -258,6 +267,7 @@ public class NodeStage extends Stage {
                             if (allData.get(node.getTeam()).getMoney() >= selectedBuy.getCost()) {
                                 allData.get(node.getTeam()).decreaseMoney(selectedBuy.getCost());
                                 node.changeType(selectedBuy.getType());
+                                c2.play(0.7f);
                             } else {
                                 gameScreen.moneyFlash();
                             }

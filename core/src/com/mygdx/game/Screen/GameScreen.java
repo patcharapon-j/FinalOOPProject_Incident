@@ -332,6 +332,7 @@ public class GameScreen implements Screen {
         long id = invalidSound.play(1.0f);
         invalidSound.setPitch(id, 2);
         gameStageUI.redFlash();
+        game.manager.get("Speech/speech_insufficient_credits.mp3", Sound.class).play();
     }
 
     public void playerDeath(int p) {

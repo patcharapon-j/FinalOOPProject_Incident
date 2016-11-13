@@ -2,6 +2,7 @@ package com.mygdx.game.Stage;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -77,6 +78,7 @@ public class GameOverStage extends Stage {
         if (victory) {
             text.setText("VICTORY");
             playingSceneSong = game.manager.get("victory.mp3", Music.class);
+            game.manager.get("Speech/speech_victory.mp3", Sound.class).play(2);
             playingSceneSong.setLooping(true);
             playingSceneSong.setVolume(0.5f);
             playingSceneSong.play();
@@ -84,6 +86,7 @@ public class GameOverStage extends Stage {
             text.setText("DEFEAT");
             text.setColor(new Color(0.8f, 0, 0, 0));
             playingSceneSong = game.manager.get("Defeat.mp3", Music.class);
+            game.manager.get("Speech/speech_defeated.mp3", Sound.class).play(2);
             playingSceneSong.setLooping(true);
             playingSceneSong.setVolume(0.5f);
             playingSceneSong.play();

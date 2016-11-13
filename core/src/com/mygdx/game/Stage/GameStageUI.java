@@ -1,6 +1,7 @@
 package com.mygdx.game.Stage;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -75,7 +76,8 @@ public class GameStageUI extends Stage {
         timer = new Timer();
         allData = d;
         screen = gameScreen;
-
+        final Sound cu = g.manager.get("Effect/sfx_upgrade_click.ogg", Sound.class);
+        final Sound cc = g.manager.get("Speech/speech_upgraded.ogg", Sound.class);
         MyPauseBtn myPauseBtn = new MyPauseBtn(g.manager) {
             @Override
             public void Myclick() {
@@ -389,6 +391,8 @@ public class GameStageUI extends Stage {
                     adkOnSelect.setColor(Color.WHITE);
                     adkOnSelect.changeColor(new Color(1, 1, 1, 0), onClickFadeTime);
                     allData.get(1).levelupAttack();
+                    cu.play(0.6f);
+                    cc.play();
                 } else {
                     gameScreen.moneyFlash();
                 }
@@ -418,6 +422,8 @@ public class GameStageUI extends Stage {
                     mechOnSelect.setColor(Color.WHITE);
                     mechOnSelect.changeColor(new Color(1, 1, 1, 0), onClickFadeTime);
                     allData.get(1).levelupHp();
+                    cu.play(0.6f);
+                    cc.play();
                 } else {
                     gameScreen.moneyFlash();
                 }
@@ -445,6 +451,8 @@ public class GameStageUI extends Stage {
                     creditOnSelect.setColor(Color.WHITE);
                     creditOnSelect.changeColor(new Color(1, 1, 1, 0), onClickFadeTime);
                     allData.get(1).levelupRange();
+                    cu.play(0.6f);
+                    cc.play();
                 } else {
                     gameScreen.moneyFlash();
                 }
@@ -517,18 +525,30 @@ public class GameStageUI extends Stage {
         beginBack.setPosition(0, Gdx.graphics.getHeight() / 2 - 75);
         addActor(beginBack);
 
+        final Sound count = g.manager.get("Effect/sfx_countdown.ogg", Sound.class);
+        final Sound count1 = g.manager.get("Effect/sfx_game_begin_1.ogg", Sound.class);
+        final Sound count2 = g.manager.get("Effect/sfx_game_begin_2.ogg", Sound.class);
+        final Sound count3 = g.manager.get("Effect/sfx_game_begin_3.ogg", Sound.class);
+        final Sound count4 = g.manager.get("Effect/sfx_game_begin_4.ogg", Sound.class);
+
         backCover = new MyTextDisplay("fonts/helveticaneue/HelveticaNeue Light.ttf", 80, 1);
         backCover.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         backCover.setColor(new Color(1, 1, 1, 1));
         backCover.setText("3");
+        count.play(0.6f);
+        count4.play(0.6f);
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
                 backCover.setText("2");
+                count.play(0.6f);
+                count3.play(0.6f);
                 timer.scheduleTask(new Timer.Task() {
                     @Override
                     public void run() {
                         backCover.setText("1");
+                        count.play(0.6f);
+                        count2.play();
                         timer.scheduleTask(new Timer.Task() {
                             @Override
                             public void run() {
@@ -536,6 +556,7 @@ public class GameStageUI extends Stage {
                                 backCover.changeColor(new Color(0, 0, 0, 0), 2);
                                 beginBack.changeColor(new Color(0, 0, 0, 0), 2);
                                 isActive = true;
+                                count1.play(0.6f);
                             }
                         }, 1);
                     }

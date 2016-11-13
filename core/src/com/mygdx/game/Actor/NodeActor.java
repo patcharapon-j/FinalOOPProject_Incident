@@ -2,6 +2,7 @@ package com.mygdx.game.Actor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.Screen.GameScreen;
 import com.mygdx.game.Utility.PlayerData;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -38,6 +40,7 @@ public class NodeActor extends Actor {
     private final GameScreen gameScreen;
     private ShapeRenderer sr;
     private int state;
+    private long lastWarnTime;
     private float point[] = {0, 0, 0, 0, 0};
     public NodeActor(AssetManager m, int i, int ty, ArrayList<PlayerData> data, GameScreen s, ArrayList<NodeActor> n) {
         super();
@@ -46,6 +49,7 @@ public class NodeActor extends Actor {
         sprite = new Sprite(manager.get("Sprite/blank.png", Texture.class));
         team = i;
         type = ty;
+        lastWarnTime = 0;
         allNode = n;
         sr = new ShapeRenderer();
         maxHp = 1024;
@@ -277,6 +281,13 @@ public class NodeActor extends Actor {
             point[t] += amount;
         }
         else{
+            if(team == 1 && type == 1){
+                if(lastWarnTime < TimeUtils.millis() && amount > 0){
+                    lastWarnTime = TimeUtils.millis() + 3000;
+                    manager.get("Effect/sfx_mainframe_under_atk.ogg", Sound.class).play(0.6f);
+                    manager.get("speech_you_are_under_attack.ogg", Sound.class).play();
+                }
+            }
             hp -= amount;
             lastHealTime = TimeUtils.millis();
             if(hp > allData.get(team).getHpMul()*maxHp){
@@ -285,9 +296,16 @@ public class NodeActor extends Actor {
             if (hp <= 0) {
                 if(type == 5){
                     gameScreen.switchVideo(0);
+                    manager.get("Effect/sfx_datacenter_loss.ogg", Sound.class).play(0.6f);
+                    if(team == 1){
+                        manager.get("Speech/speech_datacenter_loss.mp3", Sound.class).play(2);
+                    }
                 }
                 allData.get(team).setNodeCount(allData.get(team).getNodeCount() - 1);
                 if (type == 1) {
+                    manager.get("Effect/sfx_mainframe_offline.ogg", Sound.class).play(0.6f);
+                    manager.get("Speech/speech_enemy_offline.mp3", Sound.class).play(2);
+
                     gameScreen.playerDeath(team);
                     for (NodeActor node : allNode) {
                         if (node.getTeam() == team && node != this) {
@@ -332,6 +350,14 @@ public class NodeActor extends Actor {
                             allData.get(team).setNodeCount(allData.get(team).getNodeCount() + 1);
                             if(type == 5){
                                 gameScreen.switchVideo(winner);
+                                Sound s = manager.get("Effect/sfx_datacenter_capture.ogg", Sound.class);
+                                s.play(0.6f);
+                                if(winner == 1){
+                                    manager.get("Speech/speech_datacenter_capture.mp3", Sound.class).play(2);
+                                }
+                                else{
+                                    manager.get("Speech/speech_enemy_capture_datacenter.mp3", Sound.class).play(2);
+                                }
                             }
                         }
                     }
