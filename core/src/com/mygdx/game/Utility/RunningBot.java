@@ -17,6 +17,7 @@ public class RunningBot {
     private Bot bot;
     private int ai_level;
     static public String filename;
+    private ArrayList<PlayerData> data;
 
     public RunningBot(int ai_level) {
         this.ai_level = ai_level;
@@ -27,7 +28,7 @@ public class RunningBot {
 
         String path = Gdx.files.getLocalStoragePath();
         String packageName = null;
-
+        data = allData;
         if (this.ai_level == 1) {
             packageName = "com.mygdx.game.BotContainer.Default";
         } else {
@@ -48,6 +49,7 @@ public class RunningBot {
             bot = (Bot) cls.getConstructor(Integer.TYPE, ArrayList.class, ArrayList.class).newInstance(team, allData, allNode);
             new Thread(bot).start();
 
+
         } catch (MalformedURLException e) {
         } catch (ClassNotFoundException e) {
         } catch (NullPointerException e) {
@@ -58,7 +60,12 @@ public class RunningBot {
         }
 
         return bot;
+    }
 
+    public void stopBot(){
+        for(PlayerData d: data){
+            d.setGameEnd(true);
+        }
     }
 
 }

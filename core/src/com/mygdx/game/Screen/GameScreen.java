@@ -52,6 +52,7 @@ public class GameScreen implements Screen {
     private ArrayList<Bot> controlBot = new ArrayList<Bot>();
     private VideoPlayer videoPlayer;
     private String currentVideo;
+    private RunningBot rn;
 
     public GameScreen(Incident g, int c, int cnt, int cl) {
         super();
@@ -108,7 +109,7 @@ public class GameScreen implements Screen {
         im.addProcessor(coverStage);
         im.addProcessor(gameOverStage);
 
-        RunningBot rn = new RunningBot(ai_level);
+        rn = new RunningBot(ai_level);
         for(int i=2; i<=ai_count+1;i++){
             controlBot.add(rn.startBot(i, alldata, allNode));
         }
@@ -176,6 +177,7 @@ public class GameScreen implements Screen {
         if (isOver) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
                 game.setScreen(new MainMenuScreen(game));
+                rn.stopBot();
                 try {
                     dispose();
                 } catch (Exception e) {
@@ -271,6 +273,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+
+        rn.stopBot();
 
         videoPlayer.dispose();
 
@@ -374,6 +378,9 @@ public class GameScreen implements Screen {
 
         }
         videoPlayer.resize(1366, 768);
+    }
 
+    public RunningBot getRn() {
+        return rn;
     }
 }

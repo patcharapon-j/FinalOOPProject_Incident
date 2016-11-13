@@ -11,6 +11,7 @@ abstract public class Bot implements Runnable {
     protected final ArrayList<PlayerData> allData;
     protected final ArrayList<NodeActor> allNode;
     volatile private boolean active;
+    volatile private boolean kill;
 
     public Bot(int team, ArrayList<PlayerData> allData, ArrayList<NodeActor> allNode) {
         super();
@@ -23,7 +24,7 @@ abstract public class Bot implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        while (!allData.get(team).isGameEnd()) {
             if (active) {
                 calculation();
             }
@@ -120,5 +121,9 @@ abstract public class Bot implements Runnable {
 
     private double calDistance(float x1, float y1, float x2, float y2) {
         return Math.pow(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2), 0.5);
+    }
+
+    public void setKill(boolean kill) {
+        this.kill = kill;
     }
 }

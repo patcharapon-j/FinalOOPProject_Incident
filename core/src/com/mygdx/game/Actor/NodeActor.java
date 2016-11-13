@@ -232,7 +232,7 @@ public class NodeActor extends Actor {
                 sprite.setTexture(manager.get("Sprite/AntiVirus.png", Texture.class));
                 hp = hp / maxHp * 2048 * allData.get(team).getHpMul();
                 maxHp = 2048;
-                attack = -24;
+                attack = -28;
                 break;
             //datacenter
             case 5:

@@ -66,6 +66,7 @@ public class CoverStage extends Stage {
             @Override
             public void myClick() {
                 super.myClick();
+                screen.getRn().stopBot();
                 g.setScreen(new GameScreen(g, g.player_color, g.ai_count, g.ai_diff));
                 try {
                     screen.dispose();
@@ -85,6 +86,7 @@ public class CoverStage extends Stage {
             @Override
             public void myClick() {
                 super.myClick();
+                screen.getRn().stopBot();
                 g.setScreen(new MainMenuScreen(g));
                 try {
                     screen.dispose();

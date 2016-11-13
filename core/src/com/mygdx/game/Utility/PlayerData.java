@@ -15,6 +15,7 @@ public class PlayerData {
     private int rangePrince;
     private int nodeCount;
     private boolean destroyed;
+    private boolean gameEnd;
 
     public PlayerData() {
         super();
@@ -31,6 +32,7 @@ public class PlayerData {
         hpPrice = 100;
         rangePrince = 100;
         nodeCount = 1;
+        gameEnd = false;
     }
 
     public void decreaseMoney(float m) {
@@ -168,6 +170,14 @@ public class PlayerData {
 
     public void setNodeCount(int nodeCount) {
         this.nodeCount = nodeCount;
+    }
+
+    public boolean isGameEnd() {
+        return gameEnd;
+    }
+
+    public void setGameEnd(boolean gameEnd) {
+        this.gameEnd = gameEnd;
     }
 }
 
