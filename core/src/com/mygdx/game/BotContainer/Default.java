@@ -15,7 +15,7 @@ public class Default extends Bot{
     private boolean waitingForUpgrade = false;
     private int upgradeTarger = rd.nextInt(3) + 1;
     private PlayerData playerData;
-    private long upgradeTime = TimeUtils.millis() + (rd.nextInt(60) + 60)*1000;
+    private long upgradeTime = TimeUtils.millis() + (rd.nextInt(60) + 30)*1000;
 
     public Default(int team, ArrayList<PlayerData> allData, ArrayList<NodeActor> allNode) {
         super(team, allData, allNode);
@@ -32,7 +32,7 @@ public class Default extends Bot{
                         upgrade(1);
                         waitingForUpgrade = false;
                         upgradeTarger = rd.nextInt(3) + 1;
-                        upgradeTime = TimeUtils.millis() + (rd.nextInt(60) + 60)*1000;
+                        upgradeTime = TimeUtils.millis() + (rd.nextInt(60) + 30)*1000;
                     }
                     break;
                 case 2:
@@ -40,7 +40,7 @@ public class Default extends Bot{
                         upgrade(2);
                         waitingForUpgrade = false;
                         upgradeTarger = rd.nextInt(3) + 1;
-                        upgradeTime = TimeUtils.millis() + (rd.nextInt(60) + 60)*1000;
+                        upgradeTime = TimeUtils.millis() + (rd.nextInt(60) + 30)*1000;
                     }
                     break;
                 case 3:
@@ -48,7 +48,7 @@ public class Default extends Bot{
                         upgrade(3);
                         waitingForUpgrade = false;
                         upgradeTarger = rd.nextInt(3) + 1;
-                        upgradeTime = TimeUtils.millis() + (rd.nextInt(60) + 60)*1000;
+                        upgradeTime = TimeUtils.millis() + (rd.nextInt(60) + 30)*1000;
                     }
                     break;
             }
@@ -68,7 +68,9 @@ public class Default extends Bot{
                         for(NodeActor n2: allNode){
                             if(isAttackAble(node, n2) && node.getTarget() == null){
                                 if(n2.getType() == 4 || n2.getType() == 1){
-                                    build(node, 2);
+                                    if(node.getType() != 2){
+                                        build(node, 2);
+                                    }
                                 }
                                 attack(node, n2);
                             }
