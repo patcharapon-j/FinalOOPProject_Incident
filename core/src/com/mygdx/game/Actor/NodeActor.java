@@ -72,7 +72,7 @@ public class NodeActor extends Actor {
             sr.circle(getX() + getWidth() / 2, getY() + getHeight() / 2, 10);
             sr.end();
             batch.begin();
-            if(TimeUtils.millis() % 500 > 250){
+            if(TimeUtils.millis() % 400 > 200){
                 sprite.draw(batch);
             }
         }
@@ -277,7 +277,6 @@ public class NodeActor extends Actor {
             point[t] += amount;
         }
         else{
-
             hp -= amount;
             lastHealTime = TimeUtils.millis();
             if(hp > allData.get(team).getHpMul()*maxHp){
@@ -301,7 +300,7 @@ public class NodeActor extends Actor {
                 } else if (type != 5) {
                     changeType(0);
                 }
-
+                changeTeam(0, Color.WHITE);
                 state = 0;
                 point[0] = 0;
                 point[1] = 0;
@@ -331,6 +330,9 @@ public class NodeActor extends Actor {
                             changeTeam(winner, GameScreen.mainColor[GameScreen.userColor.get(winner-1)]);
                             hp = maxHp * allData.get(team).getHpMul();
                             allData.get(team).setNodeCount(allData.get(team).getNodeCount() + 1);
+                            if(type == 5){
+                                gameScreen.switchVideo(winner);
+                            }
                         }
                     }
                 }, 5);

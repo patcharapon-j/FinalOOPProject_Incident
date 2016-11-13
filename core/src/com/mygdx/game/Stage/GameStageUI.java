@@ -631,11 +631,11 @@ public class GameStageUI extends Stage {
                 colon.changeColor(Color.RED, 1);
             }
         } else {
-            allData.get(0).setMoney();
-            allData.get(1).setMoney();
-            allData.get(2).setMoney();
-            allData.get(3).setMoney();
-            allData.get(4).setMoney();
+            allData.get(0).setMoney(30);
+            allData.get(1).setMoney(30);
+            allData.get(2).setMoney(30);
+            allData.get(3).setMoney(30);
+            allData.get(4).setMoney(30);
         }
     }
 

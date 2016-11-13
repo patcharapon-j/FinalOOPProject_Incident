@@ -26,7 +26,7 @@ public class PlayerData {
         hpMul = 1;
         range = 1;
         rangeLevel = 1;
-        money = 0;
+        money = 30;
         progess = 0;
         attackPrice = 100;
         hpPrice = 100;
@@ -104,8 +104,8 @@ public class PlayerData {
         return money;
     }
 
-    public void setMoney() {
-        this.money = (float) 0;
+    public void setMoney(float money) {
+        this.money = money;
     }
 
     public float getProgess() {

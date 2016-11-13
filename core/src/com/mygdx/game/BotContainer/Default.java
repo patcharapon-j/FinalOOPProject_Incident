@@ -76,7 +76,7 @@ public class Default extends Bot{
                     }
                     else if(node.getType() == 0){
                         if(playerData.getMoney() >= 30){
-                            if(playerData.getNodeCount() >= 6){
+                            if(playerData.getNodeCount() >= 10){
                                 int x = rd.nextInt(5);
                                 switch (x){
                                     case 0:

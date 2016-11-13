@@ -87,11 +87,12 @@ public class GameScreen implements Screen {
             userColor.add(tempRandom);
         }
 
-        alldata.add(new PlayerData());
-        alldata.add(new PlayerData());
-        alldata.add(new PlayerData());
-        alldata.add(new PlayerData());
-        alldata.add(new PlayerData());
+        for(int k=0;k<5;k++){
+            alldata.add(new PlayerData());
+            if(k==1){
+                alldata.get(k).setRange(1.25f);
+            }
+        }
 
         ArrayList<NodeActor> allNode = new ArrayList<NodeActor>();
 
