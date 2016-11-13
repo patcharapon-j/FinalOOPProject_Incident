@@ -73,7 +73,7 @@ public class MainMenuStage extends Stage {
 
         themeSong = game.manager.get("theme.mp3", Music.class);
         themeSong.setLooping(true);
-        themeSong.setVolume(0.5f);
+        themeSong.setVolume(0.7f);
         themeSong.play();
 
         titleBack = new PrimitiveSqaure(0);

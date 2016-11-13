@@ -67,7 +67,7 @@ public class GameScreen implements Screen {
 
         playingSceneSong = game.manager.get("playing_scene.ogg", Music.class);
         playingSceneSong.setLooping(true);
-        playingSceneSong.setVolume(0.4f);
+        playingSceneSong.setVolume(0.25f);
         playingSceneSong.play();
 
         /*
@@ -90,7 +90,7 @@ public class GameScreen implements Screen {
         for(int k=0;k<5;k++){
             alldata.add(new PlayerData());
             if(k!=1){
-                alldata.get(k).setRange(1.05f);
+                alldata.get(k).setRange(1.15f);
             }
         }
 

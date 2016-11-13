@@ -76,7 +76,7 @@ public class NodeActor extends Actor {
             sr.circle(getX() + getWidth() / 2, getY() + getHeight() / 2, 10);
             sr.end();
             batch.begin();
-            if(TimeUtils.millis() % 400 > 200){
+            if(TimeUtils.millis() % 300 > 150){
                 sprite.draw(batch);
             }
         }
@@ -285,7 +285,7 @@ public class NodeActor extends Actor {
                 if(lastWarnTime < TimeUtils.millis() && amount > 0){
                     lastWarnTime = TimeUtils.millis() + 3000;
                     manager.get("Effect/sfx_mainframe_under_atk.ogg", Sound.class).play(0.6f);
-                    manager.get("speech_you_are_under_attack.ogg", Sound.class).play();
+                    manager.get("Speech/speech_you_are_under_attack.ogg", Sound.class).play();
                 }
             }
             hp -= amount;
@@ -304,8 +304,9 @@ public class NodeActor extends Actor {
                 allData.get(team).setNodeCount(allData.get(team).getNodeCount() - 1);
                 if (type == 1) {
                     manager.get("Effect/sfx_mainframe_offline.ogg", Sound.class).play(0.6f);
-                    manager.get("Speech/speech_enemy_offline.mp3", Sound.class).play(2);
-
+                    if(team > 1){
+                        manager.get("Speech/speech_enemy_offline.mp3", Sound.class).play(2);
+                    }
                     gameScreen.playerDeath(team);
                     for (NodeActor node : allNode) {
                         if (node.getTeam() == team && node != this) {
