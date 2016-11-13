@@ -75,7 +75,7 @@ public class Default extends Bot {
                         }
                     }
                 } else if (node.getType() == 0) {
-                    if (playerData.getMoney() >= 30 && !waitingForUpgrade) {
+                    if (playerData.getMoney() >= 25 + allData.get(team).getNodeCount()/2 * 5 && !waitingForUpgrade) {
                         if (playerData.getNodeCount() >= 10) {
                             int x = rd.nextInt(5);
                             switch (x) {

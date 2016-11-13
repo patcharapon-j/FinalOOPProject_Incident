@@ -13,6 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.utils.Timer;
+import com.mygdx.game.Utility.PlayerData;
+
+import java.util.ArrayList;
 
 public class BuyNode extends Actor {
 
@@ -25,16 +28,17 @@ public class BuyNode extends Actor {
     private final MyTextDisplay textDescribe;
     private final MyTextDisplay textName;
     private final PrimitiveSqaure back;
-    private final int cost;
+    private int cost;
     private final float oriX;
     private final float oriY;
-
-    public BuyNode(AssetManager m, int ty, float y) {
+    private ArrayList<PlayerData> allData;
+    public BuyNode(AssetManager m, int ty, float y, ArrayList<PlayerData> data) {
         super();
         oriX = (float) 1280;
         oriY = y;
         setPosition((float) 1280, y);
         manager = m;
+        allData = data;
         setTouchable(Touchable.disabled);
         sprite = new Sprite(manager.get("Sprite/blank.png", Texture.class));
         oriWidth = sprite.getWidth();
@@ -64,6 +68,8 @@ public class BuyNode extends Actor {
     @Override
     public void act(float delta) {
         super.act(delta);
+        textDisplay.setText(cost + "");
+        cost = 25 + (allData.get(1).getNodeCount()/2) * 5;
         sprite.setColor(getColor());
         sprite.setPosition(getX(), getY());
         sprite.setSize(getWidth(), getHeight());
@@ -168,4 +174,6 @@ public class BuyNode extends Actor {
             }
         }, 0.25f);
     }
+
+
 }

@@ -40,6 +40,7 @@ public class NodeActor extends Actor {
     private final GameScreen gameScreen;
     private ShapeRenderer sr;
     private int state;
+    private long deathTime;
     private long lastWarnTime;
     private float point[] = {0, 0, 0, 0, 0};
     public NodeActor(AssetManager m, int i, int ty, ArrayList<PlayerData> data, GameScreen s, ArrayList<NodeActor> n) {
@@ -126,6 +127,8 @@ public class NodeActor extends Actor {
                 } else {
                     hp -= maxHp * allData.get(team).getHpMul() / 30 * Gdx.graphics.getDeltaTime();
                     hp = Math.min(hp, maxHp * allData.get(team).getHpMul());
+
+
                 }
             }
 
@@ -169,10 +172,41 @@ public class NodeActor extends Actor {
                         allData.get(team).advanceProgess(1 * Gdx.graphics.getDeltaTime());
                     }
                     if (hp <= 0) {
-                        changeTeam(0, Color.WHITE);
-                        changeType(5);
-                        gameScreen.switchVideo(0);
 
+                        deathTime = TimeUtils.millis() + 5000;
+                        if(type == 5){
+                            gameScreen.switchVideo(0);
+                            deathTime = TimeUtils.millis() + 10000;
+                            manager.get("Effect/sfx_datacenter_loss.ogg", Sound.class).play(0.6f);
+                            if(team == 1){
+                                manager.get("Speech/speech_datacenter_loss.mp3", Sound.class).play(2);
+                            }
+                        }
+                        allData.get(team).setNodeCount(allData.get(team).getNodeCount() - 1);
+                        if (type == 1) {
+                            manager.get("Effect/sfx_mainframe_offline.ogg", Sound.class).play(0.6f);
+                            if(team > 1){
+                                manager.get("Speech/speech_enemy_offline.mp3", Sound.class).play(2);
+                            }
+                            gameScreen.playerDeath(team);
+                            for (NodeActor node : allNode) {
+                                if (node.getTeam() == team && node != this) {
+                                    node.changeTeam(0, Color.WHITE);
+                                    node.changeType(0);
+                                }
+                            }
+                            changeType(0);
+                            allData.get(team).setDestroyed();
+                        } else if (type != 5) {
+                            changeType(0);
+                        }
+                        changeTeam(0, Color.WHITE);
+                        state = 0;
+                        point[0] = 0;
+                        point[1] = 0;
+                        point[2] = 0;
+                        point[3] = 0;
+                        point[4] = 0;
                     }
                     break;
                 //defender
@@ -183,7 +217,39 @@ public class NodeActor extends Actor {
             if (type == 1) {
                 allData.get(team).increaseMoney(1 * delta * allData.get(team).getRange());
             } else {
-                allData.get(team).increaseMoney(0.2f * delta * allData.get(team).getRange());
+                allData.get(team).increaseMoney(0.25f * delta * allData.get(team).getRange());
+            }
+        }
+        else if(deathTime < TimeUtils.millis()){
+            state = 1;
+            int winner = 0;
+            float maxp = 0;
+            for(int k=1;k<5;k++){
+                if(point[k] > maxp){
+                    maxp = point[k];
+                    winner = k;
+                }
+            }
+            if(winner == 0){
+                changeTeam(0, Color.WHITE);
+                hp = maxHp * allData.get(team).getHpMul();
+                allData.get(team).setNodeCount(allData.get(team).getNodeCount() + 1);
+            }
+            else{
+                changeTeam(winner, GameScreen.mainColor[GameScreen.userColor.get(winner-1)]);
+                hp = maxHp * allData.get(team).getHpMul();
+                allData.get(team).setNodeCount(allData.get(team).getNodeCount() + 1);
+                if(type == 5){
+                    gameScreen.switchVideo(winner);
+                    Sound s = manager.get("Effect/sfx_datacenter_capture.ogg", Sound.class);
+                    s.play(0.6f);
+                    if(winner == 1){
+                        manager.get("Speech/speech_datacenter_capture.mp3", Sound.class).play(2);
+                    }
+                    else{
+                        manager.get("Speech/speech_enemy_capture_datacenter.mp3", Sound.class).play(2);
+                    }
+                }
             }
         }
         sprite.setColor(getColor());
@@ -252,7 +318,7 @@ public class NodeActor extends Actor {
                 sprite.setTexture(manager.get("Sprite/AntiVirus.png", Texture.class));
                 hp = hp / maxHp * 2048 * allData.get(team).getHpMul();
                 maxHp = 2048;
-                attack = -28;
+                attack = -22;
                 break;
             //datacenter
             case 5:
@@ -294,8 +360,11 @@ public class NodeActor extends Actor {
                 hp = allData.get(team).getHpMul()*maxHp;
             }
             if (hp <= 0) {
+
+                deathTime = TimeUtils.millis() + 5000;
                 if(type == 5){
                     gameScreen.switchVideo(0);
+                    deathTime = TimeUtils.millis() + 10000;
                     manager.get("Effect/sfx_datacenter_loss.ogg", Sound.class).play(0.6f);
                     if(team == 1){
                         manager.get("Speech/speech_datacenter_loss.mp3", Sound.class).play(2);
@@ -326,43 +395,6 @@ public class NodeActor extends Actor {
                 point[2] = 0;
                 point[3] = 0;
                 point[4] = 0;
-
-                Timer timer = new Timer();
-                timer.scheduleTask(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        state = 1;
-                        int winner = 0;
-                        float maxp = 0;
-                        for(int k=1;k<5;k++){
-                            if(point[k] > maxp){
-                                maxp = point[k];
-                                winner = k;
-                            }
-                        }
-                        if(winner == 0){
-                            changeTeam(0, Color.WHITE);
-                            hp = maxHp * allData.get(team).getHpMul();
-                            allData.get(team).setNodeCount(allData.get(team).getNodeCount() + 1);
-                        }
-                        else{
-                            changeTeam(winner, GameScreen.mainColor[GameScreen.userColor.get(winner-1)]);
-                            hp = maxHp * allData.get(team).getHpMul();
-                            allData.get(team).setNodeCount(allData.get(team).getNodeCount() + 1);
-                            if(type == 5){
-                                gameScreen.switchVideo(winner);
-                                Sound s = manager.get("Effect/sfx_datacenter_capture.ogg", Sound.class);
-                                s.play(0.6f);
-                                if(winner == 1){
-                                    manager.get("Speech/speech_datacenter_capture.mp3", Sound.class).play(2);
-                                }
-                                else{
-                                    manager.get("Speech/speech_enemy_capture_datacenter.mp3", Sound.class).play(2);
-                                }
-                            }
-                        }
-                    }
-                }, 5);
             }
         }
     }
@@ -409,11 +441,11 @@ public class NodeActor extends Actor {
         this.target = target;
     }
 
-    private float getMaxHp() {
+    public float getMaxHp() {
         return maxHp;
     }
 
-    private float getHp() {
+    public float getHp() {
         return hp;
     }
 
@@ -424,4 +456,14 @@ public class NodeActor extends Actor {
     public NodeActor getTarget() {
         return target;
     }
+
+    public void setMaxHp(float maxHp) {
+        this.maxHp = maxHp;
+    }
+
+    public void setHp(float hp) {
+        this.hp = hp;
+    }
+
+
 }

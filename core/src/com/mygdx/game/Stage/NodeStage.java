@@ -173,17 +173,17 @@ public class NodeStage extends Stage {
 
         }
 
-        BuyNode buy1 = new BuyNode(g.manager, 2, 150);
+        BuyNode buy1 = new BuyNode(g.manager, 2, 150, allData);
         buy1.setColor(GameScreen.mainColor[GameScreen.userColor.get(0)]);
         buy1.setSize(50, 50);
         addActor(buy1);
 
-        BuyNode buy2 = new BuyNode(g.manager, 3, 250);
+        BuyNode buy2 = new BuyNode(g.manager, 3, 250, allData);
         buy2.setColor(GameScreen.mainColor[GameScreen.userColor.get(0)]);
         buy2.setSize(50, 50);
         addActor(buy2);
 
-        BuyNode buy3 = new BuyNode(g.manager, 4, 350);
+        BuyNode buy3 = new BuyNode(g.manager, 4, 350, allData);
         buy3.setColor(GameScreen.mainColor[GameScreen.userColor.get(0)]);
         buy3.setSize(50, 50);
         addActor(buy3);
@@ -265,9 +265,17 @@ public class NodeStage extends Stage {
                         NodeActor node = (NodeActor) temp;
                         if (node.getTeam() == 1 && node.getType() != 1) {
                             if (allData.get(node.getTeam()).getMoney() >= selectedBuy.getCost()) {
-                                allData.get(node.getTeam()).decreaseMoney(selectedBuy.getCost());
-                                node.changeType(selectedBuy.getType());
-                                c2.play(0.7f);
+                                if(node.getType() == 0){
+                                    allData.get(node.getTeam()).decreaseMoney(selectedBuy.getCost());
+                                    node.changeType(selectedBuy.getType());
+                                    node.setHp(node.getMaxHp() * allData.get(node.getTeam()).getHpMul());
+                                    c2.play(0.7f);
+                                }
+                                else{
+                                    allData.get(node.getTeam()).decreaseMoney(selectedBuy.getCost());
+                                    node.changeType(selectedBuy.getType());
+                                    c2.play(0.7f);
+                                }
                             } else {
                                 gameScreen.moneyFlash();
                             }
