@@ -29,6 +29,8 @@ abstract public class Bot implements Runnable {
                 calculation();
             }
         }
+        System.out.println("END");
+        throw new IllegalArgumentException("Final speed can not be less than zero");
     }
 
     protected abstract void calculation();
@@ -40,6 +42,8 @@ abstract public class Bot implements Runnable {
     public void setActive(boolean active) {
         this.active = active;
     }
+
+    public void setForceKillLoop(boolean forceKillLoop) { this.forceKillLoop = forceKillLoop; }
 
     protected boolean attack(NodeActor node, NodeActor target) {
         //set "target" as an attack target of "node"

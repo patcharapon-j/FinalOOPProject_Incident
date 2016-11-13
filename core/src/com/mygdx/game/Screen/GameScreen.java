@@ -123,6 +123,10 @@ public class GameScreen implements Screen {
                 for(int i=0; i<ai_count;i++){
                     controlBot.get(i).setActive(true);
                 }
+
+                for(int i=0; i<ai_count;i++){
+                    controlBot.get(i).setForceKillLoop(true);
+                }
             }
         }, 4);
 
