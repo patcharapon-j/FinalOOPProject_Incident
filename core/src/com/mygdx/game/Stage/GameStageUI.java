@@ -120,7 +120,7 @@ public class GameStageUI extends Stage {
         PrimitiveSqaure labelColorPy3 = new PrimitiveSqaure(0);
         PrimitiveSqaure labelColorPy4 = new PrimitiveSqaure(0);
 
-        labelColorPy1.setColor(GameScreen.mainColor[GameScreen.userColor.get(1)]);
+        labelColorPy1.setColor(GameScreen.mainColor[GameScreen.userColor.get(0)]);
         labelColorPy2.setColor(GameScreen.mainColor[GameScreen.userColor.get(1)]);
         labelColorPy3.setColor(GameScreen.mainColor[GameScreen.userColor.get(2)]);
         labelColorPy4.setColor(GameScreen.mainColor[GameScreen.userColor.get(3)]);
